@@ -5,10 +5,27 @@ namespace course.Server.Data
 {
     public class ApplicationDbContext : DbContext
     {
+        public DbSet<ApplicationUser> Users { get; set; }
+        public DbSet<AccessLevel> AccessLevels { get; set; }
+        public DbSet<Deliverer> Deliverers { get; set; }
+        public DbSet<Vendor> Vendors { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<InventoryRecord> InventoryRecords { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderProduct> OrderProducts { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
             AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<ApplicationUser>()
+                .Property(u => u.PasswordHash).IsRequired();
         }
 
         protected override void ConfigureConventions(ModelConfigurationBuilder builder)
