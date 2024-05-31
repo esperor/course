@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using course.Server.Configs.Enums;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace course.Server.Data
@@ -23,5 +24,7 @@ namespace course.Server.Data
         public string Address { get; set; }
 
         public DateOnly Date { get; set; }
+
+        public EOrderStatus Status { get; set; } = EOrderStatus.Created;
     }
 }
