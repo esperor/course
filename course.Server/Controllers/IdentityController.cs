@@ -3,6 +3,7 @@ using course.Server.Configs.Enums;
 using course.Server.Data;
 using course.Server.Models.Identity;
 using course.Server.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
@@ -14,8 +15,7 @@ namespace course.Server.Controllers
     {
         private readonly IdentityService _identityService;
 
-        public IdentityController(IdentityService identityService,
-            ApplicationDbContext context) 
+        public IdentityController(IdentityService identityService) 
         {
             _identityService = identityService;
         }

@@ -1,5 +1,9 @@
+using course.Server.Configs;
+using course.Server.Configs.Authentication;
 using course.Server.Data;
 using course.Server.Services;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +17,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddTransient<IdentityService>();
+builder.Services.AddTransient<IAuthorizationHandler, AccessLevelAuthorizationHandler>();
+
+#region Authentication
+builder.Services.AddAuthentication(o => {
+    o.DefaultScheme = Constants.AuthScheme;
+})
+.AddScheme<AuthenticationSchemeOptions, AuthenticationHandler>(Constants.AuthScheme, o => { });
+#endregion
 
 var config = builder.Configuration;
 

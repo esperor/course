@@ -4,5 +4,6 @@
     {
         public const string AuthCookieName = "CourseAuth";
         public const int ServerCookieExpirationDays = 7;
+        public const string AuthScheme = "CourseAuthentication";
     }
 }
