@@ -3,11 +3,7 @@ using course.Server.Configs.Enums;
 using course.Server.Data;
 using course.Server.Models.Identity;
 using course.Server.Services;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Net.Http.Headers;
-using System.Text;
 using System.Text.Json;
 
 namespace course.Server.Controllers
@@ -102,7 +98,23 @@ namespace course.Server.Controllers
                 if (user is null) return BadRequest();
             }
             return Ok();
-            
+        }
+
+        [Route("update-user")]
+        [HttpPut]
+        public ActionResult UpdateUser([FromBody] UserUpdateModel model)
+        {
+            var user = _identityService.GetUser(HttpContext);
+            if (user is null) return BadRequest();
+
+            bool hasChanged = false;
+
+            if (user.Name != model.Name) { user.Name = model.Name; hasChanged = true; }
+            if (user.Phone != model.Phone) { user.Phone = model.Phone; hasChanged = true; }
+
+            if (hasChanged) _identityService.UpdateUser(user); 
+
+            return Ok();
         }
     }
 }

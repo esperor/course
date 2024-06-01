@@ -3,15 +3,14 @@ using course.Server.Configs.Enums;
 using course.Server.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Primitives;
-using System.Collections;
 using System.Security.Cryptography;
 
 namespace course.Server.Services
 {
-    public class IdentityService
+    public class IdentityService(ApplicationDbContext context)
     {
-        private readonly ApplicationDbContext _context;
-        private readonly PasswordHasher<ApplicationUser> _passwordHasher;
+        private readonly ApplicationDbContext _context = context;
+        private readonly PasswordHasher<ApplicationUser> _passwordHasher = new PasswordHasher<ApplicationUser>();
 
         public class Result
         {
@@ -27,10 +26,10 @@ namespace course.Server.Services
         private Result Ok() { return new Result { Errors = null, Success = true }; }
         private Result Errors(string[] errors) { return new Result { Success = false, Errors = errors }; }
 
-        public IdentityService(ApplicationDbContext context) 
-        { 
-            _context = context;
-            _passwordHasher = new PasswordHasher<ApplicationUser>();
+        public PasswordVerificationResult VerifyPasswordCorrect(ApplicationUser user, string password)
+        {
+            if (user.PasswordHash is null) throw new ArgumentException("Provided user lacks PasswordHash");
+            return _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
         }
 
         public Result CreateUser(ApplicationUser user, string password) 
@@ -76,9 +75,14 @@ namespace course.Server.Services
 
         public SignInResult SignIn(ApplicationUser user, string password)
         {
-            if (user.PasswordHash is null) return (SignInResult)Errors(["Provided user lacks PasswordHash"]);
-            var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
-
+            PasswordVerificationResult result;
+            try
+            {
+                result = VerifyPasswordCorrect(user, password);
+            } catch (ArgumentException e)
+            {
+                return (SignInResult)Errors([e.Message]);
+            }
 
             switch (result)
             {
@@ -114,6 +118,23 @@ namespace course.Server.Services
                 return Errors(["Unexpected error"]);
             }
             return Ok();
+        }
+
+        public Result UpdateUser(ApplicationUser user)
+        {
+            try
+            {
+                if (!_context.Users.Contains(user)) 
+                    return Errors(["No such row found"]);
+
+                _context.Users.Update(user);
+                _context.SaveChanges();
+
+                return Ok();
+            } catch (Exception e)
+            {
+                return Errors([e.Message]);
+            }
         }
 
         public Dictionary<EAccessLevel, int> GetAccessLevelsToIdMap()
