@@ -2,6 +2,7 @@
 using course.Server.Configs.Enums;
 using course.Server.Data;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Primitives;
 using System.Security.Cryptography;
 
@@ -52,20 +53,24 @@ namespace course.Server.Services
             return Ok();
         }
 
-        public async Task<ApplicationUser?> GetUser(HttpContext httpContext)
+        public ApplicationUser? GetUser(HttpContext httpContext)
         {
             var authCookie = httpContext.Request.Cookies
                 .Where(c => c.Key == Constants.AuthCookieName).FirstOrDefault().Value;
             if (authCookie is null) return null;
 
-            Session? session = _context.Sessions.Where(s => s.Cookie == authCookie).FirstOrDefault();
-            if (session == null) return null;
-            if (session.CreationTime.AddDays(
+            Session? session = _context.Sessions
+                .Where(s => s.Cookie == authCookie)
+                .SingleOrDefault();
+            if (session == null || session.CreationTime.AddDays(
                     Constants.CookieExpirationDays
-                ) < DateTime.Now) 
+                ) < DateTime.Now)
                 return null;
 
-            return await _context.Users.FindAsync(session.UserId);
+            return _context.Users
+                .Where(u => u.Id == session.UserId)
+                .Include(nameof(ApplicationUser.AccessLevel))
+                .SingleOrDefault();
         }
 
         public ApplicationUser? GetUserByPhone(string phone)
