@@ -27,5 +27,15 @@ namespace course.Server.Models.Info
             ContactInfo = d.ContactInfo;
             ContractNumber = d.ContractNumber;
         }
+
+        public DelivererInfoModel(Deliverer d, ApplicationUser u)
+        {
+            Id = u.Id;
+            Name = u.Name;
+            Phone = u.Phone;
+            AccessLevelId = u.AccessLevelId;
+            ContactInfo = d.ContactInfo;
+            ContractNumber = d.ContractNumber;
+        }
     }
 }

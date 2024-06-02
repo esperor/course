@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.SqlClient;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -33,15 +34,19 @@ namespace course.Server.Controllers
             int offset = 0,
             int entries = 10)
         {
-            IQueryable<DelivererInfoModel> set = _context.Deliverers
-                .Include(d => d.User)
-                .Select(d => new DelivererInfoModel(d));
+            IQueryable<ApplicationUser> users = _context.Users;
 
             if (searchName != null)
-                set = set.Where(_ => _.Name.Contains(searchName));
+                users = users.Where(u => u.Name.ToLower().Contains(searchName.ToLower()));
 
             if (searchPhone != null)
-                set = set.Where(_ => _.Phone.Contains(searchPhone));
+                users = users.Where(u => u.Phone.Contains(searchPhone));
+
+            IQueryable<DelivererInfoModel> set = _context.Deliverers
+                .Join(users,
+                    d => d.UserId,
+                    u => u.Id,
+                    (d, u) => new DelivererInfoModel(d, u));
 
             return await set
                 .Skip(offset)
