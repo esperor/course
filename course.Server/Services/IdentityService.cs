@@ -61,7 +61,7 @@ namespace course.Server.Services
             Session? session = _context.Sessions.Where(s => s.Cookie == authCookie).FirstOrDefault();
             if (session == null) return null;
             if (session.CreationTime.AddDays(
-                    Constants.ServerCookieExpirationDays
+                    Constants.CookieExpirationDays
                 ) < DateTime.Now) 
                 return null;
 

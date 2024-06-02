@@ -53,8 +53,8 @@ namespace course.Server.Controllers
                 var cookieBuilder = new CookieBuilder
                 {
                     Path = "/",
-                    Expiration = TimeSpan.FromDays(1),
-                    SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Strict
+                    Expiration = TimeSpan.FromDays(Constants.CookieExpirationDays),
+                    SameSite = SameSiteMode.Strict
                 };
                 var options = cookieBuilder.Build(HttpContext);
                 Response.Cookies.Append(Constants.AuthCookieName, result.AuthCookie.Value!, options);
