@@ -33,7 +33,7 @@ namespace course.Server.Configs.Authentication
             var authCookie = Request.Cookies
                 .Where(c => c.Key == Constants.AuthCookieName).FirstOrDefault().Value;
 
-            if (user is null) return Task.FromResult(AuthenticateResult.Fail("User is not authenticated"));
+            if (user is null) return Task.FromResult(AuthenticateResult.Fail("Authentication cookie not found"));
 
             var claims = new[] { new Claim("cookie", authCookie) };
             var identity = new ClaimsIdentity(claims, nameof(AuthenticationHandler));
