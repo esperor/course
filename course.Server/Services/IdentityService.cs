@@ -52,7 +52,7 @@ namespace course.Server.Services
             return Ok();
         }
 
-        public ApplicationUser? GetUser(HttpContext httpContext)
+        public async Task<ApplicationUser?> GetUser(HttpContext httpContext)
         {
             var authCookie = httpContext.Request.Cookies
                 .Where(c => c.Key == Constants.AuthCookieName).FirstOrDefault().Value;
@@ -65,12 +65,12 @@ namespace course.Server.Services
                 ) < DateTime.Now) 
                 return null;
 
-            return _context.Users.Where(u => u.Id == session.UserId).FirstOrDefault();
+            return await _context.Users.FindAsync(session.UserId);
         }
 
         public ApplicationUser? GetUserByPhone(string phone)
         {
-            return _context.Users.Where(u => u.Phone == phone).FirstOrDefault();
+            return _context.Users.Where(u => u.Phone == phone).SingleOrDefault();
         }
 
         public SignInResult SignIn(ApplicationUser user, string password)
@@ -144,17 +144,6 @@ namespace course.Server.Services
             {
                 var success = Enum.TryParse(level.Name, out EAccessLevel eLevel);
                 if (success) dictionary.Add(eLevel, level.Id);
-            });
-            return dictionary;
-        }
-
-        public Dictionary<int, EAccessLevel> GetIdToAccessLevelsMap()
-        {
-            var dictionary = new Dictionary<int, EAccessLevel>();
-            _context.AccessLevels.ToList().ForEach(level =>
-            {
-                var success = Enum.TryParse(level.Name, out EAccessLevel eLevel);
-                if (success) dictionary.Add(level.Id, eLevel);
             });
             return dictionary;
         }

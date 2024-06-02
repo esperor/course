@@ -19,6 +19,7 @@ namespace course.Server.Models.Identity
             IsSignedIn = true;
             Name = user.Name;
             Phone = user.Phone;
+            AccessLevel = user.GetAccessLevel();
         }
     }
 }

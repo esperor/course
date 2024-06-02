@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using course.Server.Configs.Enums;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -25,5 +26,12 @@ namespace course.Server.Data
 
         [ForeignKey(nameof(AccessLevelId))]
         public AccessLevel AccessLevel { get; set; }
+
+        public EAccessLevel GetAccessLevel()
+        {
+            var success = Enum.TryParse<EAccessLevel>(AccessLevel.Name, out var accessLevel);
+            if (!success) throw new Exception("Invalid access level call in ApplicationUser");
+            return accessLevel;
+        }
     }
 }

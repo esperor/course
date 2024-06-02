@@ -27,9 +27,7 @@ namespace course.Server.Services
             var user = _identityService.GetUser(httpContext);
             if (user == null) return Task.CompletedTask;
 
-            var userAccessLevel = _identityService.GetIdToAccessLevelsMap()[user.AccessLevelId];
-
-            if (userAccessLevel >= requirement.AccessLevel) 
+            if (user.GetAccessLevel() >= requirement.AccessLevel) 
                 context.Succeed(requirement);
   
             return Task.CompletedTask;

@@ -27,10 +27,7 @@ namespace course.Server.Controllers
             var user = _identityService.GetUser(HttpContext);
             if (user is null) return Ok(new UserInfoModel());
 
-            var userModel = new UserInfoModel(user);
-            userModel.AccessLevel = _identityService.GetIdToAccessLevelsMap()[user.AccessLevelId];
-
-            return Ok(userModel);
+            return Ok(new UserInfoModel(user));
         }
 
         [Route("login")]
