@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using course.Server.Data;
 using course.Server.Configs.Enums;
 using course.Server.Configs;
-using course.Server.Models.Input;
+using course.Server.Models;
 
 namespace course.Server.Controllers
 {
@@ -93,7 +93,7 @@ namespace course.Server.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         [AuthorizeAccessLevel(EAccessLevel.Administrator)]
-        public async Task<ActionResult<Vendor>> PostVendor(VendorInputModel model)
+        public async Task<ActionResult<Vendor>> PostVendor(VendorPostModel model)
         {
             var entry = _context.Vendors.Add(model.ToEntity());
             await _context.SaveChangesAsync();

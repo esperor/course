@@ -1,9 +1,9 @@
 ﻿using course.Server.Data;
 using System.ComponentModel.DataAnnotations;
 
-namespace course.Server.Models.Input
+namespace course.Server.Models
 {
-    public class VendorInputModel
+    public class VendorPostModel
     {
         [Required]
         public required string Name { get; set; }

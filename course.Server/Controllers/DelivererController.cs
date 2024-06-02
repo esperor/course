@@ -9,8 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using course.Server.Data;
 using course.Server.Configs.Enums;
 using course.Server.Configs;
-using course.Server.Models.Input;
-using course.Server.Models.Info;
+using course.Server.Models;
 
 namespace course.Server.Controllers
 {
@@ -110,7 +109,7 @@ namespace course.Server.Controllers
         [AuthorizeAccessLevel(EAccessLevel.Administrator)]
         public async Task<ActionResult<DelivererInfoModel>> PostDeliverer(DelivererInputModel model)
         {
-            _context.Deliverers.Add(model.ToEntity());
+            var entry = _context.Deliverers.Add(model.ToEntity());
             try
             {
                 await _context.SaveChangesAsync();
@@ -129,11 +128,7 @@ namespace course.Server.Controllers
 
             return CreatedAtAction("GetDeliverer",
                 new { id = model.UserId },
-                new DelivererInfoModel(await _context.Deliverers
-                .Where(d => d.UserId == model.UserId)
-                .Include(d => d.User)
-                .SingleAsync()
-                )
+                entry.Entity
             );
         }
 

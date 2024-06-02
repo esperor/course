@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
-namespace course.Server.Models.Info
+namespace course.Server.Models
 {
     public class DelivererInfoModel
     {

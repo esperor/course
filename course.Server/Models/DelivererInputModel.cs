@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace course.Server.Models.Input
+namespace course.Server.Models
 {
     public class DelivererInputModel
     {
