@@ -31,6 +31,7 @@ namespace course.Server.Models
             Records =
                 records?.Select(r => new InventoryRecordInfoModel
                 {
+                    Id = r.Id,
                     Price = r.Price,
                     Quantity = r.Quantity,
                     Size = r.Size,
