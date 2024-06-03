@@ -117,18 +117,18 @@ namespace course.Server.Controllers
             catch (DbUpdateException)
             {
                 if (DelivererExists(model.UserId))
-                {
                     return Conflict();
-                }
                 else
-                {
                     throw;
-                }
             }
 
             return CreatedAtAction("GetDeliverer",
                 new { id = model.UserId },
-                entry.Entity
+                new DelivererInfoModel {
+                    Id = entry.Entity.UserId,
+                    ContactInfo = entry.Entity.ContactInfo,
+                    ContractNumber = entry.Entity.ContractNumber,
+                }
             );
         }
 

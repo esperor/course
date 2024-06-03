@@ -18,6 +18,8 @@ namespace course.Server.Models
 
         public string ContractNumber { get; set; }
 
+        public DelivererInfoModel() { }
+
         public DelivererInfoModel(Deliverer d)
         {
             Id = d.User.Id;
