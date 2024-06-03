@@ -136,7 +136,7 @@ namespace course.Server.Controllers
             var entry = _context.Products.Add(product.ToEntity());
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetProduct", new { id = entry.Entity.Id }, entry.Entity);
+            return CreatedAtAction("GetProduct", new { id = entry.Entity.Id }, new ProductInfoModel(entry.Entity));
         }
 
         // DELETE: api/product/5

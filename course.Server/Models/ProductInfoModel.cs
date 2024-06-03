@@ -22,12 +22,17 @@ namespace course.Server.Models
 
         public ProductInfoModel() { }
 
-        public ProductInfoModel(Product p, IEnumerable<InventoryRecord>? records)
+        public ProductInfoModel(Product p)
         {
             Id = p.Id;
             VendorId = p.VendorId;
             Title = p.Title;
             Description = p.Description;
+        }
+
+        public ProductInfoModel(Product p, IEnumerable<InventoryRecord>? records)
+            : this(p)
+        {
             Records =
                 records?.Select(r => new InventoryRecordInfoModel
                 {
