@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using course.Server.Data;
@@ -11,9 +12,11 @@ using course.Server.Data;
 namespace course.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240603125211_remake_orderProduct")]
+    partial class remake_orderProduct
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,7 +39,7 @@ namespace course.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("access_levels", (string)null);
+                    b.ToTable("access_levels");
                 });
 
             modelBuilder.Entity("course.Server.Data.ApplicationUser", b =>
@@ -66,7 +69,7 @@ namespace course.Server.Migrations
 
                     b.HasIndex("AccessLevelId");
 
-                    b.ToTable("users", (string)null);
+                    b.ToTable("users");
                 });
 
             modelBuilder.Entity("course.Server.Data.Deliverer", b =>
@@ -83,7 +86,7 @@ namespace course.Server.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("deliverers", (string)null);
+                    b.ToTable("deliverers");
                 });
 
             modelBuilder.Entity("course.Server.Data.InventoryRecord", b =>
@@ -111,7 +114,7 @@ namespace course.Server.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("inventory", (string)null);
+                    b.ToTable("inventory");
                 });
 
             modelBuilder.Entity("course.Server.Data.Order", b =>
@@ -144,7 +147,7 @@ namespace course.Server.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("orders", (string)null);
+                    b.ToTable("orders");
                 });
 
             modelBuilder.Entity("course.Server.Data.OrderRecord", b =>
@@ -162,7 +165,7 @@ namespace course.Server.Migrations
 
                     b.HasIndex("InventoryRecordId");
 
-                    b.ToTable("order_record", (string)null);
+                    b.ToTable("order_record");
                 });
 
             modelBuilder.Entity("course.Server.Data.Product", b =>
@@ -188,7 +191,7 @@ namespace course.Server.Migrations
 
                     b.HasIndex("VendorId");
 
-                    b.ToTable("products", (string)null);
+                    b.ToTable("products");
                 });
 
             modelBuilder.Entity("course.Server.Data.Session", b =>
@@ -213,7 +216,7 @@ namespace course.Server.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("sessions", (string)null);
+                    b.ToTable("sessions");
                 });
 
             modelBuilder.Entity("course.Server.Data.Vendor", b =>
@@ -238,7 +241,7 @@ namespace course.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("vendors", (string)null);
+                    b.ToTable("vendors");
                 });
 
             modelBuilder.Entity("course.Server.Data.ApplicationUser", b =>

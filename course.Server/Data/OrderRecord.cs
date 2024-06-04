@@ -4,9 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace course.Server.Data
 {
-    [Table("order_product")]
-    [PrimaryKey(nameof(OrderId), nameof(ProductId))]
-    public class OrderProduct
+    [Table("order_record")]
+    [PrimaryKey(nameof(OrderId), nameof(InventoryRecordId))]
+    public class OrderRecord
     {
         [Required]
         public int OrderId { get; set; }
@@ -15,9 +15,12 @@ namespace course.Server.Data
         public Order Order { get; set; }
 
         [Required] 
-        public int ProductId { get; set; }
+        public int InventoryRecordId { get; set; }
 
-        [ForeignKey(nameof(ProductId))]
-        public Product Product { get; set; }
+        [ForeignKey(nameof(InventoryRecordId))]
+        public InventoryRecord Record { get; set; }
+
+        [Required]
+        public int Quantity { get; set; }
     }
 }

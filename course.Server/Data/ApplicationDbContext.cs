@@ -12,7 +12,7 @@ namespace course.Server.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<InventoryRecord> InventoryRecords { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<OrderProduct> OrderProducts { get; set; }
+        public DbSet<OrderRecord> OrderRecords { get; set; }
         public DbSet<Session> Sessions { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
