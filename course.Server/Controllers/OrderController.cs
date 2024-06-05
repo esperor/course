@@ -29,7 +29,7 @@ namespace course.Server.Controllers
         public async Task<ActionResult<IEnumerable<OrderAdminInfoModel>>> GetOrders(
             int? userId,
             int offset = 0,
-            int entries = 10)
+            int limit = 10)
         {
             var set = _context.Orders
                 .GroupJoin(
@@ -41,7 +41,7 @@ namespace course.Server.Controllers
             if (userId != null) 
                 set = set.Where(o => o.UserId == userId);
 
-            return await set.Skip(offset).Take(entries).ToListAsync();
+            return await set.Skip(offset).Take(limit).ToListAsync();
         }
 
         // GET: api/order/5

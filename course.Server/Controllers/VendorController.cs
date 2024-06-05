@@ -29,7 +29,7 @@ namespace course.Server.Controllers
         public async Task<ActionResult<IEnumerable<Vendor>>> GetVendors(
             string? searchName,
             int offset = 0, 
-            int entries = 10)
+            int limit = 10)
         {
             IQueryable<Vendor> set = _context.Vendors;
 
@@ -38,7 +38,7 @@ namespace course.Server.Controllers
 
             return await set
                 .Skip(offset)
-                .Take(entries)
+                .Take(limit)
                 .ToListAsync();
         }
 

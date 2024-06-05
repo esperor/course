@@ -23,5 +23,7 @@ namespace course.Server.Data
 
         [Required]
         public int Price { get; set; }
+
+        public byte[]? Image { get; set; }
     }
 }

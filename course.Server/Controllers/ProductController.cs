@@ -30,7 +30,7 @@ namespace course.Server.Controllers
             string? searchString,
             [FromQuery] EProductOrdering orderBy = EProductOrdering.None,
             int offset = 0,
-            int entries = 10)
+            int limit = 10)
         {
             var set = _context.Products
                 .GroupJoin(
@@ -79,7 +79,7 @@ namespace course.Server.Controllers
 
             return await set
                 .Skip(offset)
-                .Take(entries)
+                .Take(limit)
                 .GroupJoin(
                     _context.InventoryRecords,
                     p => p.Id,

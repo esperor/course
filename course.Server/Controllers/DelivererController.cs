@@ -31,7 +31,7 @@ namespace course.Server.Controllers
             string? searchName,
             string? searchPhone,
             int offset = 0,
-            int entries = 10)
+            int limit = 10)
         {
             IQueryable<ApplicationUser> users = _context.Users;
 
@@ -49,7 +49,7 @@ namespace course.Server.Controllers
 
             return await set
                 .Skip(offset)
-                .Take(entries)
+                .Take(limit)
                 .ToListAsync();
         }
 
