@@ -361,5 +361,5 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-
+course.client/src/routeTree.gen.ts
 /course.Server/appsettings.json
