@@ -44,6 +44,29 @@ namespace course.Server.Controllers
             return await set.Skip(offset).Take(limit).ToListAsync();
         }
 
+        // GET: api/order
+        [HttpGet("user")]
+        [AuthorizeAccessLevel(EAccessLevel.Client)]
+        public async Task<ActionResult<IEnumerable<OrderInfoModel>>> GetUserOrders(
+            int offset = 0,
+            int limit = 10)
+        {
+            var user = _identityService.GetUser(HttpContext);
+            if (user is null) return BadRequest();
+
+
+            var set = _context.Orders
+                .Where(o => o.UserId == user.Id)
+                .GroupJoin(
+                    _context.OrderRecords,
+                    o => o.Id,
+                    r => r.OrderId,
+                    (order, records) => new OrderInfoModel(order, records));
+
+            return await set.Skip(offset).Take(limit).ToListAsync();
+        }
+
+
         // GET: api/order/5
         [HttpGet("{id}")]
         [AuthorizeAccessLevel(EAccessLevel.Client)]

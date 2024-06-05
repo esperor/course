@@ -9,6 +9,7 @@ namespace course.Server.Models.Identity
     public class UserInfoModel
     {
         public bool IsSignedIn { get; set; } = false;
+        public int? Id { get; set; }
         public string? Name { get; set; }
         public string? Phone { get; set; }
         public EAccessLevel? AccessLevel { get; set; }
@@ -17,6 +18,7 @@ namespace course.Server.Models.Identity
         public UserInfoModel(ApplicationUser user)
         {
             IsSignedIn = true;
+            Id = user.Id;
             Name = user.Name;
             Phone = user.Phone;
             AccessLevel = user.GetAccessLevel();
