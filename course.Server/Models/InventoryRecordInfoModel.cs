@@ -12,6 +12,8 @@ namespace course.Server.Models
 
         public int Price { get; set; }
 
+        public byte[]? Image { get; set; }
+
         public InventoryRecordInfoModel() { }
     }
 }

@@ -20,15 +20,18 @@ namespace course.Server.Models
         [Required]
         public int Price { get; set; }
 
+        public byte[]? Image { get; set; }
+
         public InventoryRecord ToEntity()
         {
             var entity = new InventoryRecord
             {
                 Size = Size,
                 Quantity = Quantity,
-                Price = Price
+                Price = Price,
+                Image = Image
             };
-            if (Id != null) entity.Id = (int)Id;
+            if (Id != null) entity.Id = (int)Id;            
             return entity;
         }
     }

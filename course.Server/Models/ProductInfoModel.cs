@@ -40,6 +40,7 @@ namespace course.Server.Models
                     Price = r.Price,
                     Quantity = r.Quantity,
                     Size = r.Size,
+                    Image = r.Image,
                 }).ToArray();
         }
 
