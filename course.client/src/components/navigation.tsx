@@ -24,6 +24,7 @@ function Navigation() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['user-info'] });
+      window.location.reload();
     },
   });
 
