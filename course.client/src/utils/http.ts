@@ -1,4 +1,4 @@
-const replaceRouteParams = (
+export const replaceRouteParams = (
   endpoint: string,
   params: { [key: string]: string | number },
 ) => {
@@ -8,3 +8,4 @@ const replaceRouteParams = (
   }
   return url;
 };
+
