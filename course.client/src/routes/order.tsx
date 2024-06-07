@@ -70,7 +70,7 @@ function Order() {
   return (
     <div className="page">
       <h1>Заказать доставку</h1>
-      <div className="flex flex-row gap-10">
+      <div className="flex flex-row gap-10 mt-4">
         <div className="w-1/2">
           <Cart />
         </div>
@@ -85,7 +85,7 @@ function Order() {
             className="w-2/3"
             onChange={(e) => setForm({ ...form, address: e.target.value })}
           ></input>
-          <div className="flex flex-row gap-4">
+          <div className="flex flex-row gap-4 items-center">
             <button
               className="btn"
               type="submit"

@@ -31,6 +31,11 @@ function Orders() {
     await cancel.mutateAsync(id);
   };
 
+  if (query.isPending) return <p>Загрузка...</p>;
+  if (query.isError) return <p>Произошла ошибка: {query.error.message}</p>;
+
+  if (!query.data || query.data.length == 0) return <p>Заказов нет</p>;
+
   return (
     <div className="flex flex-col gap-2">
       <h2 className="py-2">Ваши заказы:</h2>
