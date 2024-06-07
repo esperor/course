@@ -33,14 +33,12 @@ function Navigation() {
       <Link to="/" className="[&.active]:font-bold">
         Каталог
       </Link>
+      <Link to="/order" className="[&.active]:font-bold">
+        Корзина
+      </Link>
       {query.data?.isSignedIn && (
         <Link to="/profile" className="[&.active]:font-bold">
           Профиль
-        </Link>
-      )}
-      {query.data?.isSignedIn && (
-        <Link to="/order" className="[&.active]:font-bold">
-          Корзина
         </Link>
       )}
       <div className="ml-auto flex flex-row">
@@ -53,11 +51,13 @@ function Navigation() {
             </button>
           </>
         ) : (
-          <Link to="/login" search={{ returnUrl: window.location.href }}>Войти</Link>
+          <Link to="/login" search={{ returnUrl: window.location.href }}>
+            Войти
+          </Link>
         )}
       </div>
     </nav>
   );
-};
+}
 
 export default Navigation;
