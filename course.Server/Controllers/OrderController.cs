@@ -98,6 +98,8 @@ namespace course.Server.Controllers
         [AuthorizeAccessLevel(EAccessLevel.Client)]
         public async Task<ActionResult<OrderInfoModel>> PostOrder(OrderPostModel model)
         {
+            if (model.OrderedRecords.Count == 0) return BadRequest();
+
             _context.Database.BeginTransaction();
             EntityEntry<Order> entry;
             try
