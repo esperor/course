@@ -29,7 +29,7 @@ function Navigation() {
   });
 
   return (
-    <nav className="p-4 px-[10%] flex gap-2 bg-gray-900">
+    <nav className="p-4 px-[10%] flex gap-12 bg-gray-900">
       <Link to="/" className="[&.active]:font-bold">
         Каталог
       </Link>
