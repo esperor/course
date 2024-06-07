@@ -26,6 +26,7 @@ namespace course.Server.Models
             UserId = order.UserId;
             Address = order.Address;
             Date = order.Date;
+            Status = order.Status;
         }
 
         public OrderInfoModel(Order order, IEnumerable<OrderRecord> records)
