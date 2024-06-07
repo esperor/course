@@ -12,6 +12,9 @@ namespace course.Server.Models
         public int VendorId { get; set; }
 
         [Required]
+        public string? Vendor { get; set; }
+
+        [Required]
         public string Title { get; set; }
 
         [Required]
@@ -26,6 +29,7 @@ namespace course.Server.Models
         {
             Id = p.Id;
             VendorId = p.VendorId;
+            Vendor = p.Vendor?.Name;
             Title = p.Title;
             Description = p.Description;
         }

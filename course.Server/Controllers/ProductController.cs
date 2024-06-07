@@ -42,7 +42,7 @@ namespace course.Server.Controllers
                     records => records.Records.DefaultIfEmpty(),
                     (a, record) => new { a.Product, Record = record })
                 .GroupBy(
-                    a => new { a.Product.Id, a.Product.VendorId, a.Product.Title, a.Product.Description },
+                    a => new { a.Product.Id, a.Product.VendorId, a.Product.Title, a.Product.Description, },
                     a => a.Record)
                 .Select(
                     b => new ProductOrderingModel
@@ -84,7 +84,27 @@ namespace course.Server.Controllers
                     _context.InventoryRecords,
                     p => p.Id,
                     r => r.ProductId,
-                    (p, records) => new ProductInfoModel(p, records))
+                    (p, records) => new
+                    {
+                        Product = p,
+                        Records = records
+                    })
+                .Join(_context.Vendors, a => a.Product.VendorId, v => v.Id, (a, v) => new ProductInfoModel
+                { 
+                    Id = a.Product.Id,
+                    VendorId = a.Product.VendorId,
+                    Vendor = v.Name,
+                    Title = a.Product.Title,
+                    Description = a.Product.Description,
+                    Records = a.Records.Select(r => new InventoryRecordInfoModel
+                    {
+                        Id = r.Id,
+                        Price = r.Price,
+                        Image = r.Image,
+                        Quantity = r.Quantity,
+                        Size = r.Size,
+                    }).ToArray(),
+                })
                 .ToListAsync();
         }
 
@@ -92,7 +112,10 @@ namespace course.Server.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductInfoModel>> GetProduct(int id)
         {
-            var product = await _context.Products.FindAsync(id);
+            var product = await _context.Products
+                .Include(p => p.Vendor)
+                .Where(p => p.Id == id)
+                .SingleAsync();
             var records = await _context.InventoryRecords.Where(r => r.ProductId == id).ToListAsync();
 
             if (product == null)
