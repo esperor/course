@@ -38,6 +38,11 @@ function Navigation() {
           Профиль
         </Link>
       )}
+      {query.data?.isSignedIn && (
+        <Link to="/order" className="[&.active]:font-bold">
+          Корзина
+        </Link>
+      )}
       <div className="ml-auto flex flex-row">
         {query.data?.isSignedIn ? (
           <>

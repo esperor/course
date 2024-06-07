@@ -1,13 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import api from '../api';
-import Order from '../models/order';
+import OrderInfo from '../models/orderInfo';
 import EOrderStatus, { orderStatusToString } from '../models/orderStatus';
 import { replaceRouteParams } from '../utils/http';
 
 function Orders() {
   const queryClient = useQueryClient();
-  const query = useQuery<Order[]>(
+  const query = useQuery<OrderInfo[]>(
     {
       queryKey: ['user-orders'],
       queryFn: async () => {

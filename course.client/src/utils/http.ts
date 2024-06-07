@@ -1,3 +1,8 @@
+import axios from 'axios';
+import UserInfo from '../models/userInfo';
+import api from '../api';
+import { redirect } from '@tanstack/react-router';
+
 export const replaceRouteParams = (
   endpoint: string,
   params: { [key: string]: string | number },
@@ -9,3 +14,16 @@ export const replaceRouteParams = (
   return url;
 };
 
+export const authenticate = async ({ location }: { location: unknown }) => {
+  const data: UserInfo = await axios
+    .get(api.identity.userInfo)
+    .then((response) => response.data);
+
+  if (!data || !data.isSignedIn)
+    throw redirect({
+      to: '/login',
+      search: {
+        returnUrl: (location as Location).href,
+      },
+    });
+};

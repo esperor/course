@@ -1,26 +1,15 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { createFileRoute, redirect } from '@tanstack/react-router';
+import { createFileRoute } from '@tanstack/react-router';
 import UserInfo from '../models/userInfo';
 import api from '../api';
 import axios from 'axios';
 import Cart from '../components/cart';
 import Orders from '../components/orders';
+import { authenticate } from '../utils/http';
 
 export const Route = createFileRoute('/profile')({
   component: Profile,
-  beforeLoad: async ({ location }) => {
-    const data: UserInfo = await axios
-      .get(api.identity.userInfo)
-      .then((response) => response.data);
-
-    if (!data || !data.isSignedIn)
-      throw redirect({
-        to: '/login',
-        search: {
-          returnUrl: location.href,
-        },
-      });
-  },
+  beforeLoad: authenticate,
 });
 
 function Profile() {

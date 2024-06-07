@@ -1,5 +1,5 @@
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { addToCart, readCart, removeFromCart } from '../utils/cart';
-import { useState } from 'react';
 
 function ProductCounter({
   recordId,
@@ -10,10 +10,15 @@ function ProductCounter({
   productId: number;
   onChange?: (recordId: number, newQuantity: number) => void;
 }) {
-  const [cart, setCart] = useState(readCart());
+  const queryClient = useQueryClient();
+  const cartQuery = useQuery({
+    queryKey: ['cart-storage'],
+    queryFn: () => readCart(),
+  });
+  const cart = cartQuery.data;
 
   const addProductToCart = (recordId: number, productId: number) => {
-    let recordQuantityInCart = cart.find(
+    let recordQuantityInCart = cart!.find(
       (item) => item?.recordId == recordId,
     )?.quantity;
     if (recordQuantityInCart) removeFromCart(recordId);
@@ -24,11 +29,11 @@ function ProductCounter({
       quantity: newQuantity,
     });
     if (onChange) onChange(recordId, newQuantity);
-    setCart(readCart());
+    queryClient.invalidateQueries({ queryKey: ['cart-storage'] });
   };
 
   const subtractProductFromCart = (recordId: number, productId: number) => {
-    let recordQuantityInCart = cart.find(
+    let recordQuantityInCart = cart!.find(
       (item) => item?.recordId == recordId,
     )?.quantity;
     if (recordQuantityInCart) {
@@ -42,8 +47,10 @@ function ProductCounter({
         });
       if (onChange) onChange(recordId, newQuantity);
     }
-    setCart(readCart());
+    queryClient.invalidateQueries({ queryKey: ['cart-storage'] });
   };
+
+  if (!cart || cartQuery.isPending) return <p>Загрузка...</p>;
 
   return (
     <div className="ml-auto my-1 w-fit flex-nowrap flex flex-row">
