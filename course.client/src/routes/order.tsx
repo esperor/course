@@ -35,6 +35,8 @@ function Order() {
         setHasOrdered(true);
         queryClient.invalidateQueries({ queryKey: ['cart'] });
         queryClient.invalidateQueries({ queryKey: ['cart-storage'] });
+        queryClient.invalidateQueries({ queryKey: ['user-orders'] });
+        queryClient.invalidateQueries({ queryKey: ['products'] });
       },
     },
     queryClient,

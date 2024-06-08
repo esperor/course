@@ -4,10 +4,12 @@ import { addToCart, readCart, removeFromCart } from '../utils/cart';
 function ProductCounter({
   recordId,
   productId,
+  quantity,
   onChange,
 }: {
   recordId: number;
   productId: number;
+  quantity: number;
   onChange?: (recordId: number, newQuantity: number) => void;
 }) {
   const queryClient = useQueryClient();
@@ -69,8 +71,9 @@ function ProductCounter({
       </p>
       <button
         type="button"
-        className="w-6 bg-slate-800 rounded-md active:scale-90"
+        className="w-6 bg-slate-800 rounded-md active:scale-90 disabled:opacity-0 disabled:cursor-default"
         onClick={() => addProductToCart(recordId, productId)}
+        disabled={cart && (cart.find((item) => item?.recordId == recordId)?.quantity || 0) >= quantity }
       >
         +
       </button>

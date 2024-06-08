@@ -19,6 +19,7 @@ export const cart = async () => {
       let cartRecord: CartProductRecord = {
         recordId: record?.id,
         quantity: cartItem.quantity,
+        serverQuantity: record?.quantity,
         title: product.title,
         size: record?.size,
         image: record?.image,

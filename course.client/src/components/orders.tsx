@@ -58,7 +58,7 @@ function Orders() {
                 <button
                   type="button"
                   onClick={() => handleCancel(order.id)}
-                  className="ml-auto mt-4 btn"
+                  className="ml-auto mt-auto btn"
                   disabled={
                     order.status == EOrderStatus.Canceled ||
                     order.status == EOrderStatus.Done

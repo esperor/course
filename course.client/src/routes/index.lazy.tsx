@@ -6,8 +6,7 @@ import api from '../api';
 import { useState } from 'react';
 import EProductOrdering from '../models/productOrdering';
 import React from 'react';
-import ProductCounter from '../components/productCounter';
-import randomStock from '../utils/randomStock';
+import ProductCard from '../components/productCard';
 
 export const Route = createLazyFileRoute('/')({
   component: Catalog,
@@ -65,75 +64,14 @@ function Catalog() {
           (page) =>
             page && (
               <React.Fragment key={page.at(0)?.id}>
-                {page.map((product) => {
-                  const productPresent: boolean =
-                    (product.records && product.records.length > 0) || false;
-                  return (
-                    <div
-                      className={`flex flex-col rounded-lg min-h-fit bg-slate-900 p-4 relative
-                        ${!productPresent && 'bg-gray-700'} 
-                        ${openedInventory == product.id && 'rounded-b-none'}`}
-                      key={product.id}
-                    >
-                      <img
-                        className={`absolute inset-0 w-full h-[50%] rounded-t-lg object-cover z-[0] ${productPresent ? '' : 'opacity-50'}`}
-                        src={
-                          product.records && product.records.at(0)?.image
-                            ? `data:image/*;base64,${product.records.at(0)?.image}`
-                            : `/stock/${randomStock()}.jpg`
-                        }
-                        alt={product.title}
-                      />
-                      <h3 className="z-[1] relative mt-[50%] pt-2">
-                        {product.title}
-                      </h3>
-                      <h4 className="z-[1] relative">{product.description}</h4>
-                      <h4 className="z-[1] relative">{`Производитель: ${product.vendor}`}</h4>
-                      <div className="flex flex-row justify-between mt-auto items-center">
-                        {productPresent ? (
-                          <p>{`От ${product.records!.reduce((acc, record) => Math.min(acc, record.price), Infinity)} руб.`}</p>
-                        ) : (
-                          <p>Нет в наличии</p>
-                        )}
-                        {openedInventory !== product.id ? (
-                          <button
-                            type="button"
-                            className="btn ml-auto"
-                            disabled={!productPresent}
-                            onClick={() => setOpenedInventory(product.id)}
-                          >
-                            Купить
-                          </button>
-                        ) : (
-                          <button
-                            type="button"
-                            className="ml-auto w-8 h-8 active:scale-90 scale-100"
-                            onClick={() => setOpenedInventory(null)}
-                          >
-                            <div className="h-[1px] w-[80%] mx-auto bg-slate-200 rotate-45 origin-center"></div>
-                            <div className="h-[1px] w-[80%] mx-auto bg-slate-200 -rotate-45 origin-center"></div>
-                          </button>
-                        )}
-                      </div>
-
-                      {openedInventory == product.id && (
-                        <div className="absolute p-4 pt-0 h-fit w-full left-0 top-[100%] flex flex-col bg-slate-900 rounded-b-lg">
-                          {product.records &&
-                            product.records.length > 0 &&
-                            product.records.map((record) => (
-                              <div className="flex flex-row" key={record.id}>
-                                <p>{`Размер: ${record.size} - ${record.price} руб.`}</p>
-                                <ProductCounter
-                                  recordId={record.id}
-                                  productId={product.id}
-                                />
-                              </div>
-                            ))}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
+                {page.map((product) => (
+                  <ProductCard
+                    product={product}
+                    key={product.id}
+                    setOpenedInventory={setOpenedInventory}
+                    openedInventory={openedInventory}
+                  />
+                ))}
               </React.Fragment>
             ),
         )}
