@@ -46,6 +46,7 @@ function ProductCard({
           </p>
           <button
             type="button"
+            title="Заказать"
             className="ml-auto w-6 h-6 active:scale-90 scale-100 disabled:invisible"
             onClick={() =>
               setOpenedInventory(

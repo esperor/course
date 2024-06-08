@@ -6,4 +6,12 @@ enum EProductOrdering {
   PriceDesc = 4,
 }
 
+export const productOrderingMap: Record<EProductOrdering, string> = {
+  [EProductOrdering.None]: 'По умолчанию',
+  [EProductOrdering.TitleAsc]: 'По названию (А - Я)',
+  [EProductOrdering.TitleDesc]: 'По названию (Я - А)',
+  [EProductOrdering.PriceAsc]: 'По цене (возр.)',
+  [EProductOrdering.PriceDesc]: 'По цене (убыв.)',
+}
+
 export default EProductOrdering;
