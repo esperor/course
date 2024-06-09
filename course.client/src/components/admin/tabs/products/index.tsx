@@ -85,7 +85,7 @@ export default function ProductsTab() {
               <th>Описание</th>
               <th>Поставщик</th>
               <th>Склад</th>
-              <th className="justify-center flex mx-auto">
+              <th className="justify-center flex options">
                 <PencilSquare />
               </th>
             </tr>

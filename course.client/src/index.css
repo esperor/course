@@ -36,6 +36,9 @@
     @apply w-full;
     td, th {
       @apply w-fit px-3 py-1;
+      &.options {
+        @apply ml-auto mr-0 w-[3.4rem];
+      }
     }
     tr .admin-options {
       @apply bg-slate-800;
