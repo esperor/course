@@ -85,7 +85,6 @@ export default function ProductEdit({
                   >
                     {vendors.data?.map((vendor) => (
                       <option
-                        className="text-slate-100 bg-slate-800"
                         key={vendor.id}
                         value={vendor.id}
                       >

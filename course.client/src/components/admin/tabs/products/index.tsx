@@ -8,6 +8,7 @@ import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import api from '../../../../api';
 import ProductEditModal from './productEditModal';
+import ProductCreateModal from './productCreateModal';
 
 export default function ProductsTab() {
   const {
@@ -23,6 +24,7 @@ export default function ProductsTab() {
   const [openedInventory, setOpenedInventory] = useState<number | null>(null);
   const [openedOptions, setOpenedOptions] = useState<number | null>(null);
   const [editingProductId, setEditingProductId] = useState<number | null>(null);
+  const [creatingProduct, setCreatingProduct] = useState(false);
 
   const deleteProduct = useMutation({
     mutationFn: async (productId: number) => {
@@ -49,7 +51,22 @@ export default function ProductsTab() {
 
   return (
     <div>
-      {editingProductId && <ProductEditModal productId={editingProductId} onClose={() => setEditingProductId(null)} />}
+      <button
+        type="button"
+        className="btn flex ml-auto mb-4"
+        onClick={() => setCreatingProduct(true)}
+      >
+        Добавить товар
+      </button>
+      {creatingProduct && (
+        <ProductCreateModal onClose={() => setCreatingProduct(false)} />
+      )}
+      {editingProductId && (
+        <ProductEditModal
+          productId={editingProductId}
+          onClose={() => setEditingProductId(null)}
+        />
+      )}
       <div>
         <ProductFilters
           filters={filters}

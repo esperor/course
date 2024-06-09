@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import Reset from '../../../assets/reset';
 import Vendor from '../../../../models/vendor';
 import ProductEdit from './productEdit';
+import Modal from '../../../modal';
 
 export default function ProductEditModal({
   productId,
@@ -36,7 +37,6 @@ export default function ProductEditModal({
     },
     queryClient,
   );
-  
 
   useEffect(() => {
     if (!product.data) return;
@@ -58,46 +58,37 @@ export default function ProductEditModal({
   };
 
   return (
-    <div
-      className="fixed inset-0 bg-transparent z-20 backdrop-blur-sm"
-      onClick={handleClose}
-    >
-      <div
-        className="fixed inset-[15%] bg-slate-700 z-20 overflow-y-scroll rounded-lg shadow-xl"
-        onClick={(e) => e.stopPropagation()}
-        onScroll={(e) => e.stopPropagation()}
-      >
-        <div className="absolute right-6 top-6 flex flex-row gap-6 items-center">
-          {form && (
-            <button
-              type="button"
-              onClick={handleReset}
-              className="size-6 scale-100 active:scale-90"
-            >
-              <Reset />
-            </button>
-          )}
+    <Modal onClose={handleClose}>
+      <div className="absolute right-6 top-6 flex flex-row gap-6 items-center">
+        {form && (
           <button
             type="button"
-            onClick={handleClose}
+            onClick={handleReset}
             className="size-6 scale-100 active:scale-90"
           >
-            <div
-              className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[2px] w-full mx-auto bg-slate-200 rotate-45`}
-            ></div>
-            <div
-              className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[2px] w-full mx-auto bg-slate-200 -rotate-45`}
-            ></div>
+            <Reset />
           </button>
-        </div>
-        <ProductEdit
-          product={product}
-          form={form}
-          setForm={setForm}
-          vendors={vendors}
-          formEdited={formEdited}
-        />
+        )}
+        <button
+          type="button"
+          onClick={handleClose}
+          className="size-6 scale-100 active:scale-90"
+        >
+          <div
+            className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[2px] w-full mx-auto bg-slate-200 rotate-45`}
+          ></div>
+          <div
+            className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[2px] w-full mx-auto bg-slate-200 -rotate-45`}
+          ></div>
+        </button>
       </div>
-    </div>
+      <ProductEdit
+        product={product}
+        form={form}
+        setForm={setForm}
+        vendors={vendors}
+        formEdited={formEdited}
+      />
+    </Modal>
   );
 }
