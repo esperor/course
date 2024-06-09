@@ -26,7 +26,6 @@ function Catalog() {
   if (status == 'error') return <div>{error?.message}</div>;
   return (
     <div className="page">
-      <h1>Каталог</h1>
       <ProductFilters
         filters={filters}
         setFilters={setFilters}
