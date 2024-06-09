@@ -23,4 +23,13 @@
   .page {
     @apply p-2 mt-4;
   }
+  .admin-table {
+    @apply w-full;
+  }
+  .admin-table tr:nth-child(even) {
+    @apply bg-slate-700;
+  }
+  .admin-table td, .admin-table th {
+    @apply w-fit px-3 py-1
+  }
 }

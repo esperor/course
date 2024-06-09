@@ -3,6 +3,7 @@ import { Link } from '@tanstack/react-router';
 import axios from 'axios';
 import api from '../api';
 import UserInfo from '../models/userInfo';
+import EAccessLevel from '../models/accessLevel';
 
 function Navigation() {
   const queryClient = useQueryClient();
@@ -28,6 +29,10 @@ function Navigation() {
     },
   });
 
+  const isUserSignedIn = query.data?.isSignedIn ?? false;
+  const isUserAdmin =
+    (query.data?.accessLevel ?? 0) >= EAccessLevel.Administrator;
+
   return (
     <nav className="p-4 px-[10%] flex gap-12 bg-gray-900">
       <Link to="/" className="[&.active]:font-bold">
@@ -36,13 +41,18 @@ function Navigation() {
       <Link to="/order" className="[&.active]:font-bold">
         Корзина
       </Link>
-      {query.data?.isSignedIn && (
+      {isUserSignedIn && (
         <Link to="/profile" className="[&.active]:font-bold">
           Профиль
         </Link>
       )}
+      {isUserAdmin && (
+        <Link to="/admin" className="[&.active]:font-bold">
+          Управление
+        </Link>
+      )}
       <div className="ml-auto flex flex-row">
-        {query.data?.isSignedIn ? (
+        {isUserSignedIn ? (
           <>
             <Link to="/profile">{query.data?.name}</Link>
             <div className="h-full bg-gray-100 w-[1px] mx-2"></div>
