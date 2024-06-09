@@ -10,8 +10,14 @@
   hr {
     @apply border-slate-500;
   }
-  input {
+  input, select, textarea {
     @apply text-gray-950 px-2 rounded-sm;
+    &.transparent {
+      @apply text-gray-100 bg-transparent;
+      &.bordered {
+        @apply border border-solid border-slate-400;
+      }
+    }
   }
 
 }
@@ -25,11 +31,18 @@
   }
   .admin-table {
     @apply w-full;
-  }
-  .admin-table tr:nth-child(even) {
-    @apply bg-slate-700;
-  }
-  .admin-table td, .admin-table th {
-    @apply w-fit px-3 py-1
+    td, th {
+      @apply w-fit px-3 py-1;
+    }
+    tr .admin-options {
+      @apply bg-slate-800;
+    } 
+    tr:nth-child(even) {
+      @apply bg-slate-700;
+      .admin-options {
+        @apply bg-slate-700;
+      } 
+    }
+    
   }
 }

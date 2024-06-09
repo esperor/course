@@ -4,6 +4,10 @@ import useProducts from '../../../../hooks/useProducts';
 import React from 'react';
 import ProductFilters from '../../../productFilters';
 import Row from './row';
+import { useMutation } from '@tanstack/react-query';
+import axios from 'axios';
+import api from '../../../../api';
+import ProductEditModal from './productEditModal';
 
 export default function ProductsTab() {
   const {
@@ -17,12 +21,35 @@ export default function ProductsTab() {
     LoadMoreBtn,
   } = useProducts();
   const [openedInventory, setOpenedInventory] = useState<number | null>(null);
+  const [openedOptions, setOpenedOptions] = useState<number | null>(null);
+  const [editingProductId, setEditingProductId] = useState<number | null>(null);
+
+  const deleteProduct = useMutation({
+    mutationFn: async (productId: number) => {
+      return await axios.delete(`${api.product.rest}/${productId}`);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['products'] });
+    },
+  });
+
+  const handleAction = (productId: number, action: 'delete' | 'edit') => {
+    switch (action) {
+      case 'delete':
+        deleteProduct.mutate(productId);
+        break;
+      case 'edit':
+        setEditingProductId(productId);
+        break;
+    }
+  };
 
   if (status == 'pending') return <div>Загрузка...</div>;
   if (status == 'error') return <div>{error?.message}</div>;
 
   return (
     <div>
+      {editingProductId && <ProductEditModal productId={editingProductId} onClose={() => setEditingProductId(null)} />}
       <div>
         <ProductFilters
           filters={filters}
@@ -41,7 +68,7 @@ export default function ProductsTab() {
               <th>Описание</th>
               <th>Поставщик</th>
               <th>Склад</th>
-              <th>
+              <th className="justify-center flex mx-auto">
                 <PencilSquare />
               </th>
             </tr>
@@ -55,6 +82,9 @@ export default function ProductsTab() {
                       product={product}
                       openedInventory={openedInventory}
                       setOpenedInventory={setOpenedInventory}
+                      openedOptions={openedOptions}
+                      setOpenedOptions={setOpenedOptions}
+                      onAction={handleAction}
                     />
                   ))}
                 </React.Fragment>
