@@ -12,8 +12,6 @@ namespace course.Server.Models
 
         public string Phone { get; set; }
 
-        public int AccessLevelId { get; set; }
-
         public string? ContactInfo { get; set; }
 
         public string ContractNumber { get; set; }
@@ -25,7 +23,6 @@ namespace course.Server.Models
             Id = d.User.Id;
             Name = d.User.Name;
             Phone = d.User.Phone;
-            AccessLevelId = d.User.AccessLevelId;
             ContactInfo = d.ContactInfo;
             ContractNumber = d.ContractNumber;
         }
@@ -35,7 +32,6 @@ namespace course.Server.Models
             Id = u.Id;
             Name = u.Name;
             Phone = u.Phone;
-            AccessLevelId = u.AccessLevelId;
             ContactInfo = d.ContactInfo;
             ContractNumber = d.ContractNumber;
         }
