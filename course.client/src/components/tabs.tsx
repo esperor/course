@@ -3,14 +3,14 @@ import { useState } from 'react';
 export default function Tabs({
   options,
   children,
-  defaultIndex = 0,
+  current,
+  setCurrent,
 }: {
   options: string[];
   children: React.ReactNode[];
-  defaultIndex?: number;
+  current: number;
+  setCurrent: (index: number) => void;
 }) {
-  const [activeIndex, setActiveIndex] = useState(defaultIndex);
-
   return (
     <>
       <div className="flex flex-row">
@@ -18,8 +18,8 @@ export default function Tabs({
           <button
             type="button"
             key={index}
-            onClick={() => setActiveIndex(index)}
-            className={`rounded-t-md px-4 py-2 ${index == activeIndex ? 'bg-slate-900 font-bold' : 'bg-gray-600'}`}
+            onClick={() => setCurrent(index)}
+            className={`rounded-t-md px-4 py-2 ${index == current ? 'bg-slate-900 font-bold' : 'bg-gray-600'}`}
           >
             {options[index]}
           </button>
@@ -27,7 +27,7 @@ export default function Tabs({
       </div>
       <div className="w-[full] h-[2px] bg-slate-900" />
       <div className="w-full mt-4">
-        {children[activeIndex]}
+        {children[current]}
       </div>
     </>
   );
