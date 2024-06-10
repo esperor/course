@@ -3,6 +3,7 @@ import { authenticateAdmin } from '../utils/http';
 import Tabs from '../components/tabs';
 import ProductsTab from '../components/admin/tabs/products';
 import VendorsTab from '../components/admin/tabs/vendors';
+import DeliverersTab from '../components/admin/tabs/deliverers';
 
 export const Route = createFileRoute('/admin')({
   component: Admin,
@@ -21,12 +22,13 @@ function Admin() {
   return (
     <div className="page">
       <Tabs
-        options={['Товары', 'Поставщики', 'Заказы', 'Доставщики']}
+        options={['Товары', 'Поставщики', 'Доставщики', 'Заказы']}
         current={search.tab}
         setCurrent={(i) => navigate({ search: { tab: i } })}
       >
         <ProductsTab />
         <VendorsTab />
+        <DeliverersTab />
       </Tabs>
     </div>
   );

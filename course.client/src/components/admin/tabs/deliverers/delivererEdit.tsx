@@ -3,48 +3,50 @@ import {
   useMutation,
   useQueryClient,
 } from '@tanstack/react-query';
-import Vendor from '../../../../models/vendor';
+import Deliverer from '../../../../models/deliverer';
 import axios from 'axios';
 import api from '../../../../api';
+import DelivererPostModel from '../../../../models/delivererPostModel';
 
-interface VendorEditProps {
-  vendor: UseQueryResult<Vendor>;
-  form: Vendor | null;
-  setForm: (r: Vendor) => void;
+interface DelivererEditProps {
+  deliverer: UseQueryResult<Deliverer>;
+  form: DelivererPostModel | null;
+  setForm: (r: DelivererPostModel) => void;
   formEdited: boolean;
 }
 
-export default function VendorEdit({
-  vendor,
+export default function DelivererEdit({
+  deliverer,
   form,
   setForm,
   formEdited,
-}: VendorEditProps) {
+}: DelivererEditProps) {
   const queryClient = useQueryClient();
-  const updateVendor = useMutation({
-    mutationFn: async (vendor: Vendor) => {
-      return await axios.put(`${api.vendor.rest}/${vendor.id}`, vendor);
+  const updateDeliverer = useMutation({
+    mutationFn: async (deliverer: DelivererPostModel) => {
+      let model = {...deliverer, contactInfo: deliverer.contactInfo ?? null};
+      return await axios.put(`${api.deliverer.rest}/${deliverer.userId}`, model);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['vendor', vendor.data?.id],
+        queryKey: ['deliverer', deliverer.data?.id],
       });
-      queryClient.invalidateQueries({ queryKey: ['vendors'] });
-      queryClient.invalidateQueries({ queryKey: ['vendors-infinite'] });
+      queryClient.invalidateQueries({ queryKey: ['deliverers'] });
+      queryClient.invalidateQueries({ queryKey: ['deliverers-infinite'] });
     },
   });
 
   const handleSave = () => {
     if (!form || !formEdited) return;
-    updateVendor.mutate(form);
+    updateDeliverer.mutate(form);
   };
 
   return (
     <div className="p-8 flex flex-row h-full">
-      {vendor.isPending ? (
+      {deliverer.isPending ? (
         <h2>Загрузка...</h2>
-      ) : vendor.isError ? (
-        <h2>{vendor.error.message}</h2>
+      ) : deliverer.isError ? (
+        <h2>{deliverer.error.message}</h2>
       ) : (
         <div className="size-fit flex flex-col gap-2 m-auto">
           <div className="flex flex-row gap-2">
@@ -57,16 +59,6 @@ export default function VendorEdit({
               onChange={(e) =>
                 setForm({ ...form!, contractNumber: e.target.value })
               }
-            />
-          </div>
-          <div className="flex flex-row gap-2">
-            <label htmlFor="name">Название организации:&nbsp;</label>
-            <input
-              id="name"
-              type="text"
-              className="transparent bordered w-72"
-              value={form?.name}
-              onChange={(e) => setForm({ ...form!, name: e.target.value })}
             />
           </div>
           <div className="flex flex-row gap-2">
@@ -88,9 +80,9 @@ export default function VendorEdit({
             disabled={!formEdited}
             onClick={handleSave}
           >
-            {updateVendor.isPending
+            {updateDeliverer.isPending
               ? 'Загрузка...'
-              : updateVendor.isSuccess
+              : updateDeliverer.isSuccess
                 ? 'Сохранено'
                 : 'Сохранить'}
           </button>

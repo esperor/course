@@ -27,7 +27,7 @@ export default function ProductEdit({
   const queryClient = useQueryClient();
   const updateProduct = useMutation({
     mutationFn: async (product: ProductRecord) => {
-      return await axios.put(`${api.product.rest}/${product.id}`, form);
+      return await axios.put(`${api.product.rest}/${product.id}`, product);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
