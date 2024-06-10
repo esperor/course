@@ -2,6 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { authenticateAdmin } from '../utils/http';
 import Tabs from '../components/tabs';
 import ProductsTab from '../components/admin/tabs/products';
+import VendorsTab from '../components/admin/tabs/vendors';
 
 export const Route = createFileRoute('/admin')({
   component: Admin,
@@ -20,7 +21,7 @@ function Admin() {
         ]}
       >
         <ProductsTab />
-        <div>Пользователи</div>
+        <VendorsTab />
       </Tabs>
     </div>
   );
