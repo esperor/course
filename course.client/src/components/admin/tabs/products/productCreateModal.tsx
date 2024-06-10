@@ -100,20 +100,20 @@ export default function ProductCreateModal({
           ))}
         </select>
 
-        <button
-          type="button"
-          className="btn mt-auto flex mx-auto"
-          disabled={
-            !formFilled || postProduct.isPending || hasPosted
-          }
-          onClick={handlePost}
-        >
-          {postProduct.isPending
-            ? 'Загрузка...'
-            : hasPosted
-              ? 'Сохранено'
-              : 'Создать'}
-        </button>
+        <div className="mt-auto w-full h-fit">
+          <button
+            type="button"
+            className="btn mt-8 flex mx-auto"
+            disabled={!formFilled || postProduct.isPending || hasPosted}
+            onClick={handlePost}
+          >
+            {postProduct.isPending
+              ? 'Загрузка...'
+              : hasPosted
+                ? 'Сохранено'
+                : 'Создать'}
+          </button>
+        </div>
       </div>
     </Modal>
   );

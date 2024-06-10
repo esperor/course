@@ -11,7 +11,7 @@ export default function Modal({
       onClick={onClose}
     >
       <div
-        className="fixed inset-[15%] bg-slate-700 z-20 overflow-y-scroll rounded-lg shadow-xl"
+        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-fit pt-8 max-h-[75vh] bg-slate-700 z-20 overflow-y-auto rounded-lg shadow-xl"
         onClick={(e) => e.stopPropagation()}
         onScroll={(e) => e.stopPropagation()}
       >
