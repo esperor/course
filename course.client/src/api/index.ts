@@ -24,6 +24,9 @@ const api = {
   vendor: {
     rest: 'api/vendor',
   },
+  user: {
+    rest: 'api/user', // only get, get/{id}, delete
+  }
 };
 
 export default api;
