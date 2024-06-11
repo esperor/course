@@ -5,18 +5,19 @@ namespace course.Server.Models
 {
     public class OrderAdminInfoModel : OrderInfoModel
     {
-
-        public int? DelivererId { get; set; }
+        public DelivererInfoModel? Deliverer { get; set; }
 
         public OrderAdminInfoModel(Order order) : base(order)
         {
-            DelivererId = order.DelivererId;
+            if (order.Deliverer != null)
+                Deliverer = new DelivererInfoModel(order.Deliverer);
         }
 
         public OrderAdminInfoModel(Order order, Dictionary<InventoryRecord, int> records)
             : base(order, records)
         {
-            DelivererId = order.DelivererId;
+            if (order.Deliverer != null)
+                Deliverer = new DelivererInfoModel(order.Deliverer);
         }
     }
 }

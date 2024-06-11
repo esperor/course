@@ -31,30 +31,31 @@ namespace course.Server.Controllers
             int offset = 0,
             int limit = 10)
         {
-            var orders = await _context.Orders
+            var orders = _context.Orders
+                .Include(o => o.Deliverer)
+                .ThenInclude(d => d.User)
                 .GroupJoin(
                     _context.OrderRecords,
                     o => o.Id,
                     r => r.OrderId,
-                    (order, records) => new { order, records })
-                .ToListAsync();
+                    (order, records) => new { order, records });
 
             if (userId != null)
-                orders = orders.Where(a => a.order.UserId == userId).ToList();
+                orders = orders.Where(a => a.order.UserId == userId);
 
-            IQueryable<OrderAdminInfoModel> set = Enumerable.Empty<OrderAdminInfoModel>().AsQueryable();
+            var ordersListed = await orders.Skip(offset).Take(limit).ToListAsync();
 
-            foreach (var item in orders)
-            {
-                Dictionary<InventoryRecord, int> iRecords = [];
-                foreach (var orderRecord in item.records)
+            return 
+                ordersListed.Select((item) =>
                 {
-                    var ir = await _context.InventoryRecords.FindAsync(orderRecord.InventoryRecordId);
-                    iRecords.Add(ir!, orderRecord.Quantity);
-                }
-                set = set.Append(new OrderAdminInfoModel(item.order, iRecords));
-            }
-            return set.Skip(offset).Take(limit).ToList();
+                    Dictionary<InventoryRecord, int> iRecords = [];
+                    foreach (var orderRecord in item.records)
+                    {
+                        var ir = _context.InventoryRecords.Find(orderRecord.InventoryRecordId);
+                        iRecords.Add(ir!, orderRecord.Quantity);
+                    }
+                    return new OrderAdminInfoModel(item.order, iRecords);
+                }).ToList();
         }
 
         // GET: api/order
@@ -118,7 +119,12 @@ namespace course.Server.Controllers
         [AuthorizeAccessLevel(EAccessLevel.Administrator)]
         public async Task<ActionResult<OrderAdminInfoModel>> GetOrderAdmin(int id)
         {
-            var order = _context.Orders.Find(id);
+            var order = await _context.Orders
+                .Include(o => o.Deliverer)
+                .ThenInclude(d => d.User)
+                .Where(o => o.Id == id)
+                .SingleOrDefaultAsync();
+
             if (order is null) return NotFound();
 
             Dictionary<InventoryRecord, int> iRecords = [];
