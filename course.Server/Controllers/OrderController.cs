@@ -6,6 +6,7 @@ using course.Server.Configs;
 using course.Server.Configs.Enums;
 using course.Server.Models;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.ComponentModel.DataAnnotations;
 
 namespace course.Server.Controllers
 {
@@ -205,16 +206,58 @@ namespace course.Server.Controllers
             return NoContent();
         }
 
+        public class AssignDelivererModel
+        {
+            [Required]
+            public int DelivererId { get; set; }
+        }
+
         [HttpPut("{id}/assign-deliverer")]
         [AuthorizeAccessLevel(EAccessLevel.Administrator)]
         public async Task<ActionResult> AssignDeliverer(
-            [FromRoute] int id, 
-            [FromBody] int delivererId)
+            [FromRoute] int id,
+            AssignDelivererModel model)
         {
             var order = _context.Orders.Find(id);
             if (order is null) return NotFound();
 
-            order.DelivererId = delivererId;
+            await _context.Database.BeginTransactionAsync();
+
+            try {
+                order.DelivererId = model.DelivererId;
+
+                if (order.Status == EOrderStatus.Created)
+                    order.Status = EOrderStatus.Assigned;
+
+                _context.Entry(order).State = EntityState.Modified;
+
+                await _context.SaveChangesAsync();
+
+                await _context.Database.CommitTransactionAsync();
+            } catch (Exception)
+            {
+                await _context.Database.RollbackTransactionAsync();
+                throw;
+            }
+            return NoContent();
+        }
+
+        public class SetStatusModel
+        {
+            [Required]
+            public EOrderStatus Status { get; set; }
+        }
+
+        [HttpPut("{id}/set-status")]
+        [AuthorizeAccessLevel(EAccessLevel.Administrator)]
+        public async Task<ActionResult> SetStatus(
+            [FromRoute] int id,
+            SetStatusModel model)
+        {
+            var order = _context.Orders.Find(id);
+            if (order is null) return NotFound();
+
+            order.Status = model.Status;
 
             _context.Entry(order).State = EntityState.Modified;
 
