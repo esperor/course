@@ -14,8 +14,10 @@ export default function DeliverersTab() {
   const { data, error, status, queryClient, LoadMoreBtn } =
     useInfiniteQueryReduced<Deliverer>({
       queryKey: ['deliverers-infinite'],
-      queryFn: async () => {
-        const { data } = await axios.get(`${api.deliverer.rest}`);
+      queryFn: async ({ pageParam }: { pageParam: unknown }) => {
+        const { data } = await axios.get(
+          `${api.deliverer.rest}?offset=${(pageParam as number) * constant.defaultLimit}&limit=${constant.defaultLimit}`,
+        );
         return data;
       },
       limit: constant.defaultLimit,
@@ -67,7 +69,7 @@ export default function DeliverersTab() {
           delivererId={editingDelivererId}
           onClose={() => setEditingDelivererId(null)}
         />
-      )} 
+      )}
       <table className="admin-table mt-4">
         <thead>
           <tr className="bg-slate-600">

@@ -47,8 +47,9 @@ export default function Row({
             onClick={() =>
               openedInventory == product.id
                 ? setOpenedInventory(null)
-                : setOpenedInventory(product.id)
+                : setOpenedInventory(product.id) 
             }
+            onBlur={() => setOpenedInventory(null)}
           >
             <BookOpen />
           </button>

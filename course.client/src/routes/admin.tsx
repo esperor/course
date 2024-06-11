@@ -4,6 +4,7 @@ import Tabs from '../components/tabs';
 import ProductsTab from '../components/admin/tabs/products';
 import VendorsTab from '../components/admin/tabs/vendors';
 import DeliverersTab from '../components/admin/tabs/deliverers';
+import OrdersTab from '../components/admin/tabs/orders';
 
 export const Route = createFileRoute('/admin')({
   component: Admin,
@@ -29,6 +30,7 @@ function Admin() {
         <ProductsTab />
         <VendorsTab />
         <DeliverersTab />
+        <OrdersTab />
       </Tabs>
     </div>
   );

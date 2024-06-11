@@ -14,8 +14,10 @@ export default function VendorsTab() {
   const { data, error, status, queryClient, LoadMoreBtn } =
     useInfiniteQueryReduced<Vendor>({
       queryKey: ['vendors-infinite'],
-      queryFn: async () => {
-        const { data } = await axios.get(`${api.vendor.rest}`);
+      queryFn: async ({ pageParam }: { pageParam: unknown }) => {
+        const { data } = await axios.get(
+          `${api.vendor.rest}?offset=${(pageParam as number) * constant.defaultLimit}&limit=${constant.defaultLimit}`,
+        );
         return data;
       },
       limit: constant.defaultLimit,

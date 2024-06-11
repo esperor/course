@@ -1,4 +1,4 @@
-export default interface Order {
+export default interface OrderPostModel {
   address: string;
   orderedRecords: {
     [key: number]: number;

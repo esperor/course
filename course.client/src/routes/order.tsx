@@ -5,7 +5,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import api from '../api';
 import { useState } from 'react';
-import OrderModel from '../models/order';
+import OrderPostModel from '../models/orderPostModel';
 import { clearCart, readCart } from '../utils/cart';
 
 export const Route = createFileRoute('/order')({
@@ -19,7 +19,7 @@ function Order() {
     queryKey: ['cart-storage'],
     queryFn: () => readCart(),
   });
-  const [form, setForm] = useState<OrderModel>({
+  const [form, setForm] = useState<OrderPostModel>({
     address: '',
     orderedRecords: [],
   });
@@ -27,7 +27,7 @@ function Order() {
   const [hasOrdered, setHasOrdered] = useState(false);
   const postOrder = useMutation(
     {
-      mutationFn: async (formData: OrderModel) => {
+      mutationFn: async (formData: OrderPostModel) => {
         return await axios.post(api.order.rest, formData);
       },
       onSuccess() {

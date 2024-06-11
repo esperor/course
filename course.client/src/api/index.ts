@@ -17,6 +17,7 @@ const api = {
   inventory: {
     delete: 'api/inventory-record/{id}',
     post: 'api/inventory-record/product/{productId}',
+    get: 'api/inventory-record',
   },
   product: {
     rest: 'api/product',

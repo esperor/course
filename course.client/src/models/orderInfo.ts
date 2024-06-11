@@ -7,5 +7,5 @@ export default interface OrderInfo {
   totalPrice: number;
   date: string;
   status: EOrderStatus;
-  orderedRecords: Map<number, number>;
+  orderedRecords: Record<number, number>;
 }

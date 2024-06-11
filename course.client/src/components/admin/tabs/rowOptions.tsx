@@ -51,6 +51,7 @@ export default function RowOptions({
               ? setOpenedOptions(null)
               : setOpenedOptions(itemId)
           }
+          onBlur={() => setOpenedOptions(null)}
         >
           <ThreeBars />
         </button>
