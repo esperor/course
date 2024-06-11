@@ -6,6 +6,8 @@ namespace course.Server.Models
     {
         public int Id { get; set; }
 
+        public string? Title { get; set; }
+
         public string Size { get; set; }
 
         public int Quantity { get; set; }
@@ -15,5 +17,15 @@ namespace course.Server.Models
         public byte[]? Image { get; set; }
 
         public InventoryRecordInfoModel() { }
+
+        public InventoryRecordInfoModel(InventoryRecord inventoryRecord)
+        {
+            Id = inventoryRecord.Id;
+            Size = inventoryRecord.Size;
+            Quantity = inventoryRecord.Quantity;
+            Price = inventoryRecord.Price;
+            Image = inventoryRecord.Image;
+            Title = inventoryRecord.Product.Title;
+        }
     }
 }

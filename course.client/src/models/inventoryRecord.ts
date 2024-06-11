@@ -4,4 +4,5 @@ export default interface InventoryRecord {
   size: string;
   price: number;
   image: Uint8Array;
+  title: string;
 }

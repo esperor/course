@@ -22,12 +22,30 @@ namespace course.Server.Controllers
             _context = context;
         }
 
+        // GET: api/inventory-record/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<InventoryRecordInfoModel>> GetRecord(int id)
+        {
+            var inventoryRecord = await _context.InventoryRecords
+                .Include(ir => ir.Product)
+                .Where(ir => ir.Id == id)
+                .SingleOrDefaultAsync();
+
+            if (inventoryRecord == null)
+            {
+                return NotFound();
+            }
+
+            return new InventoryRecordInfoModel(inventoryRecord);
+        }
+
         // DELETE: api/inventory-record/5
         [HttpDelete("{id}")]
         [AuthorizeAccessLevel(Configs.Enums.EAccessLevel.Editor)]
         public async Task<IActionResult> DeleteInventoryRecord(int id)
         {
             var inventoryRecord = await _context.InventoryRecords.FindAsync(id);
+
             if (inventoryRecord == null)
             {
                 return NotFound();
