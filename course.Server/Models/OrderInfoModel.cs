@@ -11,6 +11,8 @@ namespace course.Server.Models
 
         public string Address { get; set; }
 
+        public int TotalPrice { get; set; }
+
         public DateOnly Date { get; set; }
 
         public EOrderStatus Status { get; set; }
@@ -29,12 +31,13 @@ namespace course.Server.Models
             Status = order.Status;
         }
 
-        public OrderInfoModel(Order order, IEnumerable<OrderRecord> records)
+        public OrderInfoModel(Order order, Dictionary<InventoryRecord, int> records)
             : this(order)
         {
+            TotalPrice = records.Aggregate(0, (acc, r) => acc + r.Value * r.Key.Price);
             OrderedRecords = records
-                .Select(r => new KeyValuePair<int, int>(r.InventoryRecordId, r.Quantity))
-                .ToDictionary(); 
+                .Select(pair => new KeyValuePair<int, int>(pair.Key.Id, pair.Value))
+                .ToDictionary();
         }
     }
 }
