@@ -1,41 +1,72 @@
 import OrderAdminInfo from '../../../../models/orderAdminInfo';
-import { orderStatusToString } from '../../../../models/orderStatus';
+import EOrderStatus, {
+  orderStatusToString,
+} from '../../../../models/orderStatus';
 import api from '../../../../api';
 import axios from 'axios';
 import InventoryRecord from '../../../../models/inventoryRecord';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import BookOpen from '../../../assets/bookOpen';
+import Pencil from '../../../assets/pencil';
+import { replaceRouteParams } from '../../../../utils/http';
+import { ChangeEvent, useState } from 'react';
 
 export default function Row({
   order,
   openedProducts,
   setOpenedProducts,
+  setAssigningDelivererId,
 }: {
   order: OrderAdminInfo;
   openedProducts: number | null;
   setOpenedProducts: (id: number | null) => void;
+  setAssigningDelivererId: (id: number | null) => void;
 }) {
-  const records = useQuery({
-    queryKey: ['order-records', order.id],
-    queryFn: async () => {
-      let arr: Array<[number, number]> = [];
-      Object.keys(order.orderedRecords).forEach((key) => {
-        const k = parseInt(key);
-        arr.push([k, order.orderedRecords[k]]);
-      });
-      return Promise.all(
-        arr.map(async ([recordId, quantity]) => {
-          const { data } = await axios.get<InventoryRecord>(
-            `${api.inventory.get}/${recordId}`,
-          );
-          return { record: data, quantity };
-        }),
-      ).then((records) => records);
+  const queryClient = useQueryClient();
+  const records = useQuery(
+    {
+      queryKey: ['order-records', order.id],
+      queryFn: async () => {
+        let arr: Array<[number, number]> = [];
+        Object.keys(order.orderedRecords).forEach((key) => {
+          const k = parseInt(key);
+          arr.push([k, order.orderedRecords[k]]);
+        });
+        return Promise.all(
+          arr.map(async ([recordId, quantity]) => {
+            const { data } = await axios.get<InventoryRecord>(
+              `${api.inventory.get}/${recordId}`,
+            );
+            return { record: data, quantity };
+          }),
+        ).then((records) => records);
+      },
+      enabled: openedProducts == order.id,
+      refetchOnWindowFocus: false,
+      staleTime: 5 * 60 * 1000,
     },
-    enabled: openedProducts == order.id,
-    refetchOnWindowFocus: false,
-    staleTime: 5 * 60 * 1000,
-  });
+    queryClient,
+  );
+  const [status, setStatus] = useState(order.status);
+
+  const updateStatus = useMutation(
+    {
+      mutationFn: async (status: number) => {
+        return await axios.put(
+          replaceRouteParams(api.order.setStatus, { id: order.id }),
+          { status },
+        );
+      },
+      onSuccess: (_, status) => {
+        setStatus(status);
+      },
+    },
+    queryClient,
+  );
+
+  function handleStatusChange(event: ChangeEvent<HTMLSelectElement>): void {
+    updateStatus.mutate(parseInt(event.target.value));
+  }
 
   return (
     <tr key={order.id}>
@@ -43,16 +74,35 @@ export default function Row({
       <td>{order.userId}</td>
       <td>{new Date(order.date).toLocaleDateString('ru')}</td>
       <td>
-        <div className="flex flex-row gap-2">
+        <div className="flex flex-row justify-between">
           <p>
             {order.deliverer
               ? `${order.deliverer?.name} (ID: ${order.deliverer.id})`
               : 'Не назначен'}
           </p>
+          <button
+            type="button"
+            className="active:scale-90 scale-100"
+            onClick={() => setAssigningDelivererId(order.id)}
+          >
+            <Pencil />
+          </button>
         </div>
       </td>
       <td>{order.address}</td>
-      <td>{orderStatusToString(order.status)}</td>
+      <td className='mx-auto flex'>
+        <select value={status} className="transparent bordered py-[0.2rem] px-3" onChange={handleStatusChange}>
+          {(Object.keys(EOrderStatus) as Array<keyof typeof EOrderStatus>)
+            .filter((result) => isNaN(Number(result)))
+            .map((status) => [status, EOrderStatus[status]])
+            .map(([status, statusIndex]) => (
+              <option key={statusIndex} value={statusIndex}>
+                {status}
+              </option>
+            ))}
+        </select>
+      </td>
+      <td className="text-right">{order.totalPrice}&nbsp;₽</td>
       <td>
         <div className="size-fit relative w-full">
           <button
@@ -81,7 +131,6 @@ export default function Row({
                 <p className="text-nowrap">{`${record.title} (Размер: ${record.size}) - ${quantity} ед.`}</p>
               ))
             )}
-            <p className="text-nowrap mt-4 ml-auto flex w-fit">{`Итого: ${order.totalPrice} руб.`}</p>
           </div>
         </div>
       </td>

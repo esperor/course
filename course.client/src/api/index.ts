@@ -13,6 +13,8 @@ const api = {
     rest: 'api/order',
     cancel: 'api/order/{id}/cancel',
     user: 'api/order/user',
+    assignDeliverer: 'api/order/{id}/assign-deliverer',
+    setStatus: 'api/order/{id}/set-status',
   },
   inventory: {
     delete: 'api/inventory-record/{id}',

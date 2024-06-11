@@ -104,12 +104,12 @@ export default function DelivererCreateModal({
           )}
         </div>
 
-        <label htmlFor="contactInfo">
+        <label htmlFor="userInfo">
           Информация о выбранном пользователе:
         </label>
         <textarea
           readOnly
-          id="contactInfo"
+          id="userInfo"
           className="-mt-4 transparent bordered w-full h-20"
           value={
             userIdValid === 'valid' || userIdValid === 'already-assigned'

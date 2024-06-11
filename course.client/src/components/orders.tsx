@@ -55,6 +55,7 @@ function Orders() {
                 <p>{order.address}</p>
                 <p>{(new Date(order.date)).toLocaleDateString("ru")}</p>
                 <p>{`Статус: ${orderStatusToString(order.status)}`}</p>
+                <p>{`Стоимость: ${order.totalPrice} руб.`}</p>
                 <button
                   type="button"
                   onClick={() => handleCancel(order.id)}
