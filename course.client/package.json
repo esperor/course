@@ -1,11 +1,11 @@
 {
   "name": "course.client",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "concurrently \"vite\" \"npm:tailwind:watch\"",
-    "build": "tsc && vite build",
+    "build": "npm run tailwind && tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "tailwind:watch": "npm run tailwind -- --watch",

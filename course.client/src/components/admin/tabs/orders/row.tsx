@@ -1,7 +1,4 @@
 import OrderAdminInfo from '../../../../models/orderAdminInfo';
-import EOrderStatus, {
-  orderStatusToString,
-} from '../../../../models/orderStatus';
 import api from '../../../../api';
 import axios from 'axios';
 import InventoryRecord from '../../../../models/inventoryRecord';
@@ -10,6 +7,7 @@ import BookOpen from '../../../assets/bookOpen';
 import Pencil from '../../../assets/pencil';
 import { replaceRouteParams } from '../../../../utils/http';
 import { ChangeEvent, useState } from 'react';
+import EOrderStatus from '../../../../models/orderStatus';
 
 export default function Row({
   order,
