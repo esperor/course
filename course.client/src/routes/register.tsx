@@ -79,6 +79,7 @@ function Register() {
         >
           Зарегистрироваться
         </button>
+        <label>{register.isError && register.error.message}</label>
       </form>
     </div>
   );

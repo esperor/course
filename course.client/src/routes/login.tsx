@@ -79,6 +79,7 @@ function Login() {
             Зарегистрироваться
           </Link>
         </div>
+        <label>{login.isError && login.error.message}</label>
       </form>
     </div>
   );
