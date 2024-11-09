@@ -28,7 +28,10 @@ const api = {
     rest: 'api/vendor',
   },
   user: {
-    rest: 'api/user', // only get, get/{id}, delete
+    /**
+     * Only get, get/{id}, delete
+     */
+    rest: 'api/user',
   }
 };
 
