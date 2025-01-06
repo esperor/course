@@ -12,7 +12,6 @@
     "tailwind": "npx tailwindcss -i ./src/index.css -o ./src/tailwind.css"
   },
   "dependencies": {
-    "@react-input/mask": "^1.2.5",
     "@tanstack/react-query": "^5.40.1",
     "@tanstack/react-router": "^1.35.1",
     "axios": "^1.7.2",

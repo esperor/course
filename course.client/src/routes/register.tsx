@@ -3,7 +3,6 @@ import { createFileRoute } from '@tanstack/react-router';
 import axios from 'axios';
 import { useState } from 'react';
 import api from '../api';
-import { useMask } from '@react-input/mask';
 
 export const Route = createFileRoute('/register')({
   validateSearch: (search: Record<string, unknown>): { returnUrl?: string } => {
@@ -13,11 +12,6 @@ export const Route = createFileRoute('/register')({
 });
 
 function Register() {
-  const ref = useMask({
-    mask: '8__________',
-    replacement: { _: /\d/ },
-    showMask: true,
-  });
   const { returnUrl } = Route.useSearch();
   const [form, setForm] = useState({
     name: null as string | null,
@@ -38,9 +32,6 @@ function Register() {
     },
   });
 
-  const formValid =
-    form.name != null && form.phone?.length == 11 && form.password != null;
-
   return (
     <div className="py-2 px-auto">
       <form
@@ -52,16 +43,13 @@ function Register() {
           type="text"
           id="name"
           className=""
-          value={form.name ?? ''}
           onChange={(e) => setForm({ ...form, name: e.target.value })}
         />
         <label htmlFor="login">Телефон</label>
         <input
-          ref={ref}
           type="text"
           id="login"
           className=""
-          value={form.phone ?? ''}
           onChange={(e) => setForm({ ...form, phone: e.target.value })}
         />
         <label htmlFor="password">Пароль</label>
@@ -69,13 +57,11 @@ function Register() {
           type="password"
           id="password"
           className=""
-          value={form.password ?? ''}
           onChange={(e) => setForm({ ...form, password: e.target.value })}
         />
         <button
           type="submit"
-          disabled={!formValid}
-          className="btn w-fit mx-auto rounded-full"
+          className="w-fit mx-auto bg-slate-800 rounded-full"
         >
           Зарегистрироваться
         </button>
