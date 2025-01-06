@@ -15,12 +15,22 @@ namespace course.Server.Services
 
         public class Result
         {
+            public Result() { }
+            public Result(Result other) 
+            {
+                Errors = other.Errors;
+                Success = other.Success;
+            }
+
             public string[]? Errors { get; set; }
-            public required bool Success { get; set; }
+            public bool Success { get; set; }
         }
 
         public class SignInResult : Result
         {
+            public SignInResult() { }
+            public SignInResult(Result result) : base(result) { }
+
             public StringValues? AuthCookie { get; set; }
         }
 
@@ -86,7 +96,7 @@ namespace course.Server.Services
                 result = VerifyPasswordCorrect(user, password);
             } catch (ArgumentException e)
             {
-                return (SignInResult)Errors([e.Message]);
+                return new SignInResult(Errors([e.Message]));
             }
 
             switch (result)
@@ -94,7 +104,7 @@ namespace course.Server.Services
                 case PasswordVerificationResult.Success:
                     return new SignInResult { Success = true, AuthCookie = GenerateAuthCookie(user) };
                 case PasswordVerificationResult.Failed:
-                    return (SignInResult)Errors(["Wrong password"]);
+                    return new SignInResult(Errors(["Wrong password"]));
                 case PasswordVerificationResult.SuccessRehashNeeded:
                     return new SignInResult { 
                         Success = true, 
@@ -102,7 +112,7 @@ namespace course.Server.Services
                         Errors = ["Rehash needed"] 
                     };
                 default: 
-                    return (SignInResult)Errors(["Unexpected error"]);
+                    return new SignInResult(Errors(["Unexpected error"]));
             }
         }
 
