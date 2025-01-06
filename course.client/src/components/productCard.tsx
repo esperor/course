@@ -29,7 +29,7 @@ function ProductCard({
       key={product.id}
     >
       <img
-        className={`absolute inset-0 w-full h-[75%] rounded-t-lg object-cover z-[0] hover:object-contain ${productPresent ? '' : 'opacity-50'}`}
+        className={`absolute inset-0 w-full h-[75%] rounded-t-lg z-[0] object-contain ${productPresent ? '' : 'opacity-50'}`}
         src={
           product.records && product.records.at(0)?.image
             ? `data:image/*;base64,${product.records.at(0)?.image}`
