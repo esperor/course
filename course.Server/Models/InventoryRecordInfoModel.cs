@@ -8,7 +8,7 @@ namespace course.Server.Models
 
         public string? Title { get; set; }
 
-        public string Size { get; set; }
+        public string PropertiesJson { get; set; }
 
         public int Quantity { get; set; }
 
@@ -21,7 +21,7 @@ namespace course.Server.Models
         public InventoryRecordInfoModel(InventoryRecord inventoryRecord)
         {
             Id = inventoryRecord.Id;
-            Size = inventoryRecord.Size;
+            PropertiesJson = inventoryRecord.PropertiesJson;
             Quantity = inventoryRecord.Quantity;
             Price = inventoryRecord.Price;
             Image = inventoryRecord.Image;

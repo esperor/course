@@ -16,13 +16,12 @@ namespace course.Server.Data
         public Product Product { get; set; }      
 
         [Required]
-        public string Size { get; set; }
-
-        [Required]
         public int Quantity { get; set; }
 
         [Required]
         public int Price { get; set; }
+
+        public string PropertiesJson { get; set; }
 
         public byte[]? Image { get; set; }
     }

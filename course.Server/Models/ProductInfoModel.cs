@@ -43,7 +43,7 @@ namespace course.Server.Models
                     Id = r.Id,
                     Price = r.Price,
                     Quantity = r.Quantity,
-                    Size = r.Size,
+                    PropertiesJson = r.PropertiesJson,
                     Image = r.Image,
                 }).ToArray();
         }

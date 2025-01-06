@@ -12,13 +12,12 @@ namespace course.Server.Models
         public int ProductId { get; set; }
 
         [Required]
-        public string Size { get; set; }
-
-        [Required]
         public int Quantity { get; set; }
 
         [Required]
         public int Price { get; set; }
+
+        public string PropertiesJson { get; set; }
 
         public byte[]? Image { get; set; }
 
@@ -26,7 +25,7 @@ namespace course.Server.Models
         {
             var entity = new InventoryRecord
             {
-                Size = Size,
+                PropertiesJson = PropertiesJson,
                 Quantity = Quantity,
                 Price = Price,
                 Image = Image

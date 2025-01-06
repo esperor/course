@@ -102,7 +102,7 @@ namespace course.Server.Controllers
                         Price = r.Price,
                         Image = r.Image,
                         Quantity = r.Quantity,
-                        Size = r.Size,
+                        PropertiesJson = r.PropertiesJson,
                     }).ToArray(),
                 })
                 .ToListAsync();
