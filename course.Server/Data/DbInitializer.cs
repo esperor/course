@@ -29,8 +29,8 @@ namespace course.Server.Data
                 {
                     new Vendor{ Name="ООО Белорусский трикотаж", ContractNumber=RandomContract.ForVendor(), ContactInfo=RandomPhone()},
                     new Vendor{ Name="Одежда", ContractNumber=RandomContract.ForVendor(), ContactInfo=RandomPhone()},
-                    new Vendor{ Name="Тоже одежда", ContractNumber=RandomContract.ForVendor(), ContactInfo=RandomPhone()},
                     new Vendor{ Name="Много одежды", ContractNumber=RandomContract.ForVendor(), ContactInfo=RandomPhone()},
+                    new Vendor{ Name="Оханский ювелирный завод", ContractNumber=RandomContract.ForVendor(), ContactInfo=RandomPhone()},
                 };
 
                 foreach (Vendor s in vendors)
