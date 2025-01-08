@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import ProductPostModel from '../../../../models/productPostModel';
+import ProductPostModel from '../../../../models/server/requests/productPostModel';
 import Modal from '../../../modal';
 import { useQueryClient, useQuery, useMutation } from '@tanstack/react-query';
 import axios from 'axios';

@@ -64,6 +64,7 @@ function Cart() {
         {query.data &&
           query.data
             .sort((item1, item2) =>
+              // TODO: check if server sent an inventory record
               item1?.recordId! > item2?.recordId! ? 1 : -1,
             )
             .map(

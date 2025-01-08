@@ -25,7 +25,7 @@ export default function Row({
     {
       queryKey: ['order-records', order.id],
       queryFn: async () => {
-        let arr: Array<[number, number]> = [];
+        const arr: Array<[number, number]> = [];
         Object.keys(order.orderedRecords).forEach((key) => {
           const k = parseInt(key);
           arr.push([k, order.orderedRecords[k]]);

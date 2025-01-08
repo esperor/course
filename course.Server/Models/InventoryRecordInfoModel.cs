@@ -8,7 +8,7 @@ namespace course.Server.Models
 
         public string? Title { get; set; }
 
-        public string PropertiesJson { get; set; }
+        public string? PropertiesJson { get; set; }
 
         public int Quantity { get; set; }
 

@@ -16,6 +16,6 @@ export function orderStatusToString(status: EOrderStatus) {
     case EOrderStatus.Canceled:
       return "Отменен";
   }
-};
+}
 
 export default EOrderStatus;

@@ -6,7 +6,7 @@ import ProductRecord from '../models/server/requests/productRecord';
 
 export const cart = async () => {
   if (localStorage && localStorage.getItem('cart') != null) {
-    let cart: CartItem[] = JSON.parse(localStorage.getItem('cart')!);
+    const cart: CartItem[] = JSON.parse(localStorage.getItem('cart')!);
     if (cart.length == 0) return null;
 
     const records = cart.map(async (cartItem) => {
@@ -14,9 +14,9 @@ export const cart = async () => {
         `${api.product.rest}/${cartItem.productId}`,
       );
       const product = response.data as ProductRecord;
-      let record = product.records?.find((r) => r.id == cartItem.recordId);
+      const record = product.records?.find((r) => r.id == cartItem.recordId);
       if (!record) return null;
-      let cartRecord: CartProductRecord = {
+      const cartRecord: CartProductRecord = {
         recordId: record?.id,
         quantity: cartItem.quantity,
         serverQuantity: record?.quantity,

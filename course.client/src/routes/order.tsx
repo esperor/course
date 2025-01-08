@@ -5,7 +5,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import api from '../api';
 import { useState } from 'react';
-import OrderPostModel from '../models/orderPostModel';
+import OrderPostModel from '../models/server/requests/orderPostModel';
 import { clearCart, readCart } from '../utils/cart';
 
 export const Route = createFileRoute('/order')({
@@ -55,11 +55,10 @@ function Order() {
     }
     const records = cart.reduce(
       (acc, item) => {
-        // @ts-expect-error
         acc[item.recordId] = item.quantity;
         return acc;
       },
-      {} as { [key: number]: number }[],
+      {} as { [key: number]: number },
     );
     const newForm = {
       ...form,

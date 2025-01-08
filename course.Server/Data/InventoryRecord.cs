@@ -21,7 +21,7 @@ namespace course.Server.Data
         [Required]
         public int Price { get; set; }
 
-        public string PropertiesJson { get; set; }
+        public string? PropertiesJson { get; set; }
 
         public byte[]? Image { get; set; }
     }

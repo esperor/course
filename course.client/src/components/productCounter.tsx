@@ -20,7 +20,7 @@ function ProductCounter({
   const cart = cartQuery.data;
 
   const addProductToCart = (recordId: number, productId: number) => {
-    let recordQuantityInCart = cart!.find(
+    const recordQuantityInCart = cart!.find(
       (item) => item?.recordId == recordId,
     )?.quantity;
     if (recordQuantityInCart) removeFromCart(recordId);
@@ -35,7 +35,7 @@ function ProductCounter({
   };
 
   const subtractProductFromCart = (recordId: number, productId: number) => {
-    let recordQuantityInCart = cart!.find(
+    const recordQuantityInCart = cart!.find(
       (item) => item?.recordId == recordId,
     )?.quantity;
     if (recordQuantityInCart) {
