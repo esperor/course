@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link } from '@tanstack/react-router';
 import axios from 'axios';
 import api from '../api';
-import UserInfo from '../models/userInfo';
+import UserInfo from '../models/server/requests/userInfo';
 import EAccessLevel from '../models/accessLevel';
 
 function Navigation() {

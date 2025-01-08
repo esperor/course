@@ -1,4 +1,4 @@
-import EAccessLevel from "./accessLevel";
+import EAccessLevel from "../../accessLevel";
 
 export default interface UserAdminInfo {
   id: number;

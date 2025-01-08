@@ -1,4 +1,4 @@
-import InventoryRecord from "./server/inventoryRecord";
+import InventoryRecord from "../inventoryRecord";
 
 export default interface ProductRecord {
   id: number;

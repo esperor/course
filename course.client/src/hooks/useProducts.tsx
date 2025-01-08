@@ -5,7 +5,7 @@ import api from '../api';
 import EProductOrdering from '../models/productOrdering';
 import constant from '../utils/constants';
 import useInfiniteQueryReduced from './useInfiniteQueryReduced';
-import ProductRecord from '../models/productRecord';
+import ProductRecord from '../models/server/requests/productRecord';
 
 const useProducts = () => {
   const [filters, setFilters] = useState<ProductFiltersModel>({

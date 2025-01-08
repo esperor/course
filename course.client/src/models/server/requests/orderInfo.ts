@@ -1,4 +1,4 @@
-import EOrderStatus from "./orderStatus";
+import EOrderStatus from "../../orderStatus";
 
 export default interface OrderInfo {
   id: number;

@@ -2,7 +2,7 @@ import axios from 'axios';
 import api from '../api';
 import CartItem from '../models/cartItem';
 import CartProductRecord from '../models/cartProductRecord';
-import ProductRecord from '../models/productRecord';
+import ProductRecord from '../models/server/requests/productRecord';
 
 export const cart = async () => {
   if (localStorage && localStorage.getItem('cart') != null) {

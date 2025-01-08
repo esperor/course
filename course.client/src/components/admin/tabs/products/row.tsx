@@ -1,4 +1,4 @@
-import ProductRecord from '../../../../models/productRecord';
+import ProductRecord from '../../../../models/server/requests/productRecord';
 import randomStock from '../../../../utils/randomStock';
 import BookOpen from '../../../assets/bookOpen';
 import RowOptions from '../rowOptions';

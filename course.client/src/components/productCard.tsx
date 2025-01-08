@@ -1,5 +1,5 @@
 import ProductCounter from './productCounter';
-import ProductRecord from '../models/productRecord';
+import ProductRecord from '../models/server/requests/productRecord';
 import randomStock from '../utils/randomStock';
 
 function ProductCard({

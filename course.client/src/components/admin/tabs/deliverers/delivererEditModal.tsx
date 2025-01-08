@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import api from '../../../../api';
-import DelivererPostModel from '../../../../models/delivererPostModel';
+import DelivererPostModel from '../../../../models/server/requests/delivererPostModel';
 import { useEffect, useState } from 'react';
 import Reset from '../../../assets/reset';
 import DelivererEdit from './delivererEdit';

@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import api from '../api';
-import OrderInfo from '../models/orderInfo';
+import OrderInfo from '../models/server/requests/orderInfo';
 import EOrderStatus, { orderStatusToString } from '../models/orderStatus';
 import { replaceRouteParams } from '../utils/http';
 

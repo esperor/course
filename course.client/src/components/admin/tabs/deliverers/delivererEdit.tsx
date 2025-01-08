@@ -6,7 +6,7 @@ import {
 import Deliverer from '../../../../models/server/deliverer';
 import axios from 'axios';
 import api from '../../../../api';
-import DelivererPostModel from '../../../../models/delivererPostModel';
+import DelivererPostModel from '../../../../models/server/requests/delivererPostModel';
 
 interface DelivererEditProps {
   deliverer: UseQueryResult<Deliverer>;

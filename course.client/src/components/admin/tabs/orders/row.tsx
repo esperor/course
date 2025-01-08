@@ -1,4 +1,4 @@
-import OrderAdminInfo from '../../../../models/orderAdminInfo';
+import OrderAdminInfo from '../../../../models/server/requests/orderAdminInfo';
 import api from '../../../../api';
 import axios from 'axios';
 import InventoryRecord from '../../../../models/server/inventoryRecord';

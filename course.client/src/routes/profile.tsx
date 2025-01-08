@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
-import UserInfo from '../models/userInfo';
+import UserInfo from '../models/server/requests/userInfo';
 import api from '../api';
 import axios from 'axios';
 import Cart from '../components/cart';

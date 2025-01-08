@@ -1,5 +1,5 @@
 import axios from 'axios';
-import UserInfo from '../models/userInfo';
+import UserInfo from '../models/server/requests/userInfo';
 import api from '../api';
 import { redirect } from '@tanstack/react-router';
 import EAccessLevel from '../models/accessLevel';
