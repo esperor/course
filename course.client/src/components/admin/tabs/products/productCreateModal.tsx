@@ -4,7 +4,7 @@ import Modal from '../../../modal';
 import { useQueryClient, useQuery, useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import api from '../../../../api';
-import Vendor from '../../../../models/vendor';
+import Vendor from '../../../../models/server/vendor';
 
 export default function ProductCreateModal({
   onClose,

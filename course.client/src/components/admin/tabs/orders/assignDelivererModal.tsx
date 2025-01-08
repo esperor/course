@@ -3,7 +3,7 @@ import Modal from '../../../modal';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import api from '../../../../api';
-import Deliverer from '../../../../models/deliverer';
+import Deliverer from '../../../../models/server/deliverer';
 import CheckCircle from '../../../assets/checkCircle';
 import MagnifyingGlass from '../../../assets/magnifiyinGlass';
 import XCircle from '../../../assets/xCircle';

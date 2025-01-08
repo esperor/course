@@ -4,7 +4,7 @@ import api from '../../../../api';
 import ProductRecord from '../../../../models/productRecord';
 import { useEffect, useState } from 'react';
 import Reset from '../../../assets/reset';
-import Vendor from '../../../../models/vendor';
+import Vendor from '../../../../models/server/vendor';
 import ProductEdit from './productEdit';
 import Modal from '../../../modal';
 

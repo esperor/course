@@ -5,7 +5,7 @@ import {
 } from '@tanstack/react-query';
 import ProductRecord from '../../../../models/productRecord';
 import randomStock from '../../../../utils/randomStock';
-import Vendor from '../../../../models/vendor';
+import Vendor from '../../../../models/server/vendor';
 import axios from 'axios';
 import api from '../../../../api';
 

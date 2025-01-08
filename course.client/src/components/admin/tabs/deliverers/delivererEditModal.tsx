@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import Reset from '../../../assets/reset';
 import DelivererEdit from './delivererEdit';
 import Modal from '../../../modal';
-import Deliverer from '../../../../models/deliverer';
+import Deliverer from '../../../../models/server/deliverer';
 
 export default function DelivererEditModal({
   delivererId,

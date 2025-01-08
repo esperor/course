@@ -3,7 +3,7 @@ import {
   useMutation,
   useQueryClient,
 } from '@tanstack/react-query';
-import Vendor from '../../../../models/vendor';
+import Vendor from '../../../../models/server/vendor';
 import axios from 'axios';
 import api from '../../../../api';
 

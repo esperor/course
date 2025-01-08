@@ -8,7 +8,7 @@ import UserAdminInfo from '../../../../models/userAdminModel';
 import XCircle from '../../../assets/xCircle';
 import CheckCircle from '../../../assets/checkCircle';
 import MagnifyingGlass from '../../../assets/magnifiyinGlass';
-import Deliverer from '../../../../models/deliverer';
+import Deliverer from '../../../../models/server/deliverer';
 
 export default function DelivererCreateModal({
   onClose,

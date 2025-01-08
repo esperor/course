@@ -2,7 +2,7 @@ import axios from 'axios';
 import api from '../../../../api';
 import useInfiniteQueryReduced from '../../../../hooks/useInfiniteQueryReduced';
 import constant from '../../../../utils/constants';
-import Vendor from '../../../../models/vendor';
+import Vendor from '../../../../models/server/vendor';
 import PencilSquare from '../../../assets/pencilSquare';
 import RowOptions from '../rowOptions';
 import { useState } from 'react';

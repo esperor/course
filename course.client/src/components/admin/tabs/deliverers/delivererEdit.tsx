@@ -3,7 +3,7 @@ import {
   useMutation,
   useQueryClient,
 } from '@tanstack/react-query';
-import Deliverer from '../../../../models/deliverer';
+import Deliverer from '../../../../models/server/deliverer';
 import axios from 'axios';
 import api from '../../../../api';
 import DelivererPostModel from '../../../../models/delivererPostModel';
