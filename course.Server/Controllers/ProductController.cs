@@ -117,7 +117,9 @@ namespace course.Server.Controllers
             var product = await _context.Products
                 .Include(p => p.Vendor)
                 .Where(p => p.Id == id)
-                .SingleAsync();
+                .SingleOrDefaultAsync();
+            if (product is null) return NotFound();
+
             var records = await _context.InventoryRecords.Where(r => r.ProductId == id).ToListAsync();
 
             if (product == null)

@@ -1,5 +1,4 @@
 import { createLazyFileRoute } from '@tanstack/react-router';
-import { useState } from 'react';
 import React from 'react';
 import ProductCard from '../components/productCard';
 import ProductFilters from '../components/productFilters';
@@ -10,7 +9,6 @@ export const Route = createLazyFileRoute('/')({
 });
 
 function Catalog() {
-  const [openedInventory, setOpenedInventory] = useState<number | null>(null);
   const {
     filters,
     setFilters,
@@ -19,7 +17,7 @@ function Catalog() {
     error,
     status,
     queryClient,
-    LoadMoreBtn
+    LoadMoreBtn,
   } = useProducts();
 
   if (status == 'pending') return <div>Загрузка...</div>;
@@ -35,21 +33,17 @@ function Catalog() {
         }
       />
       <div className="grid grid-flow-row grid-cols-4 gap-6 mt-6 mb-16">
-        {data && data.pages.map(
-          (page) =>
-            page && (
-              <React.Fragment key={page.at(0)?.id}>
-                {page.map((product) => (
-                  <ProductCard
-                    product={product}
-                    key={product.id}
-                    setOpenedInventory={setOpenedInventory}
-                    openedInventory={openedInventory}
-                  />
-                ))}
-              </React.Fragment>
-            ),
-        )}
+        {data &&
+          data.pages.map(
+            (page) =>
+              page && (
+                <React.Fragment key={page.at(0)?.id}>
+                  {page.map((product) => (
+                    <ProductCard product={product} key={product.id} />
+                  ))}
+                </React.Fragment>
+              ),
+          )}
       </div>
       <div className="w-full flex">
         <LoadMoreBtn />
