@@ -21,6 +21,21 @@ namespace course.Server.Data
         [Required]
         public int Price { get; set; }
 
+        /// <summary>
+        /// Size for clothes, NULL otherwise.
+        /// </summary>
+        public string? Size { get; set; }
+
+        /// <summary>
+        /// Name for this inventory record as it will be seen by a customer.
+        /// </summary>
+        [Required]
+        public string Variation { get; set; }
+
+        /// <summary>
+        /// Additional variation properties, unique for each product.
+        /// For example: battery capacity, display type or fabric of the clothing piece.
+        /// </summary>
         public string? PropertiesJson { get; set; }
 
         public byte[]? Image { get; set; }

@@ -1,5 +1,4 @@
 ﻿using course.Server.Data;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
 namespace course.Server.Models
@@ -17,6 +16,11 @@ namespace course.Server.Models
         [Required]
         public int Price { get; set; }
 
+        public string? Size { get; set; }
+
+        [Required]
+        public string Variation { get; set; }
+
         public string? PropertiesJson { get; set; }
 
         public byte[]? Image { get; set; }
@@ -28,7 +32,9 @@ namespace course.Server.Models
                 PropertiesJson = PropertiesJson,
                 Quantity = Quantity,
                 Price = Price,
-                Image = Image
+                Image = Image,
+                Variation = Variation,
+                Size = Size,
             };
             if (Id != null) entity.Id = (int)Id;            
             return entity;

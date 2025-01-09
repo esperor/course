@@ -16,16 +16,19 @@ export const cart = async () => {
       const product = response.data as ProductRecord;
       const record = product.records?.find((r) => r.id == cartItem.recordId);
       if (!record) return null;
+
       const cartRecord: CartProductRecord = {
-        recordId: record?.id,
+        id: record?.id,
         quantity: cartItem.quantity,
         serverQuantity: record?.quantity,
         title: product.title,
         size: record?.size,
         image: record?.image,
         price: record?.price,
+        variation: record?.variation,
         description: product.description,
         productId: product.id,
+        properties: record.properties,
       };
       return cartRecord;
     });

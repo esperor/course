@@ -103,6 +103,8 @@ namespace course.Server.Controllers
                         Image = r.Image,
                         Quantity = r.Quantity,
                         PropertiesJson = r.PropertiesJson,
+                        Size = r.Size,
+                        Variation = r.Variation,
                     }).ToArray(),
                 })
                 .ToListAsync();

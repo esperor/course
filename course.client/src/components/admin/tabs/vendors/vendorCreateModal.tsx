@@ -3,7 +3,7 @@ import Modal from '../../../modal';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import api from '../../../../api';
-import VendorPostModel from '../../../../models/vendorPostModel';
+import VendorPostModel from '../../../../models/server/requests/vendorPostModel';
 
 export default function VendorCreateModal({
   onClose,

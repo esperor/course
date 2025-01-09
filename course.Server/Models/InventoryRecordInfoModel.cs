@@ -10,6 +10,10 @@ namespace course.Server.Models
 
         public string? PropertiesJson { get; set; }
 
+        public string? Size { get; set; }
+
+        public string Variation { get; set; }
+
         public int Quantity { get; set; }
 
         public int Price { get; set; }
@@ -22,6 +26,8 @@ namespace course.Server.Models
         {
             Id = inventoryRecord.Id;
             PropertiesJson = inventoryRecord.PropertiesJson;
+            Variation = inventoryRecord.Variation;
+            Size = inventoryRecord.Size;
             Quantity = inventoryRecord.Quantity;
             Price = inventoryRecord.Price;
             Image = inventoryRecord.Image;

@@ -1,7 +1,7 @@
 import OrderAdminInfo from '../../../../models/server/requests/orderAdminInfo';
 import api from '../../../../api';
 import axios from 'axios';
-import InventoryRecord from '../../../../models/server/inventoryRecord';
+import InventoryRecord from '../../../../models/inventoryRecord';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import BookOpen from '../../../assets/bookOpen';
 import Pencil from '../../../assets/pencil';

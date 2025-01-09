@@ -1,11 +1,7 @@
-export default interface CartProductRecord {
-  recordId: number;
-  quantity: number;
+import InventoryRecord from "./inventoryRecord";
+
+export default interface CartProductRecord extends InventoryRecord {
   serverQuantity: number;
-  size: string;
-  price: number;
-  image: Uint8Array;
   productId: number;
-  title: string;
   description: string;
 }

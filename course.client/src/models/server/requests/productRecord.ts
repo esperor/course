@@ -1,4 +1,4 @@
-import InventoryRecord from "../inventoryRecord";
+import InventoryRecord from "../../inventoryRecord";
 
 export default interface ProductRecord {
   id: number;
@@ -6,5 +6,5 @@ export default interface ProductRecord {
   vendorId: number;
   title: string;
   description: string;
-  records?: InventoryRecord[];
+  records: InventoryRecord[];
 }
