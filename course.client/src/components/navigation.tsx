@@ -34,37 +34,43 @@ function Navigation() {
     (query.data?.accessLevel ?? 0) >= EAccessLevel.Administrator;
 
   return (
-    <nav className="p-4 px-[10%] flex gap-12 bg-gray-900">
-      <Link to="/" className="[&.active]:font-bold">
-        Каталог
-      </Link>
-      <Link to="/order" className="[&.active]:font-bold">
-        Корзина
-      </Link>
-      {isUserSignedIn && (
-        <Link to="/profile" className="[&.active]:font-bold">
-          Профиль
+    <nav className="p-4 px-[10%]  bg-gray-900 sticky top-0 border-b-[1px] border-slate-500 z-[100]">
+      <div id="inner-nav" className="flex gap-12">
+        <Link to="/" className="[&.active]:font-bold">
+          Каталог
         </Link>
-      )}
-      {isUserAdmin && (
-        <Link to="/admin" search={{ tab: 0 }} className="[&.active]:font-bold">
-          Управление
+        <Link to="/order" className="[&.active]:font-bold">
+          Корзина
         </Link>
-      )}
-      <div className="ml-auto flex flex-row">
-        {isUserSignedIn ? (
-          <>
-            <Link to="/profile">{query.data?.name}</Link>
-            <div className="h-full bg-gray-100 w-[1px] mx-2"></div>
-            <button type="button" onClick={logout.mutate}>
-              Выйти
-            </button>
-          </>
-        ) : (
-          <Link to="/login" search={{ returnUrl: window.location.href }}>
-            Войти
+        {isUserSignedIn && (
+          <Link to="/profile" className="[&.active]:font-bold">
+            Профиль
           </Link>
         )}
+        {isUserAdmin && (
+          <Link
+            to="/admin"
+            search={{ tab: 0 }}
+            className="[&.active]:font-bold"
+          >
+            Управление
+          </Link>
+        )}
+        <div className="ml-auto flex flex-row">
+          {isUserSignedIn ? (
+            <>
+              <Link to="/profile">{query.data?.name}</Link>
+              <div className="h-full bg-gray-100 w-[1px] mx-2"></div>
+              <button type="button" onClick={logout.mutate}>
+                Выйти
+              </button>
+            </>
+          ) : (
+            <Link to="/login" search={{ returnUrl: window.location.href }}>
+              Войти
+            </Link>
+          )}
+        </div>
       </div>
     </nav>
   );

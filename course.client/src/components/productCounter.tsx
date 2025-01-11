@@ -55,7 +55,7 @@ function ProductCounter({
   if (!cart || cartQuery.isPending) return <p>Загрузка...</p>;
 
   return (
-    <div className="ml-auto my-1 w-fit flex-nowrap flex flex-row">
+    <div className="w-fit flex-nowrap flex flex-row items-center">
       {cart && cart.find((item) => item?.recordId == recordId) && (
         <button
           type="button"
