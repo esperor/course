@@ -30,12 +30,12 @@ function Product() {
 
   return (
     <div
-      className={`flex flex-col h-full bg-slate-900 p-8 relative
-        ${!productPresent && 'bg-gray-700'}`}
+      className={`flex flex-row flex-wrap h-full bg-slate-900 content-baseline p-8 relative gap-8 ${
+        !productPresent ? 'bg-gray-700' : ''}`}
       key={product.id}
     >
       <img
-        className={`max-h-[40dvh] max-w-full rounded-lg z-[0] mr-auto object-contain ${productPresent ? '' : 'opacity-50'}`}
+        className={`flex-1 basis-96 rounded-lg z-[0] object-contain ${productPresent ? '' : 'opacity-50'}`}
         src={
           product.records && product.records.at(0)?.image
             ? `data:image/*;base64,${product.records.at(0)?.image}`
@@ -43,8 +43,8 @@ function Product() {
         }
         alt={product.title}
       />
-      <div className="flex flex-col h-[25%] w-full mr-auto pt-6 pb-4 gap-2">
-        <div className="flex flex-row items-center justify-between">
+      <div className="flex flex-col h-[25%] flex-1 basis-96 pb-4 gap-2">
+        <div className="flex flex-row flex-wrap items-center justify-between">
           <p
             title={product.title}
             className="overflow-hidden text-2xl font-medium overflow-ellipsis text-nowrap"
@@ -57,7 +57,7 @@ function Product() {
               productId={product.id}
               quantity={record!.quantity}
             />
-            <p className="text-2xl font-medium">
+            <p className="text-xl font-medium">
               {productPresent
                 ? `${product.records!.reduce((acc, record) => Math.min(acc, record.price), Infinity)} руб.`
                 : 'Нет в наличии'}

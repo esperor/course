@@ -27,7 +27,6 @@ function Orders() {
   });
 
   const handleCancel = async (id: number) => {
-    console.log('1');
     await cancel.mutateAsync(id);
   };
 

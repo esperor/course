@@ -77,7 +77,7 @@ namespace course.Server.Controllers
         {
             try
             {
-                var clientAccessLevelId = _identityService.GetAccessLevelsToIdMap()[EAccessLevel.Client];
+                var clientAccessLevelId = _identityService.AccessLevelsToIdMap[EAccessLevel.Client];
                 var user = new ApplicationUser { Name = model.Name, Phone = model.Phone, AccessLevelId = clientAccessLevelId };
                 var result = _identityService.CreateUser(user, model.Password);
 

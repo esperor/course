@@ -21,7 +21,6 @@ const expandInnerMain = () => {
   if (document.readyState !== 'complete') return;
   const main = node(`#${innerMainId}`) as HTMLElement;
   const nav = node('nav') as HTMLElement;
-  console.log(main, nav)
   if (!main || !nav) return;
   if (main.clientHeight < window.innerHeight) {
     main.style.height = String(window.innerHeight - nav.clientHeight) + 'px';

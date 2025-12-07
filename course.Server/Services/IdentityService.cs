@@ -12,6 +12,11 @@ namespace course.Server.Services
     {
         private readonly ApplicationDbContext _context = context;
         private readonly PasswordHasher<ApplicationUser> _passwordHasher = new PasswordHasher<ApplicationUser>();
+        private readonly Dictionary<EAccessLevel, int> _accessLevelsToIdMap = CreateAccessLevelsToIdMap(context);
+
+        public Dictionary<EAccessLevel, int> AccessLevelsToIdMap { 
+            get { return _accessLevelsToIdMap; }
+        }
 
         public class Result
         {
@@ -152,10 +157,10 @@ namespace course.Server.Services
             }
         }
 
-        public Dictionary<EAccessLevel, int> GetAccessLevelsToIdMap()
+        private static Dictionary<EAccessLevel, int> CreateAccessLevelsToIdMap(ApplicationDbContext context)
         {
             var dictionary = new Dictionary<EAccessLevel, int>();
-            _context.AccessLevels.ToList().ForEach(level =>
+            context.AccessLevels.ToList().ForEach(level =>
             {
                 var success = Enum.TryParse(level.Name, out EAccessLevel eLevel);
                 if (success) dictionary.Add(eLevel, level.Id);

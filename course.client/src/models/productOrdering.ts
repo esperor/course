@@ -14,4 +14,6 @@ export const productOrderingMap: Record<EProductOrdering, string> = {
   [EProductOrdering.PriceDesc]: 'По цене (убыв.)',
 }
 
+export const intToProductOrdering = (int: number): EProductOrdering => int as EProductOrdering;
+
 export default EProductOrdering;

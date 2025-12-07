@@ -1,4 +1,4 @@
-import { createLazyFileRoute } from '@tanstack/react-router';
+import { createLazyFileRoute, useSearch } from '@tanstack/react-router';
 import React from 'react';
 import ProductCard from '../components/productCard';
 import ProductFilters from '../components/productFilters';
@@ -9,6 +9,7 @@ export const Route = createLazyFileRoute('/')({
 });
 
 function Catalog() {
+  const searchParams = useSearch({ from: '/' });
   const {
     filters,
     setFilters,
@@ -18,7 +19,7 @@ function Catalog() {
     status,
     queryClient,
     LoadMoreBtn,
-  } = useProducts();
+  } = useProducts(searchParams);
 
   if (status == 'pending') return <div>Загрузка...</div>;
   if (status == 'error') return <div>{error?.message}</div>;

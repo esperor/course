@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ProductFiltersModel from '../models/productFiltersModel';
 import axios from 'axios';
 import api from '../api';
@@ -24,7 +24,9 @@ const parseRecordProperties = (
   };
 };
 
-const parseProductsRecordsProperties = (products: ProductRecord[]): ProductRecord[] => {
+const parseProductsRecordsProperties = (
+  products: ProductRecord[],
+): ProductRecord[] => {
   const productsRecordsRaw = products.map(
     (product) => product.records as InventoryRecordServer[],
   );
@@ -41,12 +43,19 @@ const parseProductsRecordsProperties = (products: ProductRecord[]): ProductRecor
   return productsProcessed;
 };
 
-const useProducts = () => {
+const useProducts = (searchParams: { limit?: number, ordering?: number, search?: string}) => {
   const [filters, setFilters] = useState<ProductFiltersModel>({
     limit: constant.defaultLimit,
     ordering: EProductOrdering.None,
     search: null,
   });
+
+  useEffect(() => {
+    if (!searchParams) return;
+    if (!!searchParams.limit) setFilters(prev => ({ ...prev, limit: searchParams.limit as number }));
+    if (!!searchParams.ordering) setFilters(prev => ({ ...prev, ordering: searchParams.ordering as EProductOrdering }));
+    if (!!searchParams.search) setFilters({ ...filters, search: searchParams.search as string });
+  }, [searchParams]);
 
   const fetchProducts = async ({ pageParam }: { pageParam: unknown }) => {
     let url = `${api.product.rest}?offset=${(pageParam as number) * filters.limit}&limit=${filters.limit}`;
@@ -63,9 +72,20 @@ const useProducts = () => {
     limit: filters.limit,
   });
 
+  const onSetFilters = (newFilters: ProductFiltersModel) => {
+    setFilters(newFilters);
+    const search: Record<string, string> = {
+      limit: newFilters.limit.toString(),
+      ordering: newFilters.ordering.toString(),
+    };
+    if (newFilters.search != null) search.search = newFilters.search;
+
+    history.replaceState({}, '', `?${new URLSearchParams(search).toString()}`);
+  };
+
   return {
     filters,
-    setFilters,
+    setFilters: onSetFilters,
     ...queryReduced,
   };
 };

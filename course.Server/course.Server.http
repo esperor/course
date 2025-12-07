@@ -1,6 +1,0 @@
-@course.Server_HostAddress = http://localhost:5141
-
-GET {{course.Server_HostAddress}}/weatherforecast/
-Accept: application/json
-
-###
