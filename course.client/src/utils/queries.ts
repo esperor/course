@@ -28,7 +28,7 @@ export const cart = async () => {
         variation: record?.variation,
         description: product.description,
         productId: product.id,
-        properties: record.properties,
+        propertiesJson: record.propertiesJson,
       };
       return cartRecord;
     });

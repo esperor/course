@@ -54,9 +54,11 @@ function ProductCounter({
 
   if (!cart || cartQuery.isPending) return <p>Загрузка...</p>;
 
+  const recordInCart = cart.find((item) => item?.recordId == recordId);
+
   return (
     <div className="w-fit flex-nowrap flex flex-row items-center">
-      {cart && cart.find((item) => item?.recordId == recordId) && (
+      {recordInCart && (
         <button
           type="button"
           className="w-6 bg-slate-800 rounded-md active:scale-90"
@@ -65,15 +67,12 @@ function ProductCounter({
           -
         </button>
       )}
-      <p className="px-1">
-        {cart &&
-          (cart.find((item) => item?.recordId == recordId)?.quantity ?? 0)}
-      </p>
+      <p className="px-1">{recordInCart?.quantity ?? 0}</p>
       <button
         type="button"
         className="w-6 bg-slate-800 rounded-md active:scale-90 disabled:opacity-0 disabled:cursor-default"
         onClick={() => addProductToCart(recordId, productId)}
-        disabled={cart && (cart.find((item) => item?.recordId == recordId)?.quantity || 0) >= quantity }
+        disabled={(recordInCart?.quantity ?? 0) >= quantity}
       >
         +
       </button>

@@ -47,7 +47,7 @@ export default function Row({
             onClick={() =>
               openedInventory == product.id
                 ? setOpenedInventory(null)
-                : setOpenedInventory(product.id) 
+                : setOpenedInventory(product.id)
             }
             onBlur={() => setOpenedInventory(null)}
           >
@@ -57,10 +57,14 @@ export default function Row({
             className={`absolute bottom-0 right-full bg-slate-800 p-4 rounded-lg transition-all ease-in-out duration-300 origin-bottom-right border-solid border border-slate-600
               ${openedInventory == product.id ? 'scale-100' : 'scale-0'}`}
           >
-            {product.records &&
-              product.records.map((record) => (
-                <p className="text-nowrap">{`Размер: ${record.size} - Количество: ${record.quantity} - ${record.price} руб.`}</p>
-              ))}
+            {product.records?.length > 0
+              ? product.records.map((record) => (
+                  <p
+                    key={record.id}
+                    className="text-nowrap"
+                  >{`Размер: ${record.size} - Количество: ${record.quantity} - ${record.price} руб.`}</p>
+                ))
+              : 'Нет в наличии'}
           </div>
         </div>
       </td>

@@ -33,7 +33,7 @@ function Catalog() {
           queryClient.invalidateQueries({ queryKey: ['products'] })
         }
       />
-      <div className="grid grid-flow-row grid-cols-4 gap-6 mt-6 mb-16">
+      <div className="grid grid-flow-row 2xl:grid-cols-4 xl:grid-cols-3 md:grid-cols-2 gap-6 mt-6 mb-16">
         {data &&
           data.pages.map(
             (page) =>

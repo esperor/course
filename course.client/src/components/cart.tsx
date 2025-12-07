@@ -47,7 +47,7 @@ function Cart() {
     return <p>Ваша корзина пуста</p>;
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 h-full">
       <div className="flex flex-row gap-2 items-center">
         <h2>Ваша корзина:</h2>
         <button
@@ -60,7 +60,7 @@ function Cart() {
         </button>
         <Link to="/order">{`Заказать | ${totalPrice} руб.`}</Link>
       </div>
-      <div className="w-full overflow-y-scroll h-fit max-h-[70vh] flex flex-row flex-wrap gap-[0.5rem]">
+      <div className="w-full overflow-y-scroll flex-1 grid grid-flow-row md:grid-cols-1 lg:grid-cols-2 gap-[0.5rem]">
         {query.data &&
           query.data
             .sort((cartRecord1, cartRecord2) =>
@@ -71,37 +71,44 @@ function Cart() {
               (cartRecord) =>
                 cartRecord && (
                   <div
-                    className="rounded-md shadow-md border-none relative bg-slate-900 w-[calc(50%-0.5rem)] h-72 flex flex-col"
+                    className="rounded-md shadow-md border-none relative bg-slate-900 flex flex-1 basis-96 min-h-72 h-fit flex-col"
                     key={cartRecord?.id}
                   >
                     <img
-                      className="w-full h-[70%] absolute inset-0 rounded-t-lg object-cover hover:object-contain"
+                      className="w-full aspect-square rounded-t-lg object-cover hover:object-contain"
                       src={
                         cartRecord.image
                           ? `data:image/*;base64,${cartRecord.image}`
                           : `/stock/${randomStock()}.jpg`
                       }
                     ></img>
-                    <div className="flex flex-col w-full h-[30%] absolute bottom-0 left-0">
-                      <h3 className="text-center p-2 w-full overflow-clip">
-                        {cartRecord.title}
-                      </h3>
-                      <div className="flex flex-row items-center my-2 mx-2">
-                        <p className="text-wrap">{`Размер: ${cartRecord.size} - ${cartRecord.price} руб.`}</p>
+                    <div className="flex flex-col w-full">
+                      <div className="flex flex-row items-center my-2 mx-2 gap-4 justify-between">
+                        <h3 className="text-center p-2 w-full overflow-clip">
+                          {cartRecord.title}
+                        </h3>
+                        <button
+                          type="button"
+                          className="active:scale-90 scale-100 p-2"
+                          title="Удалить"
+                          onClick={() => handleRemove(cartRecord.id)}
+                        >
+                          <Trash />
+                        </button>
+                      </div>
+                      <div className='p-2 flex flex-col gap-1'>
+                      {!!cartRecord.size && (
+                        <p className="text-wrap">{`Размер: ${cartRecord.size}`}</p>
+                      )}
+                      <p className="text-wrap">{`Вариант: ${cartRecord.variation}`}</p>
+                      <div className="self-end">
                         <ProductCounter
                           recordId={cartRecord.id}
                           productId={cartRecord.productId}
                           quantity={cartRecord.serverQuantity}
                           onChange={handleCounterChange}
                         />
-                        <button
-                          type="button"
-                          className="ml-2 active:scale-90 scale-100"
-                          title="Удалить"
-                          onClick={() => handleRemove(cartRecord.id)}
-                        >
-                          <Trash />
-                        </button>
+                      </div>
                       </div>
                     </div>
                   </div>

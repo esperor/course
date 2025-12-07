@@ -96,6 +96,7 @@ export default function ProductsTab() {
                 <React.Fragment key={page.at(0)?.id}>
                   {page.map((product) => (
                     <Row
+                      key={product.id}
                       product={product}
                       openedInventory={openedInventory}
                       setOpenedInventory={setOpenedInventory}

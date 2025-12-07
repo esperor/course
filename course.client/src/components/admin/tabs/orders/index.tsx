@@ -56,6 +56,7 @@ export default function OrdersTab() {
           {data?.pages.map((page) =>
             page.map((order) => (
               <Row
+                key={order.id}
                 order={order}
                 openedProducts={openedProducts}
                 setOpenedProducts={setOpenedProducts}

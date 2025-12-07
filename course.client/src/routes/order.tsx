@@ -71,7 +71,7 @@ function Order() {
   return (
     <div className="page">
       <h1>Заказать доставку</h1>
-      <div className="flex flex-row gap-10 mt-4">
+      <div className="flex flex-row gap-10 mt-4 flex-1">
         <div className="w-1/2">
           <Cart />
         </div>

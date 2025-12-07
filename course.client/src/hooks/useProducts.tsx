@@ -43,7 +43,7 @@ const parseProductsRecordsProperties = (
   return productsProcessed;
 };
 
-const useProducts = (searchParams: { limit?: number, ordering?: number, search?: string}) => {
+const useProducts = (searchParams?: { limit?: number, ordering?: number, search?: string}) => {
   const [filters, setFilters] = useState<ProductFiltersModel>({
     limit: constant.defaultLimit,
     ordering: EProductOrdering.None,
