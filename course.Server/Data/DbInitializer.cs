@@ -6,13 +6,6 @@ namespace course.Server.Data
 {
     public class DbInitializer
     {
-        private static readonly char[] alphabet = [
-                'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h',
-                'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
-                'q', 'r', 's', 't', 'u', 'v', 'w', 'x',
-                'y', 'z'
-            ];
-
         public static async Task Initialize(ApplicationDbContext context)
         {
             context.Database.EnsureCreated();
@@ -117,19 +110,12 @@ namespace course.Server.Data
         {
             public static string ForSeller()
             {
-                var number = "";
-                const short letters = 2;
-                for (int i = 0; i < letters; i++)
-                    number = $"{number}{alphabet[RandomNumberGenerator.GetInt32(alphabet.Length)]}";
-
-                return $"{number}{RandomNumberGenerator.GetInt32(10000)}";
+                return Guid.NewGuid().ToString();
             }
 
             public static string ForDeliverer()
             {
-                var number = $"D{alphabet[RandomNumberGenerator.GetInt32(alphabet.Length)]}";
-
-                return $"{number}{RandomNumberGenerator.GetInt32(1000)}";
+                return Guid.NewGuid().ToString();
 
             }
         }

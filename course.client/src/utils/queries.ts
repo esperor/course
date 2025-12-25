@@ -2,7 +2,8 @@ import axios from 'axios';
 import api from '../api';
 import CartItem from '../models/cartItem';
 import CartProductRecord from '../models/cartProductRecord';
-import ProductRecord from '../models/server/requests/productRecord';
+import { productRecordFromProductRecordServer } from '../models/productRecord';
+import ProductRecordServer from '../models/server/productRecordServer';
 
 export const cart = async () => {
   if (localStorage && localStorage.getItem('cart') != null) {
@@ -13,7 +14,8 @@ export const cart = async () => {
       const response = await axios.get(
         `${api.product.rest}/${cartItem.productId}`,
       );
-      const product = response.data as ProductRecord;
+      const productSrv = response.data as ProductRecordServer;
+      const product = productRecordFromProductRecordServer(productSrv);
       const record = product.records?.find((r) => r.id == cartItem.recordId);
       if (!record) return null;
 
@@ -28,7 +30,7 @@ export const cart = async () => {
         variation: record?.variation,
         description: product.description,
         productId: product.id,
-        propertiesJson: record.propertiesJson,
+        properties: record.properties,
       };
       return cartRecord;
     });

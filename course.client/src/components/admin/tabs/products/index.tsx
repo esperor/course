@@ -85,9 +85,6 @@ export default function ProductsTab() {
               <th>Описание</th>
               <th>Магазин</th>
               <th>Склад</th>
-              <th className="justify-center flex options">
-                <PencilSquare />
-              </th>
             </tr>
           </thead>
           <tbody>
@@ -100,9 +97,6 @@ export default function ProductsTab() {
                       product={product}
                       openedInventory={openedInventory}
                       setOpenedInventory={setOpenedInventory}
-                      openedOptions={openedOptions}
-                      setOpenedOptions={setOpenedOptions}
-                      onAction={handleAction}
                     />
                   ))}
                 </React.Fragment>

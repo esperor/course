@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import axios from 'axios';
 import api from '../api';
-import ProductRecord from '../models/server/requests/productRecord';
+import ProductRecord from '../models/server/productRecordServer';
 import randomStock from '../utils/randomStock';
 import ProductCounter from '../components/productCounter';
 import { useEffect, useMemo, useState } from 'react';

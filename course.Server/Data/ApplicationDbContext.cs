@@ -7,6 +7,7 @@ namespace course.Server.Data
     {
         public DbSet<ApplicationUser> Users { get; set; }
         public DbSet<AccessLevel> AccessLevels { get; set; }
+        public DbSet<Seller> Sellers { get; set; }
         public DbSet<Deliverer> Deliverers { get; set; }
         public DbSet<Store> Stores { get; set; }
         public DbSet<Product> Products { get; set; }

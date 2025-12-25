@@ -5,7 +5,7 @@ import api from '../api';
 import EProductOrdering from '../models/productOrdering';
 import constant from '../utils/constants';
 import useInfiniteQueryReduced from './useInfiniteQueryReduced';
-import ProductRecord from '../models/server/requests/productRecord';
+import ProductRecord from '../models/server/productRecordServer';
 import InventoryRecordServer from '../models/server/inventoryRecordServer';
 import InventoryRecord from '../models/inventoryRecord';
 

@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import api from '../../../../api';
-import ProductRecord from '../../../../models/server/requests/productRecord';
+import ProductRecord from '../../../../models/server/productRecordServer';
 import { useEffect, useState } from 'react';
 import Reset from '../../../assets/reset';
 import Store from '../../../../models/server/store';

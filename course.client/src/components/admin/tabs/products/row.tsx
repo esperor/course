@@ -1,4 +1,4 @@
-import ProductRecord from '../../../../models/server/requests/productRecord';
+import ProductRecord from '../../../../models/server/productRecordServer';
 import randomStock from '../../../../utils/randomStock';
 import BookOpen from '../../../assets/bookOpen';
 import RowOptions from '../rowOptions';
@@ -7,16 +7,10 @@ export default function Row({
   product,
   openedInventory,
   setOpenedInventory,
-  openedOptions,
-  setOpenedOptions,
-  onAction,
 }: {
   product: ProductRecord;
   openedInventory: number | null;
   setOpenedInventory: (id: number | null) => void;
-  openedOptions: number | null;
-  setOpenedOptions: (id: number | null) => void;
-  onAction: (productId: number, action: 'delete' | 'edit') => void;
 }) {
   return (
     <tr className="">
@@ -68,12 +62,6 @@ export default function Row({
           </div>
         </div>
       </td>
-      <RowOptions
-        itemId={product.id}
-        openedOptions={openedOptions}
-        setOpenedOptions={setOpenedOptions}
-        onAction={onAction}
-      />
     </tr>
   );
 }

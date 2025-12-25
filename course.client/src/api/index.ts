@@ -9,6 +9,9 @@ const api = {
   deliverer: {
     rest: 'api/deliverer',
   },
+  seller: {
+    rest: 'api/seller',
+  },
   order: {
     rest: 'api/order',
     cancel: 'api/order/{id}/cancel',

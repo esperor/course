@@ -1,4 +1,4 @@
-import ProductRecord from '../models/server/requests/productRecord';
+import ProductRecord from '../models/server/productRecordServer';
 import randomStock from '../utils/randomStock';
 
 function ProductCard({ product }: { product: ProductRecord }) {

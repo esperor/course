@@ -2,15 +2,15 @@ import axios from 'axios';
 import api from '../../../../api';
 import useInfiniteQueryReduced from '../../../../hooks/useInfiniteQueryReduced';
 import constant from '../../../../utils/constants';
-import Store from '../../../../models/server/store';
+import Seller from '../../../../models/server/seller';
 
-export default function StoresTab() {
+export default function SellersTab() {
   const { data, error, status, LoadMoreBtn } =
-    useInfiniteQueryReduced<Store>({
-      queryKey: ['stores-infinite'],
+    useInfiniteQueryReduced<Seller>({
+      queryKey: ['sellers-infinite'],
       queryFn: async ({ pageParam }: { pageParam: unknown }) => {
         const { data } = await axios.get(
-          `${api.store.rest}?offset=${(pageParam as number) * constant.defaultLimit}&limit=${constant.defaultLimit}`,
+          `${api.seller.rest}?offset=${(pageParam as number) * constant.defaultLimit}&limit=${constant.defaultLimit}`,
         );
         return data;
       },
@@ -26,17 +26,21 @@ export default function StoresTab() {
         <thead>
           <tr className="bg-slate-600">
             <th>ID</th>
-            <th>ID владельца</th>
-            <th>Название</th>
+            <th>Номер контракта</th>
+            <th>Имя</th>
+            <th>Телефон</th>
+            <th>Email</th>
           </tr>
         </thead>
         <tbody>
           {data?.pages.map((page) =>
-            page.map((store) => (
-              <tr key={store.id}>
-                <td>{store.id}</td>
-                <td>{store.ownerId}</td>
-                <td>{store.name}</td>
+            page.map((seller) => (
+              <tr key={seller.id}>
+                <td>{seller.id}</td>
+                <td>{seller.contractNumber}</td>
+                <td>{seller.name}</td>
+                <td>{seller.phone}</td>
+                <td>{seller.email}</td>
               </tr>
             )),
           )}

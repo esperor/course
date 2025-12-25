@@ -38,16 +38,13 @@ export default function DeliverersTab() {
   );
   const [creatingDeliverer, setCreatingDeliverer] = useState(false);
 
-  const handleAction = (delivererId: number, action: 'delete' | 'edit') => {
-    switch (action) {
-      case 'delete':
-        deleteDeliverer.mutate(delivererId);
-        break;
-      case 'edit':
-        setEditingDelivererId(delivererId);
-        break;
-    }
-  };
+  const handleActionDelete = (delivererId: number) => {
+    if (confirm('Вы уверены?')) deleteDeliverer.mutate(delivererId);
+  }
+
+  const handleActionEdit = (delivererId: number) => {
+    setEditingDelivererId(delivererId);
+  }
 
   if (status == 'pending') return <div>Загрузка...</div>;
   if (status == 'error') return <div>{error?.message}</div>;
@@ -96,7 +93,8 @@ export default function DeliverersTab() {
                   itemId={deliverer.id}
                   openedOptions={openedOptions}
                   setOpenedOptions={setOpenedOptions}
-                  onAction={handleAction}
+                  onActionDelete={handleActionDelete}
+                  onActionEdit={handleActionEdit}
                 />
               </tr>
             )),

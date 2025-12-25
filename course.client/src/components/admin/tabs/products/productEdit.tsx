@@ -3,7 +3,7 @@ import {
   useMutation,
   useQueryClient,
 } from '@tanstack/react-query';
-import ProductRecord from '../../../../models/server/requests/productRecord';
+import ProductRecord from '../../../../models/server/productRecordServer';
 import randomStock from '../../../../utils/randomStock';
 import Store from '../../../../models/server/store';
 import axios from 'axios';

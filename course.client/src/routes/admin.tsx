@@ -5,6 +5,7 @@ import ProductsTab from '../components/admin/tabs/products';
 import StoresTab from '../components/admin/tabs/stores';
 import DeliverersTab from '../components/admin/tabs/deliverers';
 import OrdersTab from '../components/admin/tabs/orders';
+import SellersTab from '../components/admin/tabs/sellers';
 
 export const Route = createFileRoute('/admin')({
   component: Admin,
@@ -20,17 +21,22 @@ function Admin() {
   const search = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
 
+  const tabsMap: Record<string, () => JSX.Element> = {
+    Товары: ProductsTab,
+    Магазины: StoresTab,
+    Продавцы: SellersTab,
+    Доставщики: DeliverersTab,
+    Заказы: OrdersTab,
+  };
+
   return (
     <div className="page">
       <Tabs
-        options={['Товары', 'Магазины', 'Доставщики', 'Заказы']}
+        options={Object.keys(tabsMap)}
         current={search.tab}
         setCurrent={(i) => navigate({ search: { tab: i } })}
       >
-        <ProductsTab />
-        <StoresTab />
-        <DeliverersTab />
-        <OrdersTab />
+        {...Object.entries(tabsMap).map(([name, Tab]) => <Tab key={name} />)}
       </Tabs>
     </div>
   );
