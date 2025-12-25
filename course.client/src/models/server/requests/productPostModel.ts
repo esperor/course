@@ -1,7 +1,7 @@
 interface ProductPostModel {
   title: string;
   description: string;
-  vendorId: number;
+  storeId: number;
 }
 
 export default ProductPostModel;

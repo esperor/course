@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using course.Server.Data;
 using course.Server.Configs.Enums;
@@ -12,26 +7,26 @@ using course.Server.Models;
 
 namespace course.Server.Controllers
 {
-    [Route("api/vendor")]
+    [Route("api/store")]
     [ApiController]
-    public class VendorController : ControllerBase
+    public class StoreController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
 
-        public VendorController(ApplicationDbContext context)
+        public StoreController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: api/vendor
+        // GET: api/store
         [HttpGet]
         [AuthorizeAccessLevel(EAccessLevel.Administrator)]
-        public async Task<ActionResult<IEnumerable<Vendor>>> GetVendors(
+        public async Task<ActionResult<IEnumerable<Store>>> GetStores(
             string? searchName,
             int offset = 0, 
             int limit = 10)
         {
-            IQueryable<Vendor> set = _context.Vendors;
+            IQueryable<Store> set = _context.Stores;
 
             if (searchName != null)
                 set = set.Where(v => v.Name.Contains(searchName));
@@ -42,33 +37,33 @@ namespace course.Server.Controllers
                 .ToListAsync();
         }
 
-        // GET: api/vendor/5
+        // GET: api/store/5
         [HttpGet("{id}")]
         [AuthorizeAccessLevel(EAccessLevel.Administrator)]
-        public async Task<ActionResult<Vendor>> GetVendor(int id)
+        public async Task<ActionResult<Store>> GetStore(int id)
         {
-            var vendor = await _context.Vendors.FindAsync(id);
+            var store = await _context.Stores.FindAsync(id);
 
-            if (vendor == null)
+            if (store == null)
             {
                 return NotFound();
             }
 
-            return vendor;
+            return store;
         }
 
-        // PUT: api/vendor/5
+        // PUT: api/store/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         [AuthorizeAccessLevel(EAccessLevel.Administrator)]
-        public async Task<IActionResult> PutVendor(int id, Vendor vendor)
+        public async Task<IActionResult> PutStore(int id, Store store)
         {
-            if (id != vendor.Id)
+            if (id != store.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(vendor).State = EntityState.Modified;
+            _context.Entry(store).State = EntityState.Modified;
 
             try
             {
@@ -76,7 +71,7 @@ namespace course.Server.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!VendorExists(id))
+                if (!StoreExists(id))
                 {
                     return NotFound();
                 }
@@ -89,38 +84,38 @@ namespace course.Server.Controllers
             return NoContent();
         }
 
-        // POST: api/vendor
+        // POST: api/store
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         [AuthorizeAccessLevel(EAccessLevel.Administrator)]
-        public async Task<ActionResult<Vendor>> PostVendor(VendorPostModel model)
+        public async Task<ActionResult<Store>> PostStore(StorePostModel model)
         {
-            var entry = _context.Vendors.Add(model.ToEntity());
+            var entry = _context.Stores.Add(model.ToEntity());
             await _context.SaveChangesAsync();
             
-            return CreatedAtAction("GetVendor", new { id = entry.Entity.Id }, entry.Entity);
+            return CreatedAtAction("GetStore", new { id = entry.Entity.Id }, entry.Entity);
         }
 
-        // DELETE: api/vendor/5
+        // DELETE: api/store/5
         [HttpDelete("{id}")]
         [AuthorizeAccessLevel(EAccessLevel.Administrator)]
-        public async Task<IActionResult> DeleteVendor(int id)
+        public async Task<IActionResult> DeleteStore(int id)
         {
-            var vendor = await _context.Vendors.FindAsync(id);
-            if (vendor == null)
+            var store = await _context.Stores.FindAsync(id);
+            if (store == null)
             {
                 return NotFound();
             }
 
-            _context.Vendors.Remove(vendor);
+            _context.Stores.Remove(store);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool VendorExists(int id)
+        private bool StoreExists(int id)
         {
-            return _context.Vendors.Any(e => e.Id == id);
+            return _context.Stores.Any(e => e.Id == id);
         }
     }
 }

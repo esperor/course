@@ -38,7 +38,7 @@ export default function Row({
       <td className="overflow-hidden overflow-ellipsis">
         {product.description}
       </td>
-      <td title={`ID: ${product.vendorId}`}>{product.vendor}</td>
+      <td title={`ID: ${product.storeId}`}>{product.store}</td>
       <td>
         <div className="size-fit relative w-full">
           <button

@@ -9,7 +9,7 @@ namespace course.Server.Models
         public int Id { get; set; }
 
         [Required]
-        public int VendorId { get; set; }
+        public int StoreId { get; set; }
 
         [Required]
         public string Title { get; set; }
@@ -22,7 +22,7 @@ namespace course.Server.Models
             var entity = new Product
             {
                 Id = Id,
-                VendorId = VendorId,
+                StoreId = StoreId,
                 Title = Title,
                 Description = Description
             };

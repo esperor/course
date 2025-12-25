@@ -4,7 +4,7 @@ import Modal from '../../../modal';
 import { useQueryClient, useQuery, useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import api from '../../../../api';
-import Vendor from '../../../../models/server/vendor';
+import Store from '../../../../models/server/store';
 
 export default function ProductCreateModal({
   onClose,
@@ -12,11 +12,11 @@ export default function ProductCreateModal({
   onClose: () => void;
 }) {
   const queryClient = useQueryClient();
-  const vendors = useQuery<Vendor[]>(
+  const stores = useQuery<Store[]>(
     {
-      queryKey: ['vendors'],
+      queryKey: ['stores'],
       queryFn: async () => {
-        const { data } = await axios.get(`${api.vendor.rest}`);
+        const { data } = await axios.get(`${api.store.rest}`);
         return data;
       },
     },
@@ -34,7 +34,7 @@ export default function ProductCreateModal({
     },
   });
 
-  const formFilled = form?.title && form?.description && form?.vendorId;
+  const formFilled = form?.title && form?.description && form?.storeId;
 
   const handlePost = () => {
     if (!formFilled) return;
@@ -81,21 +81,21 @@ export default function ProductCreateModal({
           }}
         />
 
-        <label htmlFor="vendorId" className="mt-4">
+        <label htmlFor="storeId" className="mt-4">
           Поставщик
         </label>
         <select
-          id="vendorId"
+          id="storeId"
           className="transparent bordered h-fit"
-          value={form?.vendorId ?? vendors.data?.[0]?.id}
+          value={form?.storeId ?? stores.data?.[0]?.id}
           onChange={(e) => {
             setHasPosted(false);
-            setForm({ ...form!, vendorId: parseInt(e.target.value) });
+            setForm({ ...form!, storeId: parseInt(e.target.value) });
           }}
         >
-          {vendors.data?.map((vendor) => (
-            <option key={vendor.id} value={vendor.id}>
-              {vendor.name}
+          {stores.data?.map((store) => (
+            <option key={store.id} value={store.id}>
+              {store.name}
             </option>
           ))}
         </select>

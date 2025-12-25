@@ -3,17 +3,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace course.Server.Data
 {
-    [Table("vendors")]
-    public class Vendor
+    [Table("sellers")]
+    public class Seller
     {
         [Key]
-        public int Id { get; set; }
+        public int UserId { get; set; }
+
+        [ForeignKey("UserId")]
+        public virtual ApplicationUser User { get; set; }
 
         [Required]
-        public required string Name { get; set; }
-
-        [Required]
-        public required string ContactInfo { get; set; }
+        [EmailAddress]
+        public string Email { get; set; }
 
         [Required]
         public required string ContractNumber { get; set; }

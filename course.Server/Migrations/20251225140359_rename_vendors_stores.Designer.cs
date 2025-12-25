@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using course.Server.Data;
@@ -11,9 +12,11 @@ using course.Server.Data;
 namespace course.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251225140359_rename_vendors_stores")]
+    partial class rename_vendors_stores
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,7 +39,7 @@ namespace course.Server.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("access_levels", (string)null);
+                    b.ToTable("access_levels");
                 });
 
             modelBuilder.Entity("course.Server.Data.ApplicationUser", b =>
@@ -66,7 +69,7 @@ namespace course.Server.Migrations
 
                     b.HasIndex("AccessLevelId");
 
-                    b.ToTable("users", (string)null);
+                    b.ToTable("users");
                 });
 
             modelBuilder.Entity("course.Server.Data.Deliverer", b =>
@@ -83,7 +86,7 @@ namespace course.Server.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("deliverers", (string)null);
+                    b.ToTable("deliverers");
                 });
 
             modelBuilder.Entity("course.Server.Data.InventoryRecord", b =>
@@ -120,7 +123,7 @@ namespace course.Server.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("inventory", (string)null);
+                    b.ToTable("inventory");
                 });
 
             modelBuilder.Entity("course.Server.Data.Order", b =>
@@ -153,7 +156,7 @@ namespace course.Server.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("orders", (string)null);
+                    b.ToTable("orders");
                 });
 
             modelBuilder.Entity("course.Server.Data.OrderRecord", b =>
@@ -171,7 +174,7 @@ namespace course.Server.Migrations
 
                     b.HasIndex("InventoryRecordId");
 
-                    b.ToTable("order_record", (string)null);
+                    b.ToTable("order_record");
                 });
 
             modelBuilder.Entity("course.Server.Data.Product", b =>
@@ -186,36 +189,18 @@ namespace course.Server.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("StoreId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("StoreId");
-
-                    b.ToTable("products", (string)null);
-                });
-
-            modelBuilder.Entity("course.Server.Data.Seller", b =>
-                {
-                    b.Property<int>("UserId")
+                    b.Property<int>("VendorId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("ContractNumber")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.HasKey("Id");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.HasIndex("VendorId");
 
-                    b.HasKey("UserId");
-
-                    b.ToTable("sellers", (string)null);
+                    b.ToTable("products");
                 });
 
             modelBuilder.Entity("course.Server.Data.Session", b =>
@@ -240,10 +225,10 @@ namespace course.Server.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("sessions", (string)null);
+                    b.ToTable("sessions");
                 });
 
-            modelBuilder.Entity("course.Server.Data.Store", b =>
+            modelBuilder.Entity("course.Server.Data.Vendor", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -251,18 +236,21 @@ namespace course.Server.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ContactInfo")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ContractNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("OwnerId")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("OwnerId");
-
-                    b.ToTable("stores", (string)null);
+                    b.ToTable("vendors");
                 });
 
             modelBuilder.Entity("course.Server.Data.ApplicationUser", b =>
@@ -336,24 +324,13 @@ namespace course.Server.Migrations
 
             modelBuilder.Entity("course.Server.Data.Product", b =>
                 {
-                    b.HasOne("course.Server.Data.Store", "Store")
+                    b.HasOne("course.Server.Data.Vendor", "Vendor")
                         .WithMany()
-                        .HasForeignKey("StoreId")
+                        .HasForeignKey("VendorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Store");
-                });
-
-            modelBuilder.Entity("course.Server.Data.Seller", b =>
-                {
-                    b.HasOne("course.Server.Data.ApplicationUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
+                    b.Navigation("Vendor");
                 });
 
             modelBuilder.Entity("course.Server.Data.Session", b =>
@@ -365,17 +342,6 @@ namespace course.Server.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("course.Server.Data.Store", b =>
-                {
-                    b.HasOne("course.Server.Data.Seller", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Owner");
                 });
 #pragma warning restore 612, 618
         }

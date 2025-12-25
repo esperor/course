@@ -39,10 +39,10 @@ function ProductCard({ product }: { product: ProductRecord }) {
         </div>
         <h4 className="z-[1] relative flex-row flex">
           <p
-            title={product.vendor}
+            title={product.store}
             className="max-w-[50%] overflow-hidden overflow-ellipsis text-nowrap"
           >
-            {product.vendor}
+            {product.store}
           </p>
           &nbsp;/&nbsp;
           <p

@@ -5,7 +5,7 @@ import {
 } from '@tanstack/react-query';
 import ProductRecord from '../../../../models/server/requests/productRecord';
 import randomStock from '../../../../utils/randomStock';
-import Vendor from '../../../../models/server/vendor';
+import Store from '../../../../models/server/store';
 import axios from 'axios';
 import api from '../../../../api';
 
@@ -13,7 +13,7 @@ interface ProductEditProps {
   product: UseQueryResult<ProductRecord>;
   form: ProductRecord | null;
   setForm: (r: ProductRecord) => void;
-  vendors: UseQueryResult<Vendor[]>;
+  stores: UseQueryResult<Store[]>;
   formEdited: boolean;
 }
 
@@ -21,7 +21,7 @@ export default function ProductEdit({
   product,
   form,
   setForm,
-  vendors,
+  stores,
   formEdited,
 }: ProductEditProps) {
   const queryClient = useQueryClient();
@@ -36,7 +36,7 @@ export default function ProductEdit({
       queryClient.invalidateQueries({ queryKey: ['products'] });
     },
   });
-  const vendor = vendors?.data?.find((vendor) => vendor.id === form?.vendorId);
+  const store = stores?.data?.find((store) => store.id === form?.storeId);
 
   const handleSave = () => {
     if (!form || !formEdited) return;
@@ -65,30 +65,30 @@ export default function ProductEdit({
                 setForm({ ...form!, description: e.target.value })
               }
             />
-            {vendors.isPending ? (
+            {stores.isPending ? (
               <h2>Загрузка...</h2>
-            ) : vendors.isError ? (
-              <h2>{vendors.error.message}</h2>
+            ) : stores.isError ? (
+              <h2>{stores.error.message}</h2>
             ) : (
-              vendor && (
+              store && (
                 <div className="flex flex-row gap-2">
-                  <p>Поставщик:&nbsp;</p>
+                  <p>Магазин:&nbsp;</p>
                   <select
                     className="transparent bordered w-fit"
-                    value={form?.vendorId}
+                    value={form?.storeId}
                     onChange={(e) =>
                       setForm({
                         ...form!,
-                        vendorId: parseInt(e.target.value),
+                        storeId: parseInt(e.target.value),
                       })
                     }
                   >
-                    {vendors.data?.map((vendor) => (
+                    {stores.data?.map((store) => (
                       <option
-                        key={vendor.id}
-                        value={vendor.id}
+                        key={store.id}
+                        value={store.id}
                       >
-                        {vendor.id}:&nbsp;{vendor.name}
+                        {store.id}:&nbsp;{store.name}
                       </option>
                     ))}
                   </select>

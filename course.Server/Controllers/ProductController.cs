@@ -42,13 +42,13 @@ namespace course.Server.Controllers
                     records => records.Records.DefaultIfEmpty(),
                     (a, record) => new { a.Product, Record = record })
                 .GroupBy(
-                    a => new { a.Product.Id, a.Product.VendorId, a.Product.Title, a.Product.Description, },
+                    a => new { a.Product.Id, a.Product.StoreId, a.Product.Title, a.Product.Description, },
                     a => a.Record)
                 .Select(
                     b => new ProductOrderingModel
                     {
                         Id = b.Key.Id,
-                        VendorId = b.Key.VendorId,
+                        StoreId = b.Key.StoreId,
                         Title = b.Key.Title,
                         Description = b.Key.Description,
                         Quantity = b.Sum(record => record != null ? record.Quantity : 0),
@@ -89,11 +89,11 @@ namespace course.Server.Controllers
                         Product = p,
                         Records = records
                     })
-                .Join(_context.Vendors, a => a.Product.VendorId, v => v.Id, (a, v) => new ProductInfoModel
+                .Join(_context.Stores, a => a.Product.StoreId, v => v.Id, (a, v) => new ProductInfoModel
                 { 
                     Id = a.Product.Id,
-                    VendorId = a.Product.VendorId,
-                    Vendor = v.Name,
+                    StoreId = a.Product.StoreId,
+                    Store = v.Name,
                     Title = a.Product.Title,
                     Description = a.Product.Description,
                     Records = a.Records.Select(r => new InventoryRecordInfoModel
@@ -115,7 +115,7 @@ namespace course.Server.Controllers
         public async Task<ActionResult<ProductInfoModel>> GetProduct(int id)
         {
             var product = await _context.Products
-                .Include(p => p.Vendor)
+                .Include(p => p.Store)
                 .Where(p => p.Id == id)
                 .SingleOrDefaultAsync();
             if (product is null) return NotFound();

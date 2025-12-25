@@ -6,7 +6,7 @@ namespace course.Server.Models
     public class ProductPostModel
     {
         [Required]
-        public int VendorId { get; set; }
+        public int StoreId { get; set; }
 
         [Required]
         public string Title { get; set; }
@@ -20,7 +20,7 @@ namespace course.Server.Models
         {
             var entity = new Product
             {
-                VendorId = VendorId,
+                StoreId = StoreId,
                 Title = Title,
                 Description = Description
             };

@@ -4,7 +4,7 @@ import api from '../../../../api';
 import ProductRecord from '../../../../models/server/requests/productRecord';
 import { useEffect, useState } from 'react';
 import Reset from '../../../assets/reset';
-import Vendor from '../../../../models/server/vendor';
+import Store from '../../../../models/server/store';
 import ProductEdit from './productEdit';
 import Modal from '../../../modal';
 
@@ -27,11 +27,11 @@ export default function ProductEditModal({
     queryClient,
   );
   const [form, setForm] = useState<ProductRecord | null>(null);
-  const vendors = useQuery<Vendor[]>(
+  const stores = useQuery<Store[]>(
     {
-      queryKey: ['vendors'],
+      queryKey: ['stores'],
       queryFn: async () => {
-        const { data } = await axios.get(`${api.vendor.rest}`);
+        const { data } = await axios.get(`${api.store.rest}`);
         return data;
       },
     },
@@ -46,7 +46,7 @@ export default function ProductEditModal({
   const formEdited =
     form?.description !== product.data?.description ||
     form?.title !== product.data?.title ||
-    form?.vendorId !== product.data?.vendorId;
+    form?.storeId !== product.data?.storeId;
 
   const handleClose = () => {
     if (formEdited) return;
@@ -86,7 +86,7 @@ export default function ProductEditModal({
         product={product}
         form={form}
         setForm={setForm}
-        vendors={vendors}
+        stores={stores}
         formEdited={formEdited}
       />
     </Modal>

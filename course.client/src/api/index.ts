@@ -24,8 +24,8 @@ const api = {
   product: {
     rest: 'api/product',
   },
-  vendor: {
-    rest: 'api/vendor',
+  store: {
+    rest: 'api/store',
   },
   user: {
     /**

@@ -25,19 +25,6 @@ namespace course.Server.Data
 
                 await SeedAccessLevels(context);
 
-                var vendors = new Vendor[]
-                {
-                    new Vendor{ Name="ООО Белорусский трикотаж", ContractNumber=RandomContract.ForVendor(), ContactInfo=RandomPhone()},
-                    new Vendor{ Name="Одежда", ContractNumber=RandomContract.ForVendor(), ContactInfo=RandomPhone()},
-                    new Vendor{ Name="Много одежды", ContractNumber=RandomContract.ForVendor(), ContactInfo=RandomPhone()},
-                    new Vendor{ Name="Оханский ювелирный завод", ContractNumber=RandomContract.ForVendor(), ContactInfo=RandomPhone()},
-                };
-
-                foreach (Vendor s in vendors)
-                {
-                    context.Vendors.Add(s);
-                }
-
                 var clientLevelId = context.AccessLevels.Where(l => l.Name == EAccessLevel.Client.ToString()).First().Id;
                 var adminLevelId = context.AccessLevels.Where(l => l.Name == EAccessLevel.Administrator.ToString()).First().Id;
                 var hasher = new PasswordHasher<ApplicationUser>();
@@ -59,6 +46,28 @@ namespace course.Server.Data
                     context.Users.Add(s);
                 }
 
+                var user1Id = context.Users.Where(u => u.Name == "Мария").First().Id;
+                var user2Id = context.Users.Where(u => u.Name == "Сергей").First().Id;
+
+                var sellers = new Seller[]
+                {
+                    new Seller{ UserId = user1Id, ContractNumber = RandomContract.ForSeller(), Email = "mary@gmail.com" },
+                    new Seller{ UserId = user2Id, ContractNumber = RandomContract.ForSeller(), Email = "sergei@gmail.com" },
+                };
+
+                var stores = new Store[]
+                {
+                    new Store{ Name="ООО Белорусский трикотаж", OwnerId = user1Id },
+                    new Store{ Name="Одежда", OwnerId = user1Id },
+                    new Store{ Name="Много одежды", OwnerId = user2Id },
+                    new Store{ Name="Оханский ювелирный завод", OwnerId = user2Id },
+                };
+
+                foreach (Store s in stores)
+                {
+                    context.Stores.Add(s);
+                }
+
                 context.SaveChanges();
 
                 var user0Id = context.Users.Where(u => u.Name == "Алексей Арсенов").First().Id;
@@ -77,9 +86,9 @@ namespace course.Server.Data
 
                 var products = new Product[]
                 {
-                    new Product{ Title="Брюки мужские", Description="Lorem ipsum dolor sit amet", VendorId=context.Vendors.First().Id },
-                    new Product{ Title="Рубашка", Description="Lorem ipsum dolor sit amet", VendorId=context.Vendors.First().Id },
-                    new Product{ Title="Футболка мужская", Description="Lorem ipsum dolor sit amet", VendorId=context.Vendors.Where(v => v.Name == "Одежда").First().Id },
+                    new Product{ Title="Брюки мужские", Description="Lorem ipsum dolor sit amet", StoreId=context.Stores.First().Id },
+                    new Product{ Title="Рубашка", Description="Lorem ipsum dolor sit amet", StoreId=context.Stores.First().Id },
+                    new Product{ Title="Футболка мужская", Description="Lorem ipsum dolor sit amet", StoreId=context.Stores.Where(v => v.Name == "Одежда").First().Id },
                 };
 
                 foreach (Product s in products)
@@ -106,7 +115,7 @@ namespace course.Server.Data
 
         private static class RandomContract
         {
-            public static string ForVendor()
+            public static string ForSeller()
             {
                 var number = "";
                 const short letters = 2;

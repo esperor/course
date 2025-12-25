@@ -10,11 +10,11 @@ namespace course.Server.Data
         [Key]
         public int Id { get; set; }
 
-        [ForeignKey(nameof(VendorId))]
-        public Vendor Vendor { get; set; }
+        [ForeignKey(nameof(StoreId))]
+        public Store Store { get; set; }
 
         [Required]
-        public int VendorId { get; set; }
+        public int StoreId { get; set; }
 
         [Required]
         public string Title { get; set; }
@@ -26,7 +26,7 @@ namespace course.Server.Data
         {
             var p = new Product();
             p.Id = model.Id;
-            p.VendorId = model.VendorId;
+            p.StoreId = model.StoreId;
             p.Title = model.Title;
             p.Description = model.Description;
             return p;

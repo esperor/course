@@ -9,7 +9,7 @@ namespace course.Server.Data
         [Key]
         public int UserId { get; set; }
 
-        [ForeignKey("UserId")]
+        [ForeignKey(nameof(UserId))]
         public virtual ApplicationUser User { get; set; }
 
         public string? ContactInfo { get; set; }

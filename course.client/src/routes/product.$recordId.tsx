@@ -103,10 +103,10 @@ function Product() {
         </div>
         <h4 className="z-[1] relative flex-row flex">
           <p
-            title={product.vendor}
+            title={product.store}
             className="text-slate-400 max-w-[50%] overflow-hidden overflow-ellipsis text-nowrap"
           >
-            {product.vendor}
+            {product.store}
           </p>
         </h4>
         <div className="flex flex-row gap-4 justify-between mt-4">

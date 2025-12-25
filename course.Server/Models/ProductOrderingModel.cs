@@ -7,7 +7,7 @@ namespace course.Server.Models
     {
         public int Id { get; set; }
 
-        public int VendorId { get; set; }
+        public int StoreId { get; set; }
 
         public string Title { get; set; }
 
@@ -22,7 +22,7 @@ namespace course.Server.Models
         public ProductOrderingModel(Product p, IEnumerable<InventoryRecord> records)
         {
             Id = p.Id;
-            VendorId = p.VendorId;
+            StoreId = p.StoreId;
             Title = p.Title;
             Description = p.Description;
             Quantity = records.Sum(r => r.Quantity);

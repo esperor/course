@@ -9,10 +9,10 @@ namespace course.Server.Models
         public int Id { get; set; }
 
         [Required]
-        public int VendorId { get; set; }
+        public int StoreId { get; set; }
 
         [Required]
-        public string? Vendor { get; set; }
+        public string? Store { get; set; }
 
         [Required]
         public string Title { get; set; }
@@ -28,8 +28,8 @@ namespace course.Server.Models
         public ProductInfoModel(Product p)
         {
             Id = p.Id;
-            VendorId = p.VendorId;
-            Vendor = p.Vendor?.Name;
+            StoreId = p.StoreId;
+            Store = p.Store?.Name;
             Title = p.Title;
             Description = p.Description;
         }
