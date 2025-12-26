@@ -27,7 +27,7 @@ function Profile() {
 
   return (
     <div className="page flex flex-col gap-4 h-full">
-      <h2>Здравствуйте, {query.data?.name}</h2>
+      <h2>Здравствуйте, {query.data?.info?.name}</h2>
       <div className="grid grid-cols-2 gap-10 h-full">
         <Cart />
         <Orders />

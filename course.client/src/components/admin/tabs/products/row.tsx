@@ -1,7 +1,6 @@
 import ProductRecord from '../../../../models/server/productRecordServer';
 import randomStock from '../../../../utils/randomStock';
 import BookOpen from '../../../assets/bookOpen';
-import RowOptions from '../rowOptions';
 
 export default function Row({
   product,

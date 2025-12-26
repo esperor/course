@@ -213,9 +213,48 @@ namespace course.Server.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("Freezed")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("Suspended")
+                        .HasColumnType("boolean");
+
                     b.HasKey("UserId");
 
                     b.ToTable("sellers", (string)null);
+                });
+
+            modelBuilder.Entity("course.Server.Data.SellerExtended", b =>
+                {
+                    b.Property<bool>("Active")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("ContractNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("Freezed")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("Suspended")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.ToTable("seller_extended", (string)null);
                 });
 
             modelBuilder.Entity("course.Server.Data.Session", b =>

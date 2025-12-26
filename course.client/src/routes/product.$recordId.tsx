@@ -9,14 +9,13 @@ import { useEffect, useMemo, useState } from 'react';
 export const Route = createFileRoute('/product/$recordId')({
   component: Product,
   loader: ({ params }) => axios.get(`/${api.product.rest}/${params.recordId}`),
+  wrapInSuspense: true,
 });
 
 function Product() {
   const [chosenRecordId, setChosenRecordId] = useState<number>();
   const [chosenVariation, setChosenVariation] = useState<string>();
   const productRequest = Route.useLoaderData();
-
-  if (!productRequest.data) return 'Загрузка...';
 
   const product = productRequest.data as ProductRecord;
   const isClothes = typeof product.records?.at(0)?.size === 'string';
@@ -48,7 +47,7 @@ function Product() {
           product.records.find((r) => r.variation === productVariations[0])?.id,
         );
     }
-  }, [productVariations]);
+  }, [productVariations, product.records, isClothes]);
 
   const variationRecords = useMemo(() => {
     if (!isClothes) return null;

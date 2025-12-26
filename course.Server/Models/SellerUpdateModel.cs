@@ -5,20 +5,17 @@ namespace course.Server.Models
 {
     public class SellerUpdateModel
     {
-        [Required]
-        public int UserId { get; set; }
-
         [StringLength(100)]
         public string Email { get; set; }
 
         [Required]
         public string ContractNumber { get; set; }
 
-        public Seller ToEntity()
+        public Seller ToEntity(int userId)
         {
             return new Seller
             {
-                UserId = UserId,
+                UserId = userId,
                 Email = Email,
                 ContractNumber = ContractNumber
             };

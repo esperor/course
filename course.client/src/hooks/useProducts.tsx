@@ -52,9 +52,9 @@ const useProducts = (searchParams?: { limit?: number, ordering?: number, search?
 
   useEffect(() => {
     if (!searchParams) return;
-    if (!!searchParams.limit) setFilters(prev => ({ ...prev, limit: searchParams.limit as number }));
-    if (!!searchParams.ordering) setFilters(prev => ({ ...prev, ordering: searchParams.ordering as EProductOrdering }));
-    if (!!searchParams.search) setFilters({ ...filters, search: searchParams.search as string });
+    if (searchParams.limit) setFilters(prev => ({ ...prev, limit: searchParams.limit as number }));
+    if (searchParams.ordering !== undefined) setFilters(prev => ({ ...prev, ordering: searchParams.ordering as EProductOrdering }));
+    if (searchParams.search) setFilters(prev => ({ ...prev, search: searchParams.search as string }));
   }, [searchParams]);
 
   const fetchProducts = async ({ pageParam }: { pageParam: unknown }) => {

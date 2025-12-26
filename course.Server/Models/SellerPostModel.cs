@@ -5,22 +5,19 @@ namespace course.Server.Models
 {
     public class SellerPostModel
     {
-        [Required]
-        public int UserId { get; set; }
-
         [StringLength(100)]
         public string Email { get; set; }
 
         [Required]
         public bool ContractConditionsAccepted { get; set; }
 
-        public Seller ToEntity(string contractNumber)
+        public Seller ToEntity(int userId, string contractNumber)
         {
             return new Seller
             {
-                UserId = UserId,
+                UserId = userId,
                 Email = Email,
-                ContractNumber = contractNumber
+                ContractNumber = contractNumber,
             };
         }
     }

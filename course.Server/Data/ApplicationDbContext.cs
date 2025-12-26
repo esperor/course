@@ -16,6 +16,8 @@ namespace course.Server.Data
         public DbSet<OrderRecord> OrderRecords { get; set; }
         public DbSet<Session> Sessions { get; set; }
 
+        public DbSet<SellerExtended> SellerExtendedView { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

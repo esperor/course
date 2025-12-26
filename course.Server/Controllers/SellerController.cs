@@ -24,25 +24,24 @@ namespace course.Server.Controllers
         // GET: api/seller
         [HttpGet]
         [AuthorizeAccessLevel(EAccessLevel.Administrator)]
-        public async Task<ActionResult<IEnumerable<SellerInfoModel>>> GetSellers(
+        public async Task<ActionResult<IEnumerable<SellerExtendedInfoModel>>> GetSellers(
             string? searchName,
             string? searchPhone,
+            string? searchEmail,
             int offset = 0,
             int limit = 10)
         {
-            IQueryable<ApplicationUser> users = _context.Users;
+            IQueryable<SellerExtendedInfoModel> set = _context.SellerExtendedView
+                .Select(se => new SellerExtendedInfoModel(se));
 
             if (searchName != null)
-                users = users.Where(u => u.Name.ToLower().Contains(searchName.ToLower()));
+                set = set.Where(se => se.Name.Contains(searchName, StringComparison.CurrentCultureIgnoreCase));
 
             if (searchPhone != null)
-                users = users.Where(u => u.Phone.Contains(searchPhone));
+                set = set.Where(se => se.Phone.Contains(searchPhone));
 
-            IQueryable<SellerInfoModel> set = _context.Sellers
-                .Join(users,
-                    s => s.UserId,
-                    u => u.Id,
-                    (s, u) => new SellerInfoModel(s, u));
+            if (searchEmail != null)
+                set = set.Where(se => se.Email.Contains(searchEmail, StringComparison.CurrentCultureIgnoreCase));
 
             return await set
                 .Skip(offset)
@@ -53,37 +52,34 @@ namespace course.Server.Controllers
         // GET: api/seller/5
         [HttpGet("{id}")]
         [AuthorizeAccessLevel(EAccessLevel.Administrator)]
-        public async Task<ActionResult<SellerInfoModel>> GetSeller(int id)
+        public async Task<ActionResult<SellerExtendedInfoModel>> GetSeller(int id)
         {
-            var seller = await _context.Sellers
+            var sellerExtended = await _context.SellerExtendedView
                 .Where(s => s.UserId == id)
-                .Include(s => s.User)
                 .SingleOrDefaultAsync();
 
-            if (seller == null)
+            if (sellerExtended == null)
             {
                 return NotFound();
             }
 
-            return new SellerInfoModel(seller);
+            return new SellerExtendedInfoModel(sellerExtended);
         }
 
         // PUT: api/seller
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut]
         [AuthorizeAccessLevel(EAccessLevel.Client)]
-        public async Task<IActionResult> PutSeller(int id, SellerUpdateModel model)
+        public async Task<IActionResult> PutSeller(SellerUpdateModel model)
         {
-            if (id != model.UserId)
-            {
-                return BadRequest();
-            }
+            var user = _identityService.GetUser(HttpContext);
+            if (user is null) return BadRequest("User unauthenticated");
 
-            var seller = await _context.Sellers.Where(s => s.UserId == id).SingleOrDefaultAsync();
+            var seller = await _context.Sellers.Where(s => s.UserId == user.Id).SingleOrDefaultAsync();
 
             if (seller?.ContractNumber != model.ContractNumber) return BadRequest();
 
-            _context.Entry(model.ToEntity()).State = EntityState.Modified;
+            _context.Entry(model.ToEntity(user.Id)).State = EntityState.Modified;
 
             try
             {
@@ -91,7 +87,7 @@ namespace course.Server.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!SellerExists(id))
+                if (!SellerExists(user.Id))
                 {
                     return NotFound();
                 }
@@ -108,7 +104,7 @@ namespace course.Server.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         [AuthorizeAccessLevel(EAccessLevel.Client)]
-        public async Task<ActionResult<SellerInfoModel>> PostSeller(SellerPostModel model)
+        public async Task<ActionResult<SellerExtendedInfoModel>> PostSeller(SellerPostModel model)
         {
             var user = _identityService.GetUser(HttpContext);
             if (user is null) return BadRequest("User unauthenticated");
@@ -118,42 +114,58 @@ namespace course.Server.Controllers
 
             var contractNumber = Guid.NewGuid().ToString();
 
-            var entry = _context.Sellers.Add(model.ToEntity(contractNumber));
+            var entry = _context.Sellers.Add(model.ToEntity(user.Id, contractNumber));
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (SellerExists(model.UserId))
+                if (SellerExists(user.Id))
                     return Conflict();
                 else
                     throw;
             }
 
-            return CreatedAtAction("GetSeller",
-                new { id = model.UserId },
-                new SellerInfoModel {
-                    Id = entry.Entity.UserId,
+            return CreatedAtAction(
+                nameof(IdentityController.UserInfo),
+                nameof(IdentityController),
+                new { id = user.Id },
+                new SellerExtendedInfoModel {
+                    UserId = entry.Entity.UserId,
                     Email = entry.Entity.Email,
                     ContractNumber = entry.Entity.ContractNumber,
                 }
             );
         }
 
-        // DELETE: api/seller/5
-        [HttpDelete("{id}")]
+        // POST: api/seller/freeze
+        [HttpPost("freeze")]
         [AuthorizeAccessLevel(EAccessLevel.Client)]
-        public async Task<IActionResult> DeleteSeller(int id)
+        public async Task<IActionResult> FreezeSeller()
         {
-            var seller = await _context.Sellers.FindAsync(id);
+            var user = _identityService.GetUser(HttpContext);
+            if (user is null) return BadRequest("User unauthenticated");
+
+            var seller = await _context.Sellers.FindAsync(user.Id);
             if (seller == null)
             {
                 return NotFound();
             }
 
-            _context.Sellers.Remove(seller);
-            await _context.SaveChangesAsync();
+            seller.Freezed = true;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                if (!SellerExists(seller.UserId))
+                    return NotFound();
+                else
+                    throw;
+            }
 
             return NoContent();
         }

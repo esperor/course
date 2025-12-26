@@ -40,7 +40,7 @@ export const authenticateAdmin = async ({
     .get(api.identity.userInfo)
     .then((response) => response.data);
 
-  if (!data?.accessLevel || data.accessLevel < EAccessLevel.Administrator)
+  if (!data?.info?.accessLevel || data.info.accessLevel < EAccessLevel.Administrator)
     throw redirect({
       to: '/',
     });

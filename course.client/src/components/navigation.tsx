@@ -31,7 +31,8 @@ function Navigation() {
 
   const isUserSignedIn = query.data?.isSignedIn ?? false;
   const isUserAdmin =
-    (query.data?.accessLevel ?? 0) >= EAccessLevel.Administrator;
+    (query.data?.info?.accessLevel ?? 0) >= EAccessLevel.Administrator;
+  const isUserSeller = query.data?.info?.isRegisteredSeller ?? false;
 
   return (
     <nav className="p-4 px-[10%]  bg-gray-900 sticky top-0 border-b-[1px] border-slate-500 z-[100]">
@@ -42,6 +43,11 @@ function Navigation() {
         <Link to="/order" className="[&.active]:font-bold">
           Корзина
         </Link>
+        {isUserSeller && (
+          <Link to="/seller" className="[&.active]:font-bold">
+            Продажи
+          </Link>
+        )}
         {isUserSignedIn && (
           <Link to="/profile" className="[&.active]:font-bold">
             Профиль
@@ -59,7 +65,7 @@ function Navigation() {
         <div className="ml-auto flex flex-row">
           {isUserSignedIn ? (
             <>
-              <Link to="/profile">{query.data?.name}</Link>
+              <Link to="/profile">{query.data?.info?.name}</Link>
               <div className="h-full bg-gray-100 w-[1px] mx-2"></div>
               <button type="button" onClick={logout.mutate}>
                 Выйти

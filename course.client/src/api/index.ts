@@ -10,7 +10,13 @@ const api = {
     rest: 'api/deliverer',
   },
   seller: {
+    /**
+     * Only get/ and /get/{id}
+     */
     rest: 'api/seller',
+    post: 'api/seller',
+    put: 'api/seller',
+    delete: 'api/seller',
   },
   order: {
     rest: 'api/order',

@@ -4,6 +4,7 @@ using course.Server.Data;
 using course.Server.Models.Identity;
 using course.Server.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Text.Json;
 
 namespace course.Server.Controllers
@@ -12,21 +13,27 @@ namespace course.Server.Controllers
     [ApiController]
     public class IdentityController : ControllerBase
     {
+        private readonly ApplicationDbContext _context;
         private readonly IdentityService _identityService;
 
-        public IdentityController(IdentityService identityService) 
+        public IdentityController(ApplicationDbContext context, IdentityService identityService) 
         {
+            _context = context;
             _identityService = identityService;
         }
 
         [Route("user-info")]
         [HttpGet]
-        public ActionResult<UserInfoModel> UserInfo()
+        public async Task<ActionResult<UserInfoModel>> UserInfo()
         {
             var user = _identityService.GetUser(HttpContext);
             if (user is null) return Ok(new UserInfoModel());
 
-            return Ok(new UserInfoModel(user));
+            var seller = await _context.Sellers
+                .Where(s => s.UserId == user.Id)
+                .SingleOrDefaultAsync();
+
+            return Ok(new UserInfoModel(user, isSeller: seller is not null));
         }
 
         [Route("login")]
