@@ -8,6 +8,7 @@ import randomStock from '../../../../utils/randomStock';
 import Store from '../../../../models/server/store';
 import axios from 'axios';
 import api from '../../../../api';
+import { replaceRouteParams } from '../../../../utils/http';
 
 interface ProductEditProps {
   product: UseQueryResult<ProductRecord>;
@@ -27,7 +28,12 @@ export default function ProductEdit({
   const queryClient = useQueryClient();
   const updateProduct = useMutation({
     mutationFn: async (product: ProductRecord) => {
-      return await axios.put(`${api.product.rest}/${product.id}`, product);
+      return await axios.put(
+        replaceRouteParams(`${api.business.product.update}`, {
+          id: product.id,
+        }),
+        product,
+      );
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
@@ -84,10 +90,7 @@ export default function ProductEdit({
                     }
                   >
                     {stores.data?.map((store) => (
-                      <option
-                        key={store.id}
-                        value={store.id}
-                      >
+                      <option key={store.id} value={store.id}>
                         {store.id}:&nbsp;{store.name}
                       </option>
                     ))}

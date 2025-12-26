@@ -1,47 +1,67 @@
 const api = {
-  identity: {
-    userInfo: '/api/identity/user-info',
-    login: '/api/identity/login',
-    logout: '/api/identity/logout',
-    register: 'api/identity/register',
-    updateUser: 'api/identity/update-user',
+  admin: {
+    deliverer: {
+      rest: 'api/admin/deliverer',
+    },
+    seller: {
+      getAll: 'api/admin/seller',
+      get: 'api/admin/seller/{id}',
+    },
+    order: {
+      getAll: 'api/admin/order',
+      get: 'api/admin/order/{id}',
+      assignDeliverer: 'api/admin/order/{id}/assign-deliverer',
+      setStatus: 'api/admin/order/{id}/set-status',
+    },
+    user: {
+      getAll: 'api/admin/user',
+      get: 'api/admin/user/{id}',
+      delete: 'api/admin/user/{id}',
+    },
+    store: {
+      getAll: 'api/admin/store',
+      get: 'api/admin/store/{id}',
+    },
   },
-  deliverer: {
-    rest: 'api/deliverer',
+  client: {
+    order: {
+      getAll: 'api/client/order',
+      get: 'api/client/order/{id}',
+      create: 'api/client/order',
+      cancel: 'api/client/order/{id}/cancel',
+    },
   },
-  seller: {
-    /**
-     * Only get/ and /get/{id}
-     */
-    rest: 'api/seller',
-    post: 'api/seller',
-    put: 'api/seller',
-    delete: 'api/seller',
+  business: {
+    inventory: {
+      delete: 'api/admin/inventory-record/{id}',
+      create: 'api/admin/inventory-record/product/{productId}',
+    },
+    product: {
+      create: 'api/admin/product',
+      update: 'api/admin/product/{id}',
+      delete: 'api/admin/product/{id}',
+    },
   },
-  order: {
-    rest: 'api/order',
-    cancel: 'api/order/{id}/cancel',
-    user: 'api/order/user',
-    assignDeliverer: 'api/order/{id}/assign-deliverer',
-    setStatus: 'api/order/{id}/set-status',
+  public: {
+    identity: {
+      userInfo: '/api/identity/user-info',
+      login: '/api/identity/login',
+      logout: '/api/identity/logout',
+      register: 'api/identity/register',
+      updateUser: 'api/identity/update-user',
+    },
+    inventory: {
+      get: 'api/public/inventory-record/{id}',
+    },
+    store: {
+      getAll: 'api/public/store',
+      get: 'api/public/store/{id}',
+    },
+    product: {
+      getAll: 'api/public/product',
+      get: 'api/public/product/{id}',
+    },
   },
-  inventory: {
-    delete: 'api/inventory-record/{id}',
-    post: 'api/inventory-record/product/{productId}',
-    get: 'api/inventory-record',
-  },
-  product: {
-    rest: 'api/product',
-  },
-  store: {
-    rest: 'api/store',
-  },
-  user: {
-    /**
-     * Only get, get/{id}, delete
-     */
-    rest: 'api/user',
-  }
 };
 
 export default api;

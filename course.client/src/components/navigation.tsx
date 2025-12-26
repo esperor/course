@@ -11,7 +11,7 @@ function Navigation() {
     {
       queryKey: ['user-info'],
       queryFn: async () => {
-        const res = await axios.get(api.identity.userInfo);
+        const res = await axios.get(api.public.identity.userInfo);
         return res.data;
       },
     },
@@ -21,7 +21,7 @@ function Navigation() {
   const logout = useMutation({
     mutationFn: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
       e.preventDefault();
-      return axios.post(api.identity.logout);
+      return axios.post(api.public.identity.logout);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['user-info'] });

@@ -26,7 +26,7 @@ export default function AssignDelivererModal({
   const validateDeliverer = useMutation({
     mutationFn: async (id: number) => {
       const { data } = await axios.get<Deliverer>(
-        `${api.deliverer.rest}/${id}`,
+        `${api.admin.deliverer.rest}/${id}`,
       );
       return data;
     },
@@ -42,7 +42,7 @@ export default function AssignDelivererModal({
   const assignDeliverer = useMutation({
     mutationFn: async () => {
       return await axios.put(
-        `${replaceRouteParams(api.order.assignDeliverer, { id: orderId })}`,
+        `${replaceRouteParams(api.admin.order.assignDeliverer, { id: orderId })}`,
         form,
       );
     },

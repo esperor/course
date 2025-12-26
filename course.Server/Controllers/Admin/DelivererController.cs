@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Data.SqlClient;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using course.Server.Data;
 using course.Server.Configs.Enums;
 using course.Server.Configs;
 using course.Server.Models;
 
-namespace course.Server.Controllers
+namespace course.Server.Controllers.Admin
 {
-    [Route("api/deliverer")]
+    [Route("api/admin/deliverer")]
     [ApiController]
+    [AuthorizeAccessLevel(EAccessLevel.Administrator)]
     public class DelivererController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
@@ -26,7 +21,6 @@ namespace course.Server.Controllers
 
         // GET: api/deliverer
         [HttpGet]
-        [AuthorizeAccessLevel(EAccessLevel.Administrator)]
         public async Task<ActionResult<IEnumerable<DelivererInfoModel>>> GetDeliverers(
             string? searchName,
             string? searchPhone,
@@ -55,7 +49,6 @@ namespace course.Server.Controllers
 
         // GET: api/deliverer/5
         [HttpGet("{id}")]
-        [AuthorizeAccessLevel(EAccessLevel.Administrator)]
         public async Task<ActionResult<DelivererInfoModel>> GetDeliverer(int id)
         {
             var deliverer = await _context.Deliverers
@@ -74,7 +67,6 @@ namespace course.Server.Controllers
         // PUT: api/deliverer/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [AuthorizeAccessLevel(EAccessLevel.Administrator)]
         public async Task<IActionResult> PutDeliverer(int id, DelivererInputModel model)
         {
             if (id != model.UserId)
@@ -106,7 +98,6 @@ namespace course.Server.Controllers
         // POST: api/deliverer
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [AuthorizeAccessLevel(EAccessLevel.Administrator)]
         public async Task<ActionResult<DelivererInfoModel>> PostDeliverer(DelivererInputModel model)
         {
             var entry = _context.Deliverers.Add(model.ToEntity());
@@ -134,7 +125,6 @@ namespace course.Server.Controllers
 
         // DELETE: api/deliverer/5
         [HttpDelete("{id}")]
-        [AuthorizeAccessLevel(EAccessLevel.Administrator)]
         public async Task<IActionResult> DeleteDeliverer(int id)
         {
             var deliverer = await _context.Deliverers.FindAsync(id);

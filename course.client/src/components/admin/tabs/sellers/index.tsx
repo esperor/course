@@ -10,7 +10,7 @@ export default function SellersTab() {
       queryKey: ['sellers-infinite'],
       queryFn: async ({ pageParam }: { pageParam: unknown }) => {
         const { data } = await axios.get(
-          `${api.seller.rest}?offset=${(pageParam as number) * constant.defaultLimit}&limit=${constant.defaultLimit}`,
+          `${api.admin.seller.getAll}?offset=${(pageParam as number) * constant.defaultLimit}&limit=${constant.defaultLimit}`,
         );
         return data;
       },
@@ -30,17 +30,23 @@ export default function SellersTab() {
             <th>Имя</th>
             <th>Телефон</th>
             <th>Email</th>
+            <th>Активен</th>
+            <th>Заморожен</th>
+            <th>Приостановлен</th>
           </tr>
         </thead>
         <tbody>
           {data?.pages.map((page) =>
             page.map((seller) => (
-              <tr key={seller.id}>
-                <td>{seller.id}</td>
+              <tr key={seller.userId}>
+                <td>{seller.userId}</td>
                 <td>{seller.contractNumber}</td>
                 <td>{seller.name}</td>
                 <td>{seller.phone}</td>
                 <td>{seller.email}</td>
+                <td>{seller.active ? 'Да' : 'Нет'}</td>
+                <td>{seller.freezed ? 'Да' : 'Нет'}</td>
+                <td>{seller.suspended ? 'Да' : 'Нет'}</td>
               </tr>
             )),
           )}

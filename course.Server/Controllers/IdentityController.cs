@@ -1,6 +1,7 @@
 ﻿using course.Server.Configs;
 using course.Server.Configs.Enums;
 using course.Server.Data;
+using course.Server.Models;
 using course.Server.Models.Identity;
 using course.Server.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -119,5 +120,181 @@ namespace course.Server.Controllers
 
             return Ok();
         }
+
+        //// PUT: api/seller
+        //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        //[HttpPut]
+        //[AuthorizeAccessLevel(EAccessLevel.Client)]
+        //public async Task<IActionResult> PutSeller(SellerUpdateModel model)
+        //{
+        //    var user = _identityService.GetUser(HttpContext);
+        //    if (user is null) return BadRequest("User unauthenticated");
+
+        //    var seller = await _context.Sellers.Where(s => s.UserId == user.Id).SingleOrDefaultAsync();
+
+        //    if (seller?.ContractNumber != model.ContractNumber) return BadRequest();
+
+        //    _context.Entry(model.ToEntity(user.Id)).State = EntityState.Modified;
+
+        //    try
+        //    {
+        //        await _context.SaveChangesAsync();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!SellerExists(user.Id))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
+
+        //    return NoContent();
+        //}
+
+        //// POST: api/seller
+        //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        //[HttpPost]
+        //[AuthorizeAccessLevel(EAccessLevel.Client)]
+        //public async Task<ActionResult<SellerExtendedInfoModel>> PostSeller(SellerPostModel model)
+        //{
+        //    var user = _identityService.GetUser(HttpContext);
+        //    if (user is null) return BadRequest("User unauthenticated");
+
+        //    if (model.ContractConditionsAccepted == false)
+        //        return BadRequest("Contract conditions must be accepted to continue");
+
+        //    var contractNumber = Guid.NewGuid().ToString();
+
+        //    var entry = _context.Sellers.Add(model.ToEntity(user.Id, contractNumber));
+        //    try
+        //    {
+        //        await _context.SaveChangesAsync();
+        //    }
+        //    catch (DbUpdateException)
+        //    {
+        //        if (SellerExists(user.Id))
+        //            return Conflict();
+        //        else
+        //            throw;
+        //    }
+
+        //    return CreatedAtAction(
+        //        nameof(IdentityController.UserInfo),
+        //        nameof(IdentityController),
+        //        new { id = user.Id },
+        //        new SellerExtendedInfoModel
+        //        {
+        //            UserId = entry.Entity.UserId,
+        //            Email = entry.Entity.Email,
+        //            ContractNumber = entry.Entity.ContractNumber,
+        //        }
+        //    );
+        //}
+
+        //// POST: api/seller/freeze
+        //[HttpPost("freeze")]
+        //[AuthorizeAccessLevel(EAccessLevel.Client)]
+        //public async Task<IActionResult> FreezeSeller()
+        //{
+        //    var user = _identityService.GetUser(HttpContext);
+        //    if (user is null) return BadRequest("User unauthenticated");
+
+        //    var seller = await _context.Sellers.FindAsync(user.Id);
+        //    if (seller == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    seller.Freezed = true;
+
+        //    try
+        //    {
+        //        await _context.SaveChangesAsync();
+        //    }
+        //    catch (DbUpdateException)
+        //    {
+        //        if (!SellerExists(seller.UserId))
+        //            return NotFound();
+        //        else
+        //            throw;
+        //    }
+
+        //    return NoContent();
+        //}
+
+        //private bool SellerExists(int id)
+        //{
+        //    return _context.Sellers.Any(e => e.UserId == id);
+        //}
+
+        //// PUT: api/store/5
+        //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        //[HttpPut("{id}")]
+        //[AuthorizeAccessLevel(EAccessLevel.Administrator)]
+        //public async Task<IActionResult> PutStore(int id, Store store)
+        //{
+        //    if (id != store.Id)
+        //    {
+        //        return BadRequest();
+        //    }
+
+        //    _context.Entry(store).State = EntityState.Modified;
+
+        //    try
+        //    {
+        //        await _context.SaveChangesAsync();
+        //    }
+        //    catch (DbUpdateConcurrencyException)
+        //    {
+        //        if (!StoreExists(id))
+        //        {
+        //            return NotFound();
+        //        }
+        //        else
+        //        {
+        //            throw;
+        //        }
+        //    }
+
+        //    return NoContent();
+        //}
+
+        //// POST: api/store
+        //// To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        //[HttpPost]
+        //[AuthorizeAccessLevel(EAccessLevel.Administrator)]
+        //public async Task<ActionResult<Store>> PostStore(StorePostModel model)
+        //{
+        //    var entry = _context.Stores.Add(model.ToEntity());
+        //    await _context.SaveChangesAsync();
+
+        //    return CreatedAtAction("GetStore", new { id = entry.Entity.Id }, entry.Entity);
+        //}
+
+        //// DELETE: api/store/5
+        //[HttpDelete("{id}")]
+        //[AuthorizeAccessLevel(EAccessLevel.Administrator)]
+        //public async Task<IActionResult> DeleteStore(int id)
+        //{
+        //    var store = await _context.Stores.FindAsync(id);
+        //    if (store == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    _context.Stores.Remove(store);
+        //    await _context.SaveChangesAsync();
+
+        //    return NoContent();
+        //}
+
+        //private bool StoreExists(int id)
+        //{
+        //    return _context.Stores.Any(e => e.Id == id);
+        //}
     }
 }

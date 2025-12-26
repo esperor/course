@@ -22,7 +22,7 @@ function Register() {
   const register = useMutation({
     mutationFn: (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      return axios.post(api.identity.register, form);
+      return axios.post(api.public.identity.register, form);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['user-info'] });

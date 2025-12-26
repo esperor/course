@@ -17,7 +17,7 @@ export const replaceRouteParams = (
 
 export const authenticate = async ({ location }: { location: unknown }) => {
   const data: UserInfo = await axios
-    .get(api.identity.userInfo)
+    .get(api.public.identity.userInfo)
     .then((response) => response.data);
 
   if (!data || !data.isSignedIn)
@@ -37,7 +37,7 @@ export const authenticateAdmin = async ({
   authenticate({ location });
 
   const data: UserInfo = await axios
-    .get(api.identity.userInfo)
+    .get(api.public.identity.userInfo)
     .then((response) => response.data);
 
   if (!data?.info?.accessLevel || data.info.accessLevel < EAccessLevel.Administrator)

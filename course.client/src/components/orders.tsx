@@ -11,7 +11,7 @@ function Orders() {
     {
       queryKey: ['user-orders'],
       queryFn: async () => {
-        const res = await axios.get(api.order.user);
+        const res = await axios.get(api.client.order.getAll);
         return res.data;
       },
     },
@@ -19,7 +19,7 @@ function Orders() {
   );
   const cancel = useMutation({
     mutationFn: async (id: number) => {
-      await axios.put(replaceRouteParams(api.order.cancel, { id: id }));
+      await axios.put(replaceRouteParams(api.client.order.cancel, { id: id }));
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['user-orders'] });

@@ -21,7 +21,7 @@ function Login() {
   const login = useMutation({
     mutationFn: (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      return axios.post(api.identity.login, form);
+      return axios.post(api.public.identity.login, form);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['user-info'] });

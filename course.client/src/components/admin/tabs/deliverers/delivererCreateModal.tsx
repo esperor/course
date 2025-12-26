@@ -9,6 +9,7 @@ import XCircle from '../../../assets/xCircle';
 import CheckCircle from '../../../assets/checkCircle';
 import MagnifyingGlass from '../../../assets/magnifiyinGlass';
 import Deliverer from '../../../../models/server/deliverer';
+import { replaceRouteParams } from '../../../../utils/http';
 
 export default function DelivererCreateModal({
   onClose,
@@ -24,7 +25,7 @@ export default function DelivererCreateModal({
   const [user, setUser] = useState<UserAdminInfo | null>(null);
   const postDeliverer = useMutation({
     mutationFn: async (deliverer: DelivererPostModel) => {
-      return await axios.post(`${api.deliverer.rest}`, deliverer);
+      return await axios.post(`${api.admin.deliverer.rest}`, deliverer);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['deliverers'] });
@@ -34,12 +35,12 @@ export default function DelivererCreateModal({
   });
   const validateUser = useMutation({
     mutationFn: async (id: number) => {
-      const { data } = await axios.get<UserAdminInfo>(`${api.user.rest}/${id}`);
+      const { data } = await axios.get<UserAdminInfo>(replaceRouteParams(`${api.admin.user.get}`, { id }));
       return data;
     },
     onSuccess: async (data) => {
       try {
-        await axios.get<Deliverer>(`${api.deliverer.rest}/${data.id}`);
+        await axios.get<Deliverer>(`${api.admin.deliverer.rest}/${data.id}`);
         setUserIdValid('already-assigned');
         setUser(data);
       } catch (error) {

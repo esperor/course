@@ -13,7 +13,7 @@ export default function OrdersTab() {
       queryKey: ['orders-infinite'],
       queryFn: async ({ pageParam }: { pageParam: unknown }) => {
         const { data } = await axios.get(
-          `${api.order.rest}?offset=${(pageParam as number) * constant.defaultLimit}&limit=${constant.defaultLimit}`,
+          `${api.admin.order.getAll}?offset=${(pageParam as number) * constant.defaultLimit}&limit=${constant.defaultLimit}`,
         );
         return data;
       },

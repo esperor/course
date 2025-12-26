@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using course.Server.Data;
-using course.Server.Configs;
 using course.Server.Configs.Enums;
 using course.Server.Models;
 using Microsoft.IdentityModel.Tokens;
 
-namespace course.Server.Controllers
+namespace course.Server.Controllers.Public
 {
-    [Route("api/product")]
+    [Route("api/public/product")]
     [ApiController]
     public class ProductController : ControllerBase
     {
@@ -24,7 +18,7 @@ namespace course.Server.Controllers
             _context = context;
         }
 
-        // GET: api/product
+        // GET: api/public/product
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductInfoModel>>> GetProducts(
             string? searchString,
@@ -110,7 +104,7 @@ namespace course.Server.Controllers
                 .ToListAsync();
         }
 
-        // GET: api/product/5
+        // GET: api/public/product/5
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductInfoModel>> GetProduct(int id)
         {
@@ -128,64 +122,6 @@ namespace course.Server.Controllers
             }
 
             return new ProductInfoModel(product, records);
-        }
-
-        // PUT: api/product/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        [AuthorizeAccessLevel(EAccessLevel.Editor)]
-        public async Task<IActionResult> PutProduct(int id, ProductPutModel model)
-        {
-            if (id != model.Id) return BadRequest();
-
-            try
-            {
-                _context.Entry(model.ToEntity()).State = EntityState.Modified;
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProductExists(id))
-                    return NotFound();
-                else
-                    throw;
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/product
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
-        [AuthorizeAccessLevel(EAccessLevel.Administrator)]
-        public async Task<ActionResult<Product>> PostProduct(ProductPostModel product)
-        {
-            var entry = _context.Products.Add(product.ToEntity());
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetProduct", new { id = entry.Entity.Id }, new ProductInfoModel(entry.Entity));
-        }
-
-        // DELETE: api/product/5
-        [HttpDelete("{id}")]
-        [AuthorizeAccessLevel(EAccessLevel.Administrator)]
-        public async Task<IActionResult> DeleteProduct(int id)
-        {
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-        }
-
-        private bool ProductExists(int id)
-        {
-            return _context.Products.Any(e => e.Id == id);
         }
     }
 }

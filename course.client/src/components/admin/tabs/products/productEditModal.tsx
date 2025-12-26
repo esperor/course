@@ -7,6 +7,7 @@ import Reset from '../../../assets/reset';
 import Store from '../../../../models/server/store';
 import ProductEdit from './productEdit';
 import Modal from '../../../modal';
+import { replaceRouteParams } from '../../../../utils/http';
 
 export default function ProductEditModal({
   productId,
@@ -20,7 +21,9 @@ export default function ProductEditModal({
     {
       queryKey: ['product', productId],
       queryFn: async () => {
-        const { data } = await axios.get(`${api.product.rest}/${productId}`);
+        const { data } = await axios.get(
+          replaceRouteParams(`${api.public.product.get}`, { id: productId }),
+        );
         return data;
       },
     },
@@ -31,7 +34,7 @@ export default function ProductEditModal({
     {
       queryKey: ['stores'],
       queryFn: async () => {
-        const { data } = await axios.get(`${api.store.rest}`);
+        const { data } = await axios.get(`${api.public.store.getAll}`);
         return data;
       },
     },

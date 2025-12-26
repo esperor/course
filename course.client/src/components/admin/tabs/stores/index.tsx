@@ -5,17 +5,16 @@ import constant from '../../../../utils/constants';
 import Store from '../../../../models/server/store';
 
 export default function StoresTab() {
-  const { data, error, status, LoadMoreBtn } =
-    useInfiniteQueryReduced<Store>({
-      queryKey: ['stores-infinite'],
-      queryFn: async ({ pageParam }: { pageParam: unknown }) => {
-        const { data } = await axios.get(
-          `${api.store.rest}?offset=${(pageParam as number) * constant.defaultLimit}&limit=${constant.defaultLimit}`,
-        );
-        return data;
-      },
-      limit: constant.defaultLimit,
-    });
+  const { data, error, status, LoadMoreBtn } = useInfiniteQueryReduced<Store>({
+    queryKey: ['stores-infinite'],
+    queryFn: async ({ pageParam }: { pageParam: unknown }) => {
+      const { data } = await axios.get(
+        `${api.admin.store.getAll}?offset=${(pageParam as number) * constant.defaultLimit}&limit=${constant.defaultLimit}`,
+      );
+      return data;
+    },
+    limit: constant.defaultLimit,
+  });
 
   if (status == 'pending') return <div>Загрузка...</div>;
   if (status == 'error') return <div>{error?.message}</div>;

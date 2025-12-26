@@ -5,10 +5,14 @@ import ProductRecord from '../models/server/productRecordServer';
 import randomStock from '../utils/randomStock';
 import ProductCounter from '../components/productCounter';
 import { useEffect, useMemo, useState } from 'react';
+import { replaceRouteParams } from '../utils/http';
 
 export const Route = createFileRoute('/product/$recordId')({
   component: Product,
-  loader: ({ params }) => axios.get(`/${api.product.rest}/${params.recordId}`),
+  loader: ({ params }) =>
+    axios.get(
+      replaceRouteParams(`/${api.public.product.get}`, { id: params.recordId }),
+    ),
   wrapInSuspense: true,
 });
 

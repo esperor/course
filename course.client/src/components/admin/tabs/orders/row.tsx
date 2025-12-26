@@ -33,7 +33,9 @@ export default function Row({
         return Promise.all(
           arr.map(async ([recordId, quantity]) => {
             const { data } = await axios.get<InventoryRecord>(
-              `${api.inventory.get}/${recordId}`,
+              replaceRouteParams(`${api.public.inventory.get}`, {
+                id: recordId,
+              }),
             );
             return { record: data, quantity };
           }),
@@ -51,7 +53,7 @@ export default function Row({
     {
       mutationFn: async (status: number) => {
         return await axios.put(
-          replaceRouteParams(api.order.setStatus, { id: order.id }),
+          replaceRouteParams(api.admin.order.setStatus, { id: order.id }),
           { status },
         );
       },
@@ -88,8 +90,12 @@ export default function Row({
         </div>
       </td>
       <td>{order.address}</td>
-      <td className='mx-auto flex'>
-        <select value={status} className="transparent bordered py-[0.2rem] px-3" onChange={handleStatusChange}>
+      <td className="mx-auto flex">
+        <select
+          value={status}
+          className="transparent bordered py-[0.2rem] px-3"
+          onChange={handleStatusChange}
+        >
           {(Object.keys(EOrderStatus) as Array<keyof typeof EOrderStatus>)
             .filter((result) => isNaN(Number(result)))
             .map((status) => [status, EOrderStatus[status]])

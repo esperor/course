@@ -18,7 +18,7 @@ function Profile() {
     {
       queryKey: ['user-info'],
       queryFn: async () => {
-        const res = await axios.get(api.identity.userInfo);
+        const res = await axios.get(api.public.identity.userInfo);
         return res.data;
       },
     },

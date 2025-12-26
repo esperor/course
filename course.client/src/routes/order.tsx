@@ -28,7 +28,7 @@ function Order() {
   const postOrder = useMutation(
     {
       mutationFn: async (formData: OrderPostModel) => {
-        return await axios.post(api.order.rest, formData);
+        return await axios.post(api.client.order.create, formData);
       },
       onSuccess() {
         clearCart();

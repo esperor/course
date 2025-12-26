@@ -25,7 +25,7 @@ export default function DelivererEdit({
   const updateDeliverer = useMutation({
     mutationFn: async (deliverer: DelivererPostModel) => {
       const model = {...deliverer, contactInfo: deliverer.contactInfo ?? null};
-      return await axios.put(`${api.deliverer.rest}/${deliverer.userId}`, model);
+      return await axios.put(`${api.admin.deliverer.rest}/${deliverer.userId}`, model);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({

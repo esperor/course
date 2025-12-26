@@ -4,6 +4,7 @@ import CartItem from '../models/cartItem';
 import CartProductRecord from '../models/cartProductRecord';
 import { productRecordFromProductRecordServer } from '../models/productRecord';
 import ProductRecordServer from '../models/server/productRecordServer';
+import { replaceRouteParams } from './http';
 
 export const cart = async () => {
   if (localStorage && localStorage.getItem('cart') != null) {
@@ -12,7 +13,9 @@ export const cart = async () => {
 
     const records = cart.map(async (cartItem) => {
       const response = await axios.get(
-        `${api.product.rest}/${cartItem.productId}`,
+        replaceRouteParams(`${api.public.product.get}`, {
+          id: cartItem.productId,
+        }),
       );
       const productSrv = response.data as ProductRecordServer;
       const product = productRecordFromProductRecordServer(productSrv);
