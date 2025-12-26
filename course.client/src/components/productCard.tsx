@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router';
 import ProductRecord from '../models/server/productRecordServer';
 import randomStock from '../utils/randomStock';
 
@@ -13,11 +14,11 @@ function ProductCard({ product }: { product: ProductRecord }) {
     false;
 
   return (
-    <button
-      type="button"
-      onClick={() => (window.location.href = `/product/${product.id}`)}
-      className={`flex flex-col rounded-lg h-96 bg-slate-900 p-4 relative
-        ${!productPresent && 'bg-gray-700'}`}
+    <Link
+      to={'/product/$recordId'}
+      params={{ recordId: product.id.toString() }}
+      className={`flex flex-col rounded-lg h-96 bg-slate-900 p-4 relative ${
+        !productPresent && 'bg-gray-700'}`}
       key={product.id}
     >
       <img
@@ -53,7 +54,7 @@ function ProductCard({ product }: { product: ProductRecord }) {
           </p>
         </h4>
       </div>
-    </button>
+    </Link>
   );
 }
 

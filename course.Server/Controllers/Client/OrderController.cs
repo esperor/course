@@ -23,7 +23,7 @@ namespace course.Server.Controllers.Client
             _identityService = identityService;
         }
 
-        // GET: api/order
+        // GET: api/client/order
         [HttpGet]
         [AuthorizeAccessLevel(EAccessLevel.Client)]
         public async Task<ActionResult<IEnumerable<OrderInfoModel>>> GetOrders(
@@ -59,7 +59,7 @@ namespace course.Server.Controllers.Client
         }
 
 
-        // GET: api/order/5
+        // GET: api/client/order/5
         [HttpGet("{id}")]
         [AuthorizeAccessLevel(EAccessLevel.Client)]
         public async Task<ActionResult<OrderInfoModel>> GetOrder(int id)
@@ -80,7 +80,7 @@ namespace course.Server.Controllers.Client
             return new OrderInfoModel(order!, iRecords);
         }
 
-        // POST: api/order
+        // POST: api/client/order
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         [AuthorizeAccessLevel(EAccessLevel.Client)]

@@ -22,6 +22,7 @@ namespace course.Server.Controllers.Public
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductInfoModel>>> GetProducts(
             string? searchString,
+            int? storeId,
             [FromQuery] EProductOrdering orderBy = EProductOrdering.None,
             int offset = 0,
             int limit = 10)
@@ -50,9 +51,11 @@ namespace course.Server.Controllers.Public
                     });
 
             if (searchString != null && !searchString.IsNullOrEmpty())
-                set = from p in set
-                      where p.Title.Contains(searchString) || p.Description.Contains(searchString)
-                      select p;
+                set = set.Where(p => p.Title.Contains(searchString, StringComparison.InvariantCultureIgnoreCase) 
+                    || p.Description.Contains(searchString, StringComparison.InvariantCultureIgnoreCase));
+
+            if (storeId != null)
+                set = set.Where(p => p.StoreId == storeId);
 
             if (orderBy != EProductOrdering.None)
                 switch (orderBy)

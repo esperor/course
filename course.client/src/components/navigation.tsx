@@ -44,8 +44,8 @@ function Navigation() {
           Корзина
         </Link>
         {isUserSeller && (
-          <Link to="/seller" className="[&.active]:font-bold">
-            Продажи
+          <Link to="/business" className="[&.active]:font-bold">
+            Бизнес
           </Link>
         )}
         {isUserSignedIn && (

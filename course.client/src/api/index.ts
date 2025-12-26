@@ -33,14 +33,17 @@ const api = {
   },
   business: {
     inventory: {
-      delete: 'api/admin/inventory-record/{id}',
-      create: 'api/admin/inventory-record/product/{productId}',
+      delete: 'api/business/inventory-record/{id}',
+      create: 'api/business/inventory-record/product/{productId}',
     },
     product: {
-      create: 'api/admin/product',
-      update: 'api/admin/product/{id}',
-      delete: 'api/admin/product/{id}',
+      create: 'api/business/product',
+      update: 'api/business/product/{id}',
+      delete: 'api/business/product/{id}',
     },
+    store: {
+      getAll: 'api/business/store',
+    }
   },
   public: {
     identity: {
