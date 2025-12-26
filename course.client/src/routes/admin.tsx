@@ -1,4 +1,4 @@
-import { createFileRoute, useNavigate } from '@tanstack/react-router';
+import { createFileRoute, SearchSchemaInput, useNavigate } from '@tanstack/react-router';
 import { authenticateAdmin } from '../utils/http';
 import Tabs from '../components/tabs';
 import ProductsTab from '../components/admin/tabs/products';
@@ -10,9 +10,9 @@ import SellersTab from '../components/admin/tabs/sellers';
 export const Route = createFileRoute('/admin')({
   component: Admin,
   beforeLoad: authenticateAdmin,
-  validateSearch: (search: Record<string, unknown>) => {
+  validateSearch: (search: Record<string, unknown> & SearchSchemaInput) => {
     return {
-      tab: Number(search.tab ?? 0),
+      tab: Number(search?.tab ?? 0),
     };
   },
 });

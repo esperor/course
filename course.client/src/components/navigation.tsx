@@ -56,7 +56,6 @@ function Navigation() {
         {isUserAdmin && (
           <Link
             to="/admin"
-            search={{ tab: 0 }}
             className="[&.active]:font-bold"
           >
             Управление
