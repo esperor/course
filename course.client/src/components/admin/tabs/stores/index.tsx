@@ -9,7 +9,7 @@ export default function StoresTab() {
     queryKey: ['stores-infinite'],
     queryFn: async ({ pageParam }: { pageParam: unknown }) => {
       const { data } = await axios.get(
-        `${api.admin.store.getAll}?offset=${(pageParam as number) * constant.defaultLimit}&limit=${constant.defaultLimit}`,
+        `/${api.admin.store.getAll}?offset=${(pageParam as number) * constant.defaultLimit}&limit=${constant.defaultLimit}`,
       );
       return data;
     },

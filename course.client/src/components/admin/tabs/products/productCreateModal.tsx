@@ -16,7 +16,7 @@ export default function ProductCreateModal({
     {
       queryKey: ['stores'],
       queryFn: async () => {
-        const { data } = await axios.get(`${api.public.store.getAll}`);
+        const { data } = await axios.get(`/${api.public.store.getAll}`);
         return data;
       },
     },
@@ -26,7 +26,7 @@ export default function ProductCreateModal({
   const [hasPosted, setHasPosted] = useState(false);
   const postProduct = useMutation({
     mutationFn: async (product: ProductPostModel) => {
-      return await axios.post(`${api.business.product.create}`, product);
+      return await axios.post(`/${api.business.product.create}`, product);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['products'] });

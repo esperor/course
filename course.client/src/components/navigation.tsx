@@ -55,7 +55,7 @@ function Navigation() {
         )}
         {isUserAdmin && (
           <Link
-            to="/admin"
+            to="/admin/panel"
             className="[&.active]:font-bold"
           >
             Управление

@@ -30,6 +30,7 @@ function Business() {
       {query.data.map((store) => (
         <Link
           key={store.id}
+          from={'/business'}
           to={'/business/store/$storeId'}
           params={{ storeId: store.id.toString() }}
           className="flex border border-slate-500 px-4 py-3 rounded-md"

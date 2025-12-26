@@ -29,7 +29,7 @@ export default function ProductEdit({
   const updateProduct = useMutation({
     mutationFn: async (product: ProductRecord) => {
       return await axios.put(
-        replaceRouteParams(`${api.business.product.update}`, {
+        replaceRouteParams(`/${api.business.product.update}`, {
           id: product.id,
         }),
         product,

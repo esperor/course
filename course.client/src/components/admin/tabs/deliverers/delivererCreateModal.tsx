@@ -25,7 +25,7 @@ export default function DelivererCreateModal({
   const [user, setUser] = useState<UserAdminInfo | null>(null);
   const postDeliverer = useMutation({
     mutationFn: async (deliverer: DelivererPostModel) => {
-      return await axios.post(`${api.admin.deliverer.rest}`, deliverer);
+      return await axios.post(`/${api.admin.deliverer.rest}`, deliverer);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['deliverers'] });
@@ -35,12 +35,12 @@ export default function DelivererCreateModal({
   });
   const validateUser = useMutation({
     mutationFn: async (id: number) => {
-      const { data } = await axios.get<UserAdminInfo>(replaceRouteParams(`${api.admin.user.get}`, { id }));
+      const { data } = await axios.get<UserAdminInfo>(replaceRouteParams(`/${api.admin.user.get}`, { id }));
       return data;
     },
     onSuccess: async (data) => {
       try {
-        await axios.get<Deliverer>(`${api.admin.deliverer.rest}/${data.id}`);
+        await axios.get<Deliverer>(`/${api.admin.deliverer.rest}/${data.id}`);
         setUserIdValid('already-assigned');
         setUser(data);
       } catch (error) {

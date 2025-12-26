@@ -22,7 +22,7 @@ export default function ProductEditModal({
       queryKey: ['product', productId],
       queryFn: async () => {
         const { data } = await axios.get(
-          replaceRouteParams(`${api.public.product.get}`, { id: productId }),
+          replaceRouteParams(`/${api.public.product.get}`, { id: productId }),
         );
         return data;
       },
@@ -34,7 +34,7 @@ export default function ProductEditModal({
     {
       queryKey: ['stores'],
       queryFn: async () => {
-        const { data } = await axios.get(`${api.public.store.getAll}`);
+        const { data } = await axios.get(`/${api.public.store.getAll}`);
         return data;
       },
     },

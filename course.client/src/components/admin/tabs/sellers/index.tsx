@@ -10,7 +10,7 @@ export default function SellersTab() {
       queryKey: ['sellers-infinite'],
       queryFn: async ({ pageParam }: { pageParam: unknown }) => {
         const { data } = await axios.get(
-          `${api.admin.seller.getAll}?offset=${(pageParam as number) * constant.defaultLimit}&limit=${constant.defaultLimit}`,
+          `/${api.admin.seller.getAll}?offset=${(pageParam as number) * constant.defaultLimit}&limit=${constant.defaultLimit}`,
         );
         return data;
       },

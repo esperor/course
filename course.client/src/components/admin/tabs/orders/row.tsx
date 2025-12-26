@@ -33,7 +33,7 @@ export default function Row({
         return Promise.all(
           arr.map(async ([recordId, quantity]) => {
             const { data } = await axios.get<InventoryRecord>(
-              replaceRouteParams(`${api.public.inventory.get}`, {
+              replaceRouteParams(`/${api.public.inventory.get}`, {
                 id: recordId,
               }),
             );

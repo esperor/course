@@ -21,7 +21,7 @@ export default function DelivererEditModal({
       queryKey: ['deliverer', delivererId],
       queryFn: async () => {
         const { data } = await axios.get(
-          `${api.admin.deliverer.rest}/${delivererId}`,
+          `/${api.admin.deliverer.rest}/${delivererId}`,
         );
         return data;
       },

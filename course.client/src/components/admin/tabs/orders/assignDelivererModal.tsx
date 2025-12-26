@@ -26,7 +26,7 @@ export default function AssignDelivererModal({
   const validateDeliverer = useMutation({
     mutationFn: async (id: number) => {
       const { data } = await axios.get<Deliverer>(
-        `${api.admin.deliverer.rest}/${id}`,
+        `/${api.admin.deliverer.rest}/${id}`,
       );
       return data;
     },

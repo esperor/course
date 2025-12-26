@@ -16,7 +16,7 @@ export default function DeliverersTab() {
       queryKey: ['deliverers-infinite'],
       queryFn: async ({ pageParam }: { pageParam: unknown }) => {
         const { data } = await axios.get(
-          `${api.admin.deliverer.rest}?offset=${(pageParam as number) * constant.defaultLimit}&limit=${constant.defaultLimit}`,
+          `/${api.admin.deliverer.rest}?offset=${(pageParam as number) * constant.defaultLimit}&limit=${constant.defaultLimit}`,
         );
         return data;
       },
@@ -24,7 +24,7 @@ export default function DeliverersTab() {
     });
   const deleteDeliverer = useMutation({
     mutationFn: async (delivererId: number) => {
-      return await axios.delete(`${api.admin.deliverer.rest}/${delivererId}`);
+      return await axios.delete(`/${api.admin.deliverer.rest}/${delivererId}`);
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['deliverers-infinite'] });

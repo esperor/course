@@ -58,7 +58,7 @@ const useProducts = (searchParams?: { limit?: number, ordering?: number, search?
   }, [searchParams]);
 
   const fetchProducts = async ({ pageParam }: { pageParam: unknown }) => {
-    let url = `${api.public.product.getAll}?offset=${(pageParam as number) * filters.limit}&limit=${filters.limit}`;
+    let url = `/${api.public.product.getAll}?offset=${(pageParam as number) * filters.limit}&limit=${filters.limit}`;
     if (filters.search != null) url += `&searchString=${filters.search}`;
     if (filters.ordering != EProductOrdering.None)
       url += `&orderBy=${filters.ordering}`;
