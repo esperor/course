@@ -21,15 +21,5 @@ namespace course.Server.Data
 
         [Required]
         public string Description { get; set; }
-
-        public static explicit operator Product(ProductOrderingModel model)
-        {
-            var p = new Product();
-            p.Id = model.Id;
-            p.StoreId = model.StoreId;
-            p.Title = model.Title;
-            p.Description = model.Description;
-            return p;
-        }
     }
 }

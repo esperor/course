@@ -1,13 +1,13 @@
 import InventoryRecordServer from "./inventoryRecordServer";
 
-export interface ProductRecordBase {
+export interface ProductModelBase {
   id: number;
-  store: string;
+  storeName: string;
   storeId: number;
   title: string;
   description: string;
 }
 
-export default interface ProductRecordServer extends ProductRecordBase {
-  records: InventoryRecordServer[];
+export default interface ProductRecordServer extends ProductModelBase {
+  record: InventoryRecordServer;
 }

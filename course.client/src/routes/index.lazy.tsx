@@ -1,5 +1,4 @@
 import { createLazyFileRoute, useSearch } from '@tanstack/react-router';
-import React from 'react';
 import ProductCard from '../components/productCard';
 import ProductFilters from '../components/productFilters';
 import useProducts from '../hooks/useProducts';
@@ -37,13 +36,9 @@ function Catalog() {
         {data &&
           data.pages.map(
             (page) =>
-              page && (
-                <React.Fragment key={page.at(0)?.id}>
-                  {page.map((product) => (
-                    <ProductCard product={product} key={product.id} />
-                  ))}
-                </React.Fragment>
-              ),
+              page.map((product) => (
+                <ProductCard product={product} key={product.record.id ?? product.id} />
+              )),
           )}
       </div>
       <div className="w-full flex">

@@ -1,13 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import ProductFiltersModel from '../models/productFiltersModel';
 import axios from 'axios';
 import api from '../api';
 import EProductOrdering from '../models/productOrdering';
 import constant from '../utils/constants';
 import useInfiniteQueryReduced from './useInfiniteQueryReduced';
-import ProductRecord from '../models/server/productRecordServer';
+import ProductRecord from '../models/productRecord';
 import InventoryRecordServer from '../models/server/inventoryRecordServer';
 import InventoryRecord from '../models/inventoryRecord';
+import { useQueryClient } from '@tanstack/react-query';
+import ProductRecordServer from '../models/server/productRecordServer';
 
 const parseRecordProperties = (
   record: InventoryRecordServer,
@@ -25,29 +27,22 @@ const parseRecordProperties = (
 };
 
 const parseProductsRecordsProperties = (
-  products: ProductRecord[],
+  products: ProductRecordServer[],
 ): ProductRecord[] => {
-  const productsRecordsRaw = products.map(
-    (product) => product.records as InventoryRecordServer[],
+  products.forEach((product) =>
+    product.record = parseRecordProperties(product.record),
   );
 
-  const productsRecordsParsed = productsRecordsRaw.map((records) =>
-    records.map(parseRecordProperties),
-  );
-
-  const productsProcessed = products.map((product, productIndex) => {
-    product.records = productsRecordsParsed[productIndex];
-    return product;
-  });
-
-  return productsProcessed;
+  return products as ProductRecord[];
 };
 
-const useProducts = (searchParams?: { limit?: number, ordering?: number, search?: string}) => {
+const useProducts = (searchParams?: { limit?: number, ordering?: number, search?: string, storeId?: number }) => {
+  const queryClient = useQueryClient();
   const [filters, setFilters] = useState<ProductFiltersModel>({
     limit: constant.defaultLimit,
     ordering: EProductOrdering.None,
     search: null,
+    storeId: null,
   });
 
   useEffect(() => {
@@ -55,21 +50,25 @@ const useProducts = (searchParams?: { limit?: number, ordering?: number, search?
     if (searchParams.limit) setFilters(prev => ({ ...prev, limit: searchParams.limit as number }));
     if (searchParams.ordering !== undefined) setFilters(prev => ({ ...prev, ordering: searchParams.ordering as EProductOrdering }));
     if (searchParams.search) setFilters(prev => ({ ...prev, search: searchParams.search as string }));
-  }, [searchParams]);
+    if (searchParams.storeId) setFilters(prev => ({ ...prev, storeId: searchParams.storeId as number }));
 
-  const fetchProducts = async ({ pageParam }: { pageParam: unknown }) => {
+    queryClient.invalidateQueries({ queryKey: ['products', searchParams?.storeId] });
+  }, [searchParams, queryClient]);
+
+  const fetchProducts = useCallback(async ({ pageParam }: { pageParam: unknown }) => {
     let url = `/${api.public.product.getAll}?offset=${(pageParam as number) * filters.limit}&limit=${filters.limit}`;
     if (filters.search != null) url += `&searchString=${filters.search}`;
     if (filters.ordering != EProductOrdering.None)
       url += `&orderBy=${filters.ordering}`;
+    if (filters.storeId) url += `&storeId=${filters.storeId}`;
 
     return (await axios.get(url)).data;
-  };
+  }, [filters]);
 
   const queryReduced = useInfiniteQueryReduced<ProductRecord>({
     queryFn: async (props) => parseProductsRecordsProperties(await fetchProducts(props)),
-    queryKey: ['products'],
-    limit: filters.limit,
+    queryKey: ['products', searchParams?.storeId],
+    limit: filters.limit
   });
 
   const onSetFilters = (newFilters: ProductFiltersModel) => {
@@ -79,6 +78,7 @@ const useProducts = (searchParams?: { limit?: number, ordering?: number, search?
       ordering: newFilters.ordering.toString(),
     };
     if (newFilters.search != null) search.search = newFilters.search;
+    if (newFilters.storeId != null) search.storeId = newFilters.storeId.toString();
 
     history.replaceState({}, '', `?${new URLSearchParams(search).toString()}`);
   };

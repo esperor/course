@@ -1,5 +1,4 @@
-﻿using course.Server.Data;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace course.Server.Models
 {
@@ -12,45 +11,12 @@ namespace course.Server.Models
         public int StoreId { get; set; }
 
         [Required]
-        public string? Store { get; set; }
+        public string? StoreName { get; set; }
 
         [Required]
         public string Title { get; set; }
 
         [Required]
         public string Description { get; set; }
-
-        [Required]
-        public InventoryRecordInfoModel[]? Records { get; set; }
-
-        public ProductInfoModel() { }
-
-        public ProductInfoModel(Product p)
-        {
-            Id = p.Id;
-            StoreId = p.StoreId;
-            Store = p.Store?.Name;
-            Title = p.Title;
-            Description = p.Description;
-        }
-
-        public ProductInfoModel(Product p, IEnumerable<InventoryRecord>? records)
-            : this(p)
-        {
-            Records =
-                records?.Select(r => new InventoryRecordInfoModel
-                {
-                    Id = r.Id,
-                    Price = r.Price,
-                    Quantity = r.Quantity,
-                    Size = r.Size,
-                    Variation = r.Variation,
-                    PropertiesJson = r.PropertiesJson,
-                    Image = r.Image,
-                }).ToArray();
-        }
-
-        public ProductInfoModel(ProductOrderingModel p, IEnumerable<InventoryRecord>? records)
-            : this((Product)p, records) { }
     }
 }
