@@ -18,98 +18,61 @@ namespace course.Server.Controllers.Public
             _context = context;
         }
 
+        class PModel
+        {
+            public int Id { get; set; }
+            public int StoreId { get; set; }
+            public string Title { get; set; }
+            public string Description { get; set; }
+            public int? RecordId { get; set; }
+            public int? Quantity { get; set; }
+            public int? Price { get; set; }
+            public byte[]? Image { get; set; }
+            public string? PropertiesJson { get; set; }
+            public string? Size { get; set; }
+            public string? Variation { get; set; }
+            public string StoreName { get; set; }
+        }
+
         // GET: api/public/product
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductInfoModel>>> GetProducts(
+        public async Task<ActionResult<IEnumerable<ProductRecordInfoModel>>> GetProducts(
             string? searchString,
             int? storeId,
             [FromQuery] EProductOrdering orderBy = EProductOrdering.None,
             int offset = 0,
             int limit = 10)
         {
-            var set = _context.Products
-                .GroupJoin(
-                    _context.InventoryRecords,
-                    p => p.Id,
-                    r => r.ProductId,
-                    (product, records) => new { Product = product, Records = records })
-                .SelectMany(
-                    records => records.Records.DefaultIfEmpty(),
-                    (a, record) => new { a.Product, Record = record })
-                .GroupBy(
-                    a => new { a.Product.Id, a.Product.StoreId, a.Product.Title, a.Product.Description, },
-                    a => a.Record)
-                .Select(
-                    b => new ProductOrderingModel
-                    {
-                        Id = b.Key.Id,
-                        StoreId = b.Key.StoreId,
-                        Title = b.Key.Title,
-                        Description = b.Key.Description,
-                        Quantity = b.Sum(record => record != null ? record.Quantity : 0),
-                        Price = b.Max(record => record != null ? record.Price : 0)
-                    });
 
-            if (searchString != null && !searchString.IsNullOrEmpty())
-                set = set.Where(p => p.Title.Contains(searchString, StringComparison.InvariantCultureIgnoreCase) 
-                    || p.Description.Contains(searchString, StringComparison.InvariantCultureIgnoreCase));
+            var sqlResult = _context.Database.SqlQuery<PModel>(
+                $"select * from FN_GetProducts({searchString}, {storeId}, {orderBy}, {offset}, {limit})");
 
-            if (storeId != null)
-                set = set.Where(p => p.StoreId == storeId);
-
-            if (orderBy != EProductOrdering.None)
-                switch (orderBy)
+            return await sqlResult
+                .Select(item => new ProductRecordInfoModel
                 {
-                    case EProductOrdering.TitleAsc:
-                        set = set.OrderBy(p => p.Title);
-                        break;
-                    case EProductOrdering.TitleDesc:
-                        set = set.OrderByDescending(p => p.Title);
-                        break;
-                    case EProductOrdering.PriceAsc:
-                        set = set.OrderBy((p) => p.Price);
-                        break;
-                    case EProductOrdering.PriceDesc:
-                        set = set.OrderByDescending((p) => p.Price);
-                        break;
-                }
-
-            return await set
-                .Skip(offset)
-                .Take(limit)
-                .GroupJoin(
-                    _context.InventoryRecords,
-                    p => p.Id,
-                    r => r.ProductId,
-                    (p, records) => new
-                    {
-                        Product = p,
-                        Records = records
-                    })
-                .Join(_context.Stores, a => a.Product.StoreId, v => v.Id, (a, v) => new ProductInfoModel
-                { 
-                    Id = a.Product.Id,
-                    StoreId = a.Product.StoreId,
-                    Store = v.Name,
-                    Title = a.Product.Title,
-                    Description = a.Product.Description,
-                    Records = a.Records.Select(r => new InventoryRecordInfoModel
-                    {
-                        Id = r.Id,
-                        Price = r.Price,
-                        Image = r.Image,
-                        Quantity = r.Quantity,
-                        PropertiesJson = r.PropertiesJson,
-                        Size = r.Size,
-                        Variation = r.Variation,
-                    }).ToArray(),
-                })
-                .ToListAsync();
+                    Id = item.Id,
+                    StoreId = item.StoreId,
+                    Store = item.StoreName,
+                    Title = item.Title,
+                    Description = item.Description,
+                    Record = item.Quantity == null
+                        ? null
+                        : new InventoryRecordInfoModel
+                        {
+                            Id = (int)item.RecordId!,
+                            Price = (int)item.Price!,
+                            Image = item.Image,
+                            Quantity = (int)item.Quantity!,
+                            PropertiesJson = item.PropertiesJson,
+                            Size = item.Size,
+                            Variation = item.Variation!,
+                        }
+                }).ToListAsync();
         }
 
         // GET: api/public/product/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<ProductInfoModel>> GetProduct(int id)
+        public async Task<ActionResult<ProductAggregatedInfoModel>> GetProduct(int id)
         {
             var product = await _context.Products
                 .Include(p => p.Store)
@@ -124,7 +87,7 @@ namespace course.Server.Controllers.Public
                 return NotFound();
             }
 
-            return new ProductInfoModel(product, records);
+            return new ProductAggregatedInfoModel(product, records);
         }
     }
 }

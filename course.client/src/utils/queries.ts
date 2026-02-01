@@ -2,7 +2,7 @@ import axios from 'axios';
 import api from '../api';
 import CartItem from '../models/cartItem';
 import CartProductRecord from '../models/cartProductRecord';
-import { productRecordFromProductRecordServer } from '../models/productRecord';
+import { productAggregatedFromProductAggregatedModel } from '../models/productAggregated';
 import ProductRecordServer from '../models/server/productRecordServer';
 import { replaceRouteParams } from './http';
 
@@ -18,7 +18,7 @@ export const cart = async () => {
         }),
       );
       const productSrv = response.data as ProductRecordServer;
-      const product = productRecordFromProductRecordServer(productSrv);
+      const product = productAggregatedFromProductAggregatedModel(productSrv);
       const record = product.records?.find((r) => r.id == cartItem.recordId);
       if (!record) return null;
 

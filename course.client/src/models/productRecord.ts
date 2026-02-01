@@ -1,20 +1,6 @@
-import InventoryRecord from './inventoryRecord';
-import ProductRecordServer, {
-  ProductRecordBase,
-} from './server/productRecordServer';
+import InventoryRecord from "./inventoryRecord";
+import { ProductModelBase } from "./server/productRecordServer";
 
-export default interface ProductRecord extends ProductRecordBase {
-  records: InventoryRecord[];
+export default interface ProductRecordServer extends ProductModelBase {
+  record: InventoryRecord;
 }
-
-export const productRecordFromProductRecordServer = (
-  productSrv: ProductRecordServer,
-): ProductRecord => {
-  return {
-    ...productSrv,
-    records: productSrv.records.map((recordJson) => ({
-      ...recordJson,
-      properties: JSON.parse(recordJson.propertiesJson ?? '{}'),
-    })),
-  } as ProductRecord;
-};
