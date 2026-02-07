@@ -29,20 +29,28 @@ const parseRecordProperties = (
 const parseProductsRecordsProperties = (
   products: ProductRecordServer[],
 ): ProductRecord[] => {
-  products.forEach((product) =>
-    product.record = parseRecordProperties(product.record),
-  );
-
-  return products as ProductRecord[];
+  return products.map((product) => {
+    const recordParsed = parseRecordProperties(product.record);
+    return {
+      ...product,
+      record: recordParsed,
+      uniqueId: `${product.id}.${recordParsed.id ?? ''}`,
+    };
+  });
 };
 
-const useProducts = (searchParams?: { limit?: number, ordering?: number, search?: string, storeId?: number }) => {
+const useProducts = (searchParams?: {
+  limit?: number;
+  ordering?: number;
+  search?: string;
+  storeId?: number;
+}) => {
   const queryClient = useQueryClient();
   const [filters, setFilters] = useState<ProductFiltersModel>({
     limit: constant.defaultLimit,
     ordering: EProductOrdering.None,
-    search: null,
-    storeId: null,
+    search: searchParams?.search ?? null,
+    storeId: searchParams?.storeId ?? null,
   });
 
   useEffect(() => {
@@ -68,7 +76,7 @@ const useProducts = (searchParams?: { limit?: number, ordering?: number, search?
   const queryReduced = useInfiniteQueryReduced<ProductRecord>({
     queryFn: async (props) => parseProductsRecordsProperties(await fetchProducts(props)),
     queryKey: ['products', searchParams?.storeId],
-    limit: filters.limit
+    limit: filters.limit,
   });
 
   const onSetFilters = (newFilters: ProductFiltersModel) => {

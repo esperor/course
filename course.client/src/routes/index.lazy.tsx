@@ -37,7 +37,7 @@ function Catalog() {
           data.pages.map(
             (page) =>
               page.map((product) => (
-                <ProductCard product={product} key={product.record.id ?? product.id} />
+                <ProductCard product={product} key={product.uniqueId} />
               )),
           )}
       </div>

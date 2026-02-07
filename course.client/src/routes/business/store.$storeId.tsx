@@ -1,19 +1,22 @@
-import { createFileRoute, useSearch } from '@tanstack/react-router'
-import { authenticate } from '../../utils/http'
+import { createFileRoute, useSearch } from '@tanstack/react-router';
+import { authenticate } from '../../utils/http';
 import useProducts from '../../hooks/useProducts';
-import React, { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import ProductCard from '../../components/productCard';
 import ProductFilters from '../../components/productFilters';
 
 export const Route = createFileRoute('/business/store/$storeId')({
   component: BusinessStore,
   beforeLoad: authenticate,
-})
+});
 
 function BusinessStore() {
   const searchParams = useSearch({ from: '/business/store/$storeId' });
   const pathParams = Route.useParams();
-  const productsSearchParams = useMemo(() => ({ ...searchParams, storeId: parseInt(pathParams.storeId) }), [pathParams.storeId, searchParams]);
+  const productsSearchParams = useMemo(
+    () => ({ ...searchParams, storeId: parseInt(pathParams.storeId) }),
+    [pathParams.storeId, searchParams],
+  );
   const {
     filters,
     setFilters,
@@ -24,10 +27,6 @@ function BusinessStore() {
     queryClient,
     LoadMoreBtn,
   } = useProducts(productsSearchParams);
-
-  useEffect(() => {
-    queryClient.invalidateQueries({ queryKey: ['products'] })
-  }, [queryClient]);
 
   if (status == 'pending') return <div>Загрузка...</div>;
   if (status == 'error') return <div>{error?.message}</div>;
@@ -45,13 +44,10 @@ function BusinessStore() {
         {data &&
           data.pages.map(
             (page) =>
-              page && (
-                <React.Fragment key={JSON.stringify(page)}>
-                  {page.map((product) => (
-                    <ProductCard product={product} key={product.record.id ?? product.id} />
-                  ))}
-                </React.Fragment>
-              ),
+              page &&
+              page.map((product) => (
+                <ProductCard product={product} key={product.uniqueId} />
+              )),
           )}
       </div>
       <div className="w-full flex">

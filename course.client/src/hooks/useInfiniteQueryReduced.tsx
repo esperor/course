@@ -1,4 +1,5 @@
 import { InfiniteData, QueryKey, useInfiniteQuery, useQueryClient } from '@tanstack/react-query';
+import { useCallback } from 'react';
 
 function useInfiniteQueryReduced<T>({
   queryFn,
@@ -34,7 +35,7 @@ function useInfiniteQueryReduced<T>({
     queryClient,
   );
   
-  const resetInfiniteQuery = () => {
+  const resetInfiniteQuery = useCallback(() => {
     queryClient.setQueryData(
       queryKey,
       (data: InfiniteData<T[], unknown>) => ({
@@ -42,7 +43,7 @@ function useInfiniteQueryReduced<T>({
         pageParams: data.pageParams.slice(0, 1),
       }),
     );
-  };
+  }, [queryClient, queryKey]);
 
   return {
     resetInfiniteQuery,
