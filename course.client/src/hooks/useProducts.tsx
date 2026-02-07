@@ -34,7 +34,7 @@ const parseProductsRecordsProperties = (
     return {
       ...product,
       record: recordParsed,
-      uniqueId: `${product.id}.${recordParsed.id ?? ''}`,
+      uniqueId: `${product.id}${recordParsed.id ? `.${recordParsed.id}` : ''}`,
     };
   });
 };
@@ -79,21 +79,21 @@ const useProducts = (searchParams?: {
     limit: filters.limit,
   });
 
-  const onSetFilters = (newFilters: ProductFiltersModel) => {
-    setFilters(newFilters);
+  useEffect(() => {
     const search: Record<string, string> = {
-      limit: newFilters.limit.toString(),
-      ordering: newFilters.ordering.toString(),
+      limit: filters.limit.toString(),
+      ordering: filters.ordering.toString(),
     };
-    if (newFilters.search != null) search.search = newFilters.search;
-    if (newFilters.storeId != null) search.storeId = newFilters.storeId.toString();
 
-    history.replaceState({}, '', `?${new URLSearchParams(search).toString()}`);
-  };
+    if (filters.search != null) search.search = filters.search;
+    if (filters.storeId != null) search.storeId = filters.storeId.toString();
+
+    history.replaceState({}, '', `?${new URLSearchParams(search)}`);
+  }, [filters]);
 
   return {
     filters,
-    setFilters: onSetFilters,
+    setFilters,
     ...queryReduced,
   };
 };

@@ -75,8 +75,10 @@ export default function DeliverersTab() {
             <th>Имя</th>
             <th>Телефон</th>
             <th>Контакты</th>
-            <th className="justify-center flex options">
-              <PencilSquare />
+            <th className="options">
+              <div className="justify-center flex">
+                <PencilSquare />
+              </div>
             </th>
           </tr>
         </thead>

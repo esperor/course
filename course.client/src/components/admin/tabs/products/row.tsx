@@ -1,24 +1,21 @@
-import ProductRecord from '../../../../models/server/productRecordServer';
+import ProductRecord from '../../../../models/productRecord';
 import randomStock from '../../../../utils/randomStock';
-import BookOpen from '../../../assets/bookOpen';
 
 export default function Row({
   product,
-  openedInventory,
-  setOpenedInventory,
 }: {
   product: ProductRecord;
-  openedInventory: number | null;
-  setOpenedInventory: (id: number | null) => void;
 }) {
+  const record = product.record;
+
   return (
     <tr className="">
       <td>
         <div className="size-16 relative flex justify-center">
           <img
             src={
-              product.records?.at(0)?.image
-                ? `data:image/*;base64,${product.records?.at(0)?.image}`
+              record.image
+                ? `data:image/*;base64,${record.image}`
                 : `/stock/${randomStock()}.jpg`
             }
             alt={product.title}
@@ -26,41 +23,16 @@ export default function Row({
           />
         </div>
       </td>
-      <td>{product.id}</td>
+      <td>{product.uniqueId}</td>
       <td>{product.title}</td>
+      <td>{record.price}</td>
+      <td>{record.size ?? '-'}</td>
+      <td>{record.variation ?? '-'}</td>
       <td className="overflow-hidden overflow-ellipsis">
         {product.description}
       </td>
       <td title={`ID: ${product.storeId}`}>{product.storeName}</td>
-      <td>
-        <div className="size-fit relative w-full">
-          <button
-            type="button"
-            className="w-full flex justify-center active:scale-90 scale-100"
-            onClick={() =>
-              openedInventory == product.id
-                ? setOpenedInventory(null)
-                : setOpenedInventory(product.id)
-            }
-            onBlur={() => setOpenedInventory(null)}
-          >
-            <BookOpen />
-          </button>
-          <div
-            className={`absolute bottom-0 right-full bg-slate-800 p-4 rounded-lg transition-all ease-in-out duration-300 origin-bottom-right border-solid border border-slate-600
-              ${openedInventory == product.id ? 'scale-100' : 'scale-0'}`}
-          >
-            {product.records?.length > 0
-              ? product.records.map((record) => (
-                  <p
-                    key={record.id}
-                    className="text-nowrap"
-                  >{`Размер: ${record.size} - Количество: ${record.quantity} - ${record.price} руб.`}</p>
-                ))
-              : 'Нет в наличии'}
-          </div>
-        </div>
-      </td>
+      <td className={`${record.quantity === undefined ? 'text-red-400' : ''}`}>{record.quantity ?? 'нет записей'}</td>
     </tr>
   );
 }

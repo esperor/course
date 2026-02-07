@@ -38,7 +38,7 @@
   .admin-table {
     @apply w-full;
     td, th {
-      @apply w-fit px-3 py-1;
+      @apply w-fit px-3 py-1 border border-solid border-slate-500;
       &.options {
         @apply ml-auto mr-0 w-[3.4rem];
       }
