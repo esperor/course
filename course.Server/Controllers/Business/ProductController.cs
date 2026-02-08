@@ -1,6 +1,8 @@
 ﻿using course.Server.Configs;
+using course.Server.Configs.Enums;
 using course.Server.Data;
 using course.Server.Models;
+using course.Server.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,14 +10,16 @@ namespace course.Server.Controllers.Business
 {
     [Route("api/business/product")]
     [ApiController]
-    [AuthorizeAccessLevel(Configs.Enums.EAccessLevel.Client)]
     public class ProductController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IdentityService _identityService;
 
-        public ProductController(ApplicationDbContext context)
+        public ProductController(ApplicationDbContext context,
+            IdentityService identityService)
         {
             _context = context;
+            _identityService = identityService;
         }
 
         // PUT: api/product/5
@@ -45,9 +49,17 @@ namespace course.Server.Controllers.Business
         // POST: api/product
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [AuthorizeAccessTrait(EAccessTrait.Seller)]
         public async Task<ActionResult<Product>> PostProduct(ProductPostModel product)
         {
-            throw new NotImplementedException();
+            var user = await _identityService.GetUser(HttpContext);
+            if (user is null) return BadRequest();
+
+            var isStoreIdValid = await _context.Stores
+                .AnyAsync(s => s.OwnerId == user.Id && product.StoreId == s.Id);
+
+            if (!isStoreIdValid) return Unauthorized("Permission denied");
+
             var entry = _context.Products.Add(product.ToEntity());
             await _context.SaveChangesAsync();
 

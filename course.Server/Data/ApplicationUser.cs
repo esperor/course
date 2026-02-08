@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 
 namespace course.Server.Data
 {
@@ -30,6 +31,19 @@ namespace course.Server.Data
             var success = Enum.TryParse<EAccessLevel>(AccessLevel.Name, out var accessLevel);
             if (!success) throw new Exception("Invalid access level call in ApplicationUser");
             return accessLevel;
+        }
+
+        public ApplicationUser() { }
+
+        [SetsRequiredMembers]
+        public ApplicationUser(ApplicationUser other)
+        {
+            Id = other.Id;
+            Name = other.Name;
+            Phone = other.Phone;
+            PasswordHash = other.PasswordHash;
+            AccessLevelId = other.AccessLevelId;
+            AccessLevel = other.AccessLevel;
         }
     }
 }

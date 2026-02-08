@@ -43,6 +43,7 @@ const api = {
     },
     store: {
       getAll: 'api/business/store',
+      create: 'api/business/store',
     }
   },
   public: {

@@ -27,7 +27,7 @@ namespace course.Server.Controllers
         [HttpGet]
         public async Task<ActionResult<UserInfoModel>> UserInfo()
         {
-            var user = _identityService.GetUser(HttpContext);
+            var user = await _identityService.GetUser(HttpContext);
             if (user is null) return Ok(new UserInfoModel());
 
             var seller = await _context.Sellers
@@ -39,9 +39,9 @@ namespace course.Server.Controllers
 
         [Route("login")]
         [HttpPost]
-        public ActionResult Login([FromBody] UserLoginModel model)
+        public async Task<ActionResult> Login([FromBody] UserLoginModel model)
         {
-            if (_identityService.GetUser(HttpContext) != null)
+            if ((await _identityService.GetUser(HttpContext)) is not null)
                 return new StatusCodeResult(StatusCodes.Status405MethodNotAllowed);
 
             var user = _identityService.GetUserByPhone(model.Phone);
@@ -69,9 +69,9 @@ namespace course.Server.Controllers
 
         [Route("logout")]
         [HttpPost]
-        public ActionResult<string[]> Logout()
+        public async Task<IActionResult> Logout()
         {
-            var user = _identityService.GetUser(HttpContext);
+            var user = await _identityService.GetUser(HttpContext);
             if (user is null) return BadRequest();
 
             var result = _identityService.SignOut(user);
@@ -106,9 +106,9 @@ namespace course.Server.Controllers
 
         [Route("update-user")]
         [HttpPut]
-        public ActionResult UpdateUser([FromBody] UserUpdateModel model)
+        public async Task<IActionResult> UpdateUser([FromBody] UserUpdateModel model)
         {
-            var user = _identityService.GetUser(HttpContext);
+            var user = await _identityService.GetUser(HttpContext);
             if (user is null) return BadRequest();
 
             bool hasChanged = false;

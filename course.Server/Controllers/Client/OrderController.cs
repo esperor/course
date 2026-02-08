@@ -6,6 +6,7 @@ using course.Server.Configs;
 using course.Server.Configs.Enums;
 using course.Server.Models;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using course.Server.Models.Identity;
 
 namespace course.Server.Controllers.Client
 {
@@ -30,7 +31,7 @@ namespace course.Server.Controllers.Client
             int offset = 0,
             int limit = 10)
         {
-            var user = _identityService.GetUser(HttpContext);
+            var user = await _identityService.GetUser(HttpContext);
             if (user is null) return BadRequest();
 
 
@@ -64,7 +65,8 @@ namespace course.Server.Controllers.Client
         [AuthorizeAccessLevel(EAccessLevel.Client)]
         public async Task<ActionResult<OrderInfoModel>> GetOrder(int id)
         {
-            var result = CheckUserForOrder(id, out var order);
+            var user = await _identityService.GetUser(HttpContext);
+            var result = CheckUserForOrder(user, id, out var order);
             if (result != null) return result;
 
             Dictionary<InventoryRecord, int> iRecords = [];
@@ -92,7 +94,7 @@ namespace course.Server.Controllers.Client
             EntityEntry<Order> entry;
             try
             {
-                model.UserId ??= _identityService.GetUser(HttpContext)!.Id;
+                model.UserId ??= (await _identityService.GetUser(HttpContext))!.Id;
 
                 entry = _context.Orders.Add(model.ToEntity());
                 await _context.SaveChangesAsync();
@@ -135,7 +137,8 @@ namespace course.Server.Controllers.Client
         [AuthorizeAccessLevel(EAccessLevel.Client)]
         public async Task<ActionResult> CancelOrder([FromRoute] int id)
         {
-            var result = CheckUserForOrder(id, out var order);
+            var user = await _identityService.GetUser(HttpContext);
+            var result = CheckUserForOrder(user, id, out var order);
             if (result != null) return result;
 
             order!.Status = EOrderStatus.Canceled;
@@ -145,9 +148,11 @@ namespace course.Server.Controllers.Client
             return NoContent();
         }
 
-        private ActionResult? CheckUserForOrder(int orderId, out Order? order)
+        private ActionResult? CheckUserForOrder(
+            ApplicationUserExtended? user,
+            int orderId,
+            out Order? order)
         {
-            var user = _identityService.GetUser(HttpContext);
             order = _context.Orders.Find(orderId);
 
             if (user is null) return BadRequest();

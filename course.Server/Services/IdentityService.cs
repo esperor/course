@@ -1,6 +1,7 @@
 ﻿using course.Server.Configs;
 using course.Server.Configs.Enums;
 using course.Server.Data;
+using course.Server.Models.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Primitives;
@@ -68,24 +69,41 @@ namespace course.Server.Services
             return Ok();
         }
 
-        public ApplicationUser? GetUser(HttpContext httpContext)
+        public async Task<ApplicationUserExtended?> GetUser(HttpContext httpContext)
         {
             var authCookie = httpContext.Request.Cookies
                 .Where(c => c.Key == Constants.AuthCookieName).FirstOrDefault().Value;
             if (authCookie is null) return null;
 
-            Session? session = _context.Sessions
+            Session? session = await _context.Sessions
                 .Where(s => s.Cookie == authCookie)
-                .SingleOrDefault();
+                .SingleOrDefaultAsync();
             if (session == null || session.CreationTime.AddDays(
                     Constants.CookieExpirationDays
                 ) < DateTime.Now)
+            {
                 return null;
+            }
 
-            return _context.Users
+            var user = _context.Users
                 .Where(u => u.Id == session.UserId)
                 .Include(nameof(ApplicationUser.AccessLevel))
                 .SingleOrDefault();
+
+            if (user is null) return null;
+
+            return new ApplicationUserExtended(user, await GetUserAccessTraits(user));
+        }
+
+        private async Task<EAccessTrait> GetUserAccessTraits(ApplicationUser user)
+        {
+            EAccessTrait accessTraits = 0x0;
+
+            var isSeller = await _context.Sellers
+                .AnyAsync(s => s.UserId == user.Id && !s.Suspended && !s.Freezed);
+            if (isSeller) accessTraits |= EAccessTrait.Seller;
+
+            return accessTraits;
         }
 
         public ApplicationUser? GetUserByPhone(string phone)

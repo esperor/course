@@ -1,23 +1,20 @@
 ﻿using course.Server.Configs;
-using course.Server.Configs.Enums;
 using Microsoft.AspNetCore.Authorization;
-using System.Globalization;
-using System.Security.Claims;
 
 namespace course.Server.Services
 {
-    public class AccessLevelAuthorizationHandler : AuthorizationHandler<AuthorizeAccessLevelAttribute>
+    public class AccessTraitAuthorizationHandler : AuthorizationHandler<AuthorizeAccessTraitAttribute>
     {
         private readonly IdentityService _identityService;
 
-        public AccessLevelAuthorizationHandler(IdentityService identityService)
+        public AccessTraitAuthorizationHandler(IdentityService identityService)
         {
             _identityService = identityService;
         }
 
         protected override async Task HandleRequirementAsync(
             AuthorizationHandlerContext context,
-            AuthorizeAccessLevelAttribute requirement)
+            AuthorizeAccessTraitAttribute requirement)
         {
             if (requirement == null) return;
 
@@ -25,10 +22,15 @@ namespace course.Server.Services
                 throw new Exception("No http context in authorization attribute");
 
             var user = await _identityService.GetUser(httpContext);
-            if (user == null) return;
+            if (user is null) return;
 
-            if (user.GetAccessLevel() >= requirement.AccessLevel) 
-                context.Succeed(requirement);
+            foreach (var accessTrait in requirement.AccessTraits)
+            {
+                if (!user.AccessTraits.HasFlag(accessTrait))
+                    return;
+            }
+            
+            context.Succeed(requirement);
   
             return;
         }

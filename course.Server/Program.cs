@@ -4,7 +4,6 @@ using course.Server.Data;
 using course.Server.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,6 +17,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddTransient<IdentityService>();
 builder.Services.AddTransient<IAuthorizationHandler, AccessLevelAuthorizationHandler>();
+builder.Services.AddTransient<IAuthorizationHandler, AccessTraitAuthorizationHandler>();
 
 #region Authentication
 builder.Services.AddAuthentication(o => {

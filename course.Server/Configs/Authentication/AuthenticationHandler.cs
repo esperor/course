@@ -24,22 +24,22 @@ namespace course.Server.Configs.Authentication
             ServiceProvider = serviceProvider;
         }
 
-        protected override Task<AuthenticateResult> HandleAuthenticateAsync()
+        protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
             var identityService = ServiceProvider.GetRequiredService<IdentityService>();
 
-            var user = identityService.GetUser(Request.HttpContext);
+            var user = await identityService.GetUser(Request.HttpContext);
 
             var authCookie = Request.Cookies
                 .Where(c => c.Key == Constants.AuthCookieName).FirstOrDefault().Value;
 
-            if (user is null) return Task.FromResult(AuthenticateResult.Fail("Authentication cookie not found"));
+            if (user is null) return AuthenticateResult.Fail("Authentication cookie not found");
 
             var claims = new[] { new Claim("cookie", authCookie) };
             var identity = new ClaimsIdentity(claims, nameof(AuthenticationHandler));
             var ticket = new AuthenticationTicket(new ClaimsPrincipal(identity), this.Scheme.Name);
 
-            return Task.FromResult(AuthenticateResult.Success(ticket));
+            return AuthenticateResult.Success(ticket);
         }
     }
 }

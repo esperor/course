@@ -7,15 +7,15 @@ namespace course.Server.Data
     public class Session
     {
         [Key]
-        public int Id { get; set; }
+        public int Id { get; init; }
 
-        public required int UserId { get; set; }
+        public required int UserId { get; init; }
 
         [ForeignKey("UserId")]
-        public ApplicationUser User { get; set; }
+        public ApplicationUser User { get; init; }
 
-        public required string Cookie {  get; set; }
+        public required string Cookie { get; init; }
 
-        public required DateTime CreationTime { get; set; }
+        public required DateTime CreationTime { get; init; }
     }
 }

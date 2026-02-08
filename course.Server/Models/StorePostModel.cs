@@ -8,15 +8,12 @@ namespace course.Server.Models
         [Required]
         public required string Name { get; set; }
 
-        [Required]
-        public required int OwnerId { get; set; }
-
-        public Store ToEntity()
+        public Store ToEntity(int ownerId)
         {
             return new Store
             {
                 Name = Name,
-                OwnerId = OwnerId
+                OwnerId = ownerId
             };
         }
     }
