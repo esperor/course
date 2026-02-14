@@ -1,8 +1,8 @@
 import axios from 'axios';
-import api from '../../../../api';
-import useInfiniteQueryReduced from '../../../../hooks/useInfiniteQueryReduced';
-import constant from '../../../../utils/constants';
-import Store from '../../../../models/server/store';
+import api from '../../../../../api';
+import useInfiniteQueryReduced from '../../../../../hooks/useInfiniteQueryReduced';
+import constant from '../../../../../utils/constants';
+import Store from '../../../../../models/server/store';
 
 export default function StoresTab() {
   const { data, error, status, LoadMoreBtn } = useInfiniteQueryReduced<Store>({

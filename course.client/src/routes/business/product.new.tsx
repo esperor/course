@@ -4,11 +4,11 @@ import axios from 'axios';
 import { useState } from 'react';
 import api from '../../api';
 import ProductPostModel from '../../models/server/requests/productPostModel';
-import { authenticate } from '../../utils/http';
+import { authenticateSeller } from '../../utils/http';
 
 export const Route = createFileRoute('/business/product/new')({
-  component: newProduct,
-  beforeLoad: authenticate,
+  component: NewProduct,
+  beforeLoad: authenticateSeller,
   validateSearch: (search: Record<string, unknown>): { storeId: number | null } => {
     return {
       storeId: Number(search?.storeId ?? null),
@@ -16,7 +16,7 @@ export const Route = createFileRoute('/business/product/new')({
   },
 });
 
-function newProduct() {
+function NewProduct() {
   const queryClient = useQueryClient();
   const searchParams = useSearch({ from: '/business/product/new' });
   const [form, setForm] = useState<ProductPostModel>({
@@ -26,7 +26,7 @@ function newProduct() {
   });
   const [succeded, setSucceded] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const postStore = useMutation({
+  const postProduct = useMutation({
     mutationFn: async (product: ProductPostModel) => {
       return await axios.post(`/${api.business.product.create}`, product);
     },
@@ -42,7 +42,7 @@ function newProduct() {
 
   const handlePost = () => {
     if (!formFilled) return;
-    postStore.mutate(form);
+    postProduct.mutate(form);
   };
 
   return (
@@ -76,10 +76,10 @@ function newProduct() {
         <button
           type="button"
           className="btn flex mr-auto"
-          disabled={!formFilled || postStore.isPending || succeded}
+          disabled={!formFilled || postProduct.isPending || succeded}
           onClick={handlePost}
         >
-          {postStore.isPending ? 'Загрузка...' : succeded ? 'Сохранено' : 'Создать'}
+          {postProduct.isPending ? 'Загрузка...' : succeded ? 'Сохранено' : 'Создать'}
         </button>
         {error && <div className="text-red-600">{error}</div>}
       </div>

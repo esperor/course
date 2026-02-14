@@ -4,11 +4,11 @@ import axios from 'axios';
 import { useState } from 'react';
 import api from '../../api';
 import StorePostModel from '../../models/server/requests/storePostModel';
-import { authenticate } from '../../utils/http';
+import { authenticateSeller } from '../../utils/http';
 
 export const Route = createFileRoute('/business/store/new')({
   component: NewStore,
-  beforeLoad: authenticate,
+  beforeLoad: authenticateSeller,
 });
 
 function NewStore() {

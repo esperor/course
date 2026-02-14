@@ -1,9 +1,9 @@
 import { createLazyFileRoute } from '@tanstack/react-router';
-import DeliverersTab from '../../components/admin/tabs/deliverers';
-import OrdersTab from '../../components/admin/tabs/orders';
-import ProductsTab from '../../components/admin/tabs/products';
-import SellersTab from '../../components/admin/tabs/sellers';
-import StoresTab from '../../components/admin/tabs/stores';
+import DeliverersTab from '../../components/routes/_admin/tabs/deliverers';
+import OrdersTab from '../../components/routes/_admin/tabs/orders';
+import ProductsTab from '../../components/routes/_admin/tabs/products';
+import SellersTab from '../../components/routes/_admin/tabs/sellers';
+import StoresTab from '../../components/routes/_admin/tabs/stores';
 import Tabs from '../../components/tabs';
 
 export const Route = createLazyFileRoute('/_admin/admin/panel')({

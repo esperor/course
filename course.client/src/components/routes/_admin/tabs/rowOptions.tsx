@@ -1,7 +1,7 @@
-import parentOnBlur from '../../../utils/parentOnBlur';
-import Pencil from '../../assets/pencil';
-import ThreeBars from '../../assets/threeBars';
-import Trash from '../../assets/trash';
+import parentOnBlur from '../../../../utils/parentOnBlur';
+import Pencil from '../../../assets/pencil';
+import ThreeBars from '../../../assets/threeBars';
+import Trash from '../../../assets/trash';
 
 export interface RowOptionsProps {
   itemId: number;

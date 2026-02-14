@@ -9,5 +9,5 @@ export interface ProductModelBase {
 }
 
 export default interface ProductRecordServer extends ProductModelBase {
-  record: InventoryRecordServer;
+  record?: InventoryRecordServer;
 }

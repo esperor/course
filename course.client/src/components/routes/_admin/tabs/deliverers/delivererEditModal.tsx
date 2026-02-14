@@ -1,55 +1,48 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import api from '../../../../api';
-import ProductRecord from '../../../../models/server/productRecordServer';
+import api from '../../../../../api';
+import DelivererPostModel from '../../../../../models/server/requests/delivererPostModel';
 import { useEffect, useState } from 'react';
-import Reset from '../../../assets/reset';
-import Store from '../../../../models/server/store';
-import ProductEdit from './productEdit';
-import Modal from '../../../modal';
-import { replaceRouteParams } from '../../../../utils/http';
+import Reset from '../../../../assets/reset';
+import DelivererEdit from './delivererEdit';
+import Modal from '../../../../modal';
+import Deliverer from '../../../../../models/server/deliverer';
 
-export default function ProductEditModal({
-  productId,
+export default function DelivererEditModal({
+  delivererId,
   onClose,
 }: {
-  productId: number;
+  delivererId: number;
   onClose: () => void;
 }) {
   const queryClient = useQueryClient();
-  const product = useQuery<ProductRecord>(
+  const deliverer = useQuery<Deliverer>(
     {
-      queryKey: ['product', productId],
+      queryKey: ['deliverer', delivererId],
       queryFn: async () => {
         const { data } = await axios.get(
-          replaceRouteParams(`/${api.public.product.get}`, { id: productId }),
+          `/${api.admin.deliverer.rest}/${delivererId}`,
         );
         return data;
       },
     },
     queryClient,
   );
-  const [form, setForm] = useState<ProductRecord | null>(null);
-  const stores = useQuery<Store[]>(
-    {
-      queryKey: ['stores'],
-      queryFn: async () => {
-        const { data } = await axios.get(`/${api.public.store.getAll}`);
-        return data;
-      },
-    },
-    queryClient,
-  );
+  const [form, setForm] = useState<DelivererPostModel | null>(null);
 
   useEffect(() => {
-    if (!product.data) return;
-    setForm(product.data);
-  }, [product.data]);
+    if (!deliverer.data) return;
+    setForm({
+      userId: deliverer.data.id,
+      contactInfo: deliverer.data.contactInfo,
+      contractNumber: deliverer.data.contractNumber,
+    });
+  }, [deliverer.data]);
 
   const formEdited =
-    form?.description !== product.data?.description ||
-    form?.title !== product.data?.title ||
-    form?.storeId !== product.data?.storeId;
+    (form?.contactInfo !== deliverer.data?.contactInfo &&
+      form?.contactInfo !== '') ||
+    form?.contractNumber !== deliverer.data?.contractNumber;
 
   const handleClose = () => {
     if (formEdited) return;
@@ -57,7 +50,7 @@ export default function ProductEditModal({
   };
 
   const handleReset = () => {
-    setForm(product.data!);
+    setForm(deliverer.data!);
   };
 
   return (
@@ -85,11 +78,10 @@ export default function ProductEditModal({
           ></div>
         </button>
       </div>
-      <ProductEdit
-        product={product}
+      <DelivererEdit
+        deliverer={deliverer}
         form={form}
         setForm={setForm}
-        stores={stores}
         formEdited={formEdited}
       />
     </Modal>

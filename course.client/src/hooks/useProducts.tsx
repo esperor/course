@@ -16,7 +16,7 @@ const parseRecordProperties = (
 ): InventoryRecord => {
   let properties: { [key: string]: string };
   try {
-    properties = JSON.parse(record.propertiesJson ?? '{}');
+    properties = record.propertiesJson ? JSON.parse(record.propertiesJson) : undefined;
   } catch (e) {
     properties = { error: 'Failed to parse properties' };
   }
@@ -30,11 +30,11 @@ const parseProductsRecordsProperties = (
   products: ProductRecordServer[],
 ): ProductRecord[] => {
   return products.map((product) => {
-    const recordParsed = parseRecordProperties(product.record);
+    const recordParsed = product.record ? parseRecordProperties(product.record) : undefined;
     return {
       ...product,
       record: recordParsed,
-      uniqueId: `${product.id}${recordParsed.id ? `.${recordParsed.id}` : ''}`,
+      uniqueId: `${product.id}${recordParsed?.id ? `.${recordParsed.id}` : ''}`,
     };
   });
 };

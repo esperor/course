@@ -1,13 +1,13 @@
-import OrderAdminInfo from '../../../../models/server/requests/orderAdminInfo';
-import api from '../../../../api';
+import OrderAdminInfo from '../../../../../models/server/requests/orderAdminInfo';
+import api from '../../../../../api';
 import axios from 'axios';
-import InventoryRecord from '../../../../models/inventoryRecord';
+import InventoryRecord from '../../../../../models/inventoryRecord';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import BookOpen from '../../../assets/bookOpen';
-import Pencil from '../../../assets/pencil';
-import { replaceRouteParams } from '../../../../utils/http';
+import BookOpen from '../../../../assets/bookOpen';
+import Pencil from '../../../../assets/pencil';
+import { replaceRouteParams } from '../../../../../utils/http';
 import { ChangeEvent, useState } from 'react';
-import EOrderStatus from '../../../../models/orderStatus';
+import EOrderStatus from '../../../../../models/orderStatus';
 
 export default function Row({
   order,
@@ -90,10 +90,10 @@ export default function Row({
         </div>
       </td>
       <td>{order.address}</td>
-      <td className="mx-auto flex">
+      <td>
         <select
           value={status}
-          className="transparent bordered py-[0.2rem] px-3"
+          className="transparent bordered py-[0.2rem]"
           onChange={handleStatusChange}
         >
           {(Object.keys(EOrderStatus) as Array<keyof typeof EOrderStatus>)
@@ -132,7 +132,7 @@ export default function Row({
             ) : (
               records.data &&
               records.data.map(({ record, quantity }) => (
-                <p className="text-nowrap">{`${record.title} (Размер: ${record.size}) - ${quantity} ед.`}</p>
+                <p className="text-nowrap">{`${record?.variation} (Размер: ${record?.size}) - ${quantity} ед.`}</p>
               ))
             )}
           </div>

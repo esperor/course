@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { authenticate } from '../../utils/http';
+import { authenticateSeller } from '../../utils/http';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import StoreInfo from '../../models/server/requests/storeInfo';
 import axios from 'axios';
@@ -7,7 +7,7 @@ import api from '../../api';
 
 export const Route = createFileRoute('/business/')({
   component: Business,
-  beforeLoad: authenticate,
+  beforeLoad: authenticateSeller,
 });
 
 function Business() {
@@ -16,7 +16,7 @@ function Business() {
     {
       queryKey: ['business-stores'],
       queryFn: async () => {
-        const res = await axios.get(api.business.store.getAll);
+        const res = await axios.get(`/${api.business.store.getAll}`);
         return res.data;
       },
     },
@@ -37,7 +37,7 @@ function Business() {
         <div className="bg-slate-200 w-[0.15rem] h-5 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
         <div className="bg-slate-200 w-[0.15rem] h-5 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rotate-90"></div>
       </Link>
-      {query.data.map((store) => (
+      {query.data && query.data.map((store) => (
         <Link
           key={store.id}
           from={'/business'}

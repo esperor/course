@@ -3,12 +3,12 @@ import {
   useMutation,
   useQueryClient,
 } from '@tanstack/react-query';
-import ProductRecord from '../../../../models/server/productRecordServer';
-import randomStock from '../../../../utils/randomStock';
-import Store from '../../../../models/server/store';
+import ProductRecord from '../../../../../models/server/productRecordServer';
+import randomStock from '../../../../../utils/randomStock';
+import Store from '../../../../../models/server/store';
 import axios from 'axios';
-import api from '../../../../api';
-import { replaceRouteParams } from '../../../../utils/http';
+import api from '../../../../../api';
+import { replaceRouteParams } from '../../../../../utils/http';
 
 interface ProductEditProps {
   product: UseQueryResult<ProductRecord>;
@@ -115,8 +115,8 @@ export default function ProductEdit({
             <img
               className="mt-8 rounded-md"
               src={
-                form?.records?.at(0)?.image
-                  ? `data:image/*;base64,${form?.records?.at(0)?.image}`
+                form?.record?.image
+                  ? `data:image/*;base64,${form?.record.image}`
                   : `/stock/${randomStock()}.jpg`
               }
             />

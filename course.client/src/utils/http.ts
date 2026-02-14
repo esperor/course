@@ -15,11 +15,11 @@ export const replaceRouteParams = (
   return url;
 };
 
-export const authenticate = async ({ location }: { location: unknown }) => {
-  const data: UserInfo = await axios
-    .get(api.public.identity.userInfo)
-    .then((response) => response.data);
+const fetchUserData = async (): Promise<UserInfo> => {
+  return axios.get(api.public.identity.userInfo).then((response) => response.data);
+};
 
+const authenticateInternal = (data: UserInfo, location: unknown) => {
   if (!data || !data.isSignedIn)
     throw redirect({
       to: '/login',
@@ -29,16 +29,25 @@ export const authenticate = async ({ location }: { location: unknown }) => {
     });
 };
 
-export const authenticateAdmin = async ({
-  location,
-}: {
-  location: unknown;
-}) => {
-  authenticate({ location });
+export const authenticate = async ({ location }: { location: unknown }) => {
+  authenticateInternal(await fetchUserData(), location);
+};
 
-  const data: UserInfo = await axios
-    .get(api.public.identity.userInfo)
-    .then((response) => response.data);
+export const authenticateSeller = async ({ location }: { location: unknown }) => {
+  const data = await fetchUserData();
+
+  authenticateInternal(data, location);
+
+  if (!data.info?.isRegisteredSeller)
+    throw redirect({
+      to: '/',
+    });
+};
+
+export const authenticateAdmin = async ({ location }: { location: unknown }) => {
+  const data = await fetchUserData();
+
+  authenticateInternal(data, location);
 
   if (!data?.info?.accessLevel || data.info.accessLevel < EAccessLevel.Administrator)
     throw redirect({

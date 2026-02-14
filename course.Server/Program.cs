@@ -15,7 +15,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddTransient<IdentityService>();
+builder.Services.AddScoped<IdentityService>();
+builder.Services.AddScoped<BusinessService>();
 builder.Services.AddTransient<IAuthorizationHandler, AccessLevelAuthorizationHandler>();
 builder.Services.AddTransient<IAuthorizationHandler, AccessTraitAuthorizationHandler>();
 
@@ -23,7 +24,7 @@ builder.Services.AddTransient<IAuthorizationHandler, AccessTraitAuthorizationHan
 builder.Services.AddAuthentication(o => {
     o.DefaultScheme = Constants.AuthScheme;
 })
-.AddScheme<AuthenticationSchemeOptions, AuthenticationHandler>(Constants.AuthScheme, o => { });
+    .AddScheme<AuthenticationSchemeOptions, AuthenticationHandler>(Constants.AuthScheme, o => { });
 #endregion
 
 var config = builder.Configuration;

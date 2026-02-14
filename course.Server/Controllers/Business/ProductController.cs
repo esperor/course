@@ -14,37 +14,32 @@ namespace course.Server.Controllers.Business
     {
         private readonly ApplicationDbContext _context;
         private readonly IdentityService _identityService;
+        private readonly BusinessService _businessService;
 
         public ProductController(ApplicationDbContext context,
-            IdentityService identityService)
+            IdentityService identityService,
+            BusinessService businessService)
         {
             _context = context;
             _identityService = identityService;
+            _businessService = businessService;
         }
 
-        // PUT: api/product/5
+        // PUT: api/business/product/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProduct(int id, ProductPutModel model)
+        [AuthorizeAccessTrait(EAccessTrait.Seller)]
+        public async Task<IActionResult> PutProduct(int id, ProductAggregatedInfoModel model)
         {
-            throw new NotImplementedException();
             if (id != model.Id) return BadRequest();
 
-            try
-            {
-                _context.Entry(model.ToEntity()).State = EntityState.Modified;
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProductExists(id))
-                    return NotFound();
-                else
-                    throw;
-            }
-
-            return NoContent();
+            if (await _businessService.UpdateProduct(id, model))
+                return NoContent();
+            else
+                return NotFound();
         }
+
+        
 
         // POST: api/product
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754

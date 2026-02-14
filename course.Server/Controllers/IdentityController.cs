@@ -30,11 +30,9 @@ namespace course.Server.Controllers
             var user = await _identityService.GetUser(HttpContext);
             if (user is null) return Ok(new UserInfoModel());
 
-            var seller = await _context.Sellers
-                .Where(s => s.UserId == user.Id)
-                .SingleOrDefaultAsync();
+            var isSeller = await _context.Sellers.AnyAsync(s => s.UserId == user.Id);
 
-            return Ok(new UserInfoModel(user, isSeller: seller is not null));
+            return Ok(new UserInfoModel(user, isSeller));
         }
 
         [Route("login")]

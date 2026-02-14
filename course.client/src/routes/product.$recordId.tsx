@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import axios from 'axios';
 import api from '../api';
-import ProductRecord from '../models/server/productRecordServer';
+import ProductAggregatedModel from '../models/server/productAggregatedModel';
 import randomStock from '../utils/randomStock';
 import ProductCounter from '../components/productCounter';
 import { useEffect, useMemo, useState } from 'react';
@@ -21,7 +21,7 @@ function Product() {
   const [chosenVariation, setChosenVariation] = useState<string>();
   const productRequest = Route.useLoaderData();
 
-  const product = productRequest.data as ProductRecord;
+  const product = productRequest.data as ProductAggregatedModel;
   const isClothes = typeof product.records?.at(0)?.size === 'string';
 
   const productPresent: boolean =
@@ -36,7 +36,7 @@ function Product() {
 
   const productVariations = useMemo(() => {
     const productVariationsSet = new Set<string>();
-    product.records.forEach((record) =>
+    product.records?.forEach((record) =>
       productVariationsSet.add(record.variation),
     );
 
@@ -48,7 +48,7 @@ function Product() {
       setChosenVariation(productVariations[0]);
       if (!isClothes)
         setChosenRecordId(
-          product.records.find((r) => r.variation === productVariations[0])?.id,
+          product.records?.find((r) => r.variation === productVariations[0])?.id,
         );
     }
   }, [productVariations, product.records, isClothes]);
@@ -56,7 +56,7 @@ function Product() {
   const variationRecords = useMemo(() => {
     if (!isClothes) return null;
 
-    return product.records.filter(
+    return product.records?.filter(
       (record) => record.variation === chosenVariation,
     );
   }, [isClothes, product.records, chosenVariation]);
@@ -67,7 +67,7 @@ function Product() {
     }
   }, [variationRecords]);
 
-  const record = product.records.find((record) => record.id === chosenRecordId);
+  const record = product.records?.find((record) => record.id === chosenRecordId);
   const recordProperties: Record<string, string> = JSON.parse(
     record?.propertiesJson ?? '{}',
   );
@@ -100,7 +100,7 @@ function Product() {
           >
             {product.title}
           </p>
-          {product.records?.length > 0 ? null : (
+          {product.records?.length ?? 0 > 0 ? null : (
             <p className="text-xl">Нет в наличии</p>
           )}
         </div>

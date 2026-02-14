@@ -1,8 +1,8 @@
 import axios from 'axios';
-import api from '../../../../api';
-import useInfiniteQueryReduced from '../../../../hooks/useInfiniteQueryReduced';
-import constant from '../../../../utils/constants';
-import OrderAdminInfo from '../../../../models/server/requests/orderInfo';
+import api from '../../../../../api';
+import useInfiniteQueryReduced from '../../../../../hooks/useInfiniteQueryReduced';
+import constant from '../../../../../utils/constants';
+import OrderAdminInfo from '../../../../../models/server/requests/orderInfo';
 import { useState } from 'react';
 import Row from './row';
 import AssignDelivererModal from './assignDelivererModal';
