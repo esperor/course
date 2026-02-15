@@ -16,19 +16,35 @@ namespace course.Server.Services
             product.Title = model.Title;
             product.Description = model.Description;
 
-            await UpdateInventoryRecordsWithoutCommit(model.Records ?? []);
+            await UpdateInventoryRecordsWithoutCommit(id, model.Records ?? []);
 
             await _context.SaveChangesAsync();
 
             return true;
         }
 
-        private async Task UpdateInventoryRecordsWithoutCommit(InventoryRecordInfoModel[] models)
+        private async Task UpdateInventoryRecordsWithoutCommit(
+            int productId,
+            InventoryRecordInfoModel[] models)
         {
             foreach (var model in models)
             {
                 var inventoryRecord = await _context.InventoryRecords.FindAsync(model.Id);
-                if (inventoryRecord is null) continue;
+                if (inventoryRecord is null)
+                {
+                    await _context.InventoryRecords.AddAsync(new InventoryRecordInputModel()
+                    {
+                        ProductId = productId,
+                        Quantity = model.Quantity,
+                        Price = model.Price,
+                        Size = model.Size,
+                        Variation = model.Variation,
+                        PropertiesJson = model.PropertiesJson,
+                        Image = model.Image,
+                    }.ToEntity());
+
+                    continue;
+                }
 
                 inventoryRecord.Size = model.Size;
                 inventoryRecord.Variation = model.Variation;

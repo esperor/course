@@ -35,6 +35,7 @@ namespace course.Server.Models
                 Image = Image,
                 Variation = Variation,
                 Size = Size,
+                ProductId = ProductId,
             };
             if (Id != null) entity.Id = (int)Id;            
             return entity;

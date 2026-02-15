@@ -35,7 +35,7 @@ export default function Row({
       <td>{record?.size ?? '-'}</td>
       <td>{record?.variation ?? '-'}</td>
       <td className="overflow-hidden overflow-ellipsis">{product.description}</td>
-      <td>{JSON.stringify(record?.properties) ?? '-'}</td>
+      <td title={JSON.stringify(record?.properties, null, '  ') ?? '-'} className='max-w-36 text-nowrap text-ellipsis overflow-hidden'>{JSON.stringify(record?.properties) ?? '-'}</td>
       <td className={`${record?.quantity === undefined ? 'text-red-400' : ''}`}>
         {record?.quantity ?? 'нет записей'}
       </td>
