@@ -2,9 +2,9 @@ import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query';
 import { createFileRoute, useSearch } from '@tanstack/react-router';
 import axios from 'axios';
 import { useEffect, useMemo, useState } from 'react';
-import api from '../../api/index.ts';
-import { authenticateSeller, replaceRouteParams } from '../../utils/http.ts';
-import ProductAggregatedModel from '../../models/server/productAggregatedModel.ts';
+import api from '#/api/index.ts';
+import { authenticateSeller, replaceRouteParams } from '#/utils/http.ts';
+import ProductAggregatedModel from '#/models/server/productAggregatedModel.ts';
 
 export const Route = createFileRoute('/business/product/$productId')({
   component: EditProduct,

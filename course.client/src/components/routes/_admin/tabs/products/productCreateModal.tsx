@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import ProductPostModel from '../../../../../models/server/requests/productPostModel';
-import Modal from '../../../../modal';
+import ProductPostModel from '#/models/server/requests/productPostModel';
+import Modal from '#/components/modal';
 import { useQueryClient, useQuery, useMutation } from '@tanstack/react-query';
 import axios from 'axios';
-import api from '../../../../../api';
-import Store from '../../../../../models/server/store';
+import api from '#/api';
+import Store from '#/models/server/store';
 
 export default function ProductCreateModal({
   onClose,

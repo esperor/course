@@ -49,7 +49,10 @@ export default defineConfig({
   plugins: [plugin(), TanStackRouterVite(),],
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url)),
+      // SYNC PATH ALIASES
+      '#': fileURLToPath(new URL('./src', import.meta.url)),
+      '#_admin': fileURLToPath(new URL('./src/components/routes/_admin', import.meta.url)),
+      '#business': fileURLToPath(new URL('./src/components/routes/business', import.meta.url)),
     },
   },
   server: {

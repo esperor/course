@@ -1,14 +1,14 @@
 import { createFileRoute, Link, useSearch } from '@tanstack/react-router';
 import { authenticateSeller } from '../../utils/http';
-import useProducts from '../../hooks/useProducts';
+import useProducts from '#/hooks/useProducts';
 import { useMemo, useState } from 'react';
-import ProductFilters from '../../components/productFilters';
+import ProductFilters from '#/components/productFilters';
 import { useQuery } from '@tanstack/react-query';
-import StoreInfo from '../../models/server/requests/storeInfo';
+import StoreInfo from '#/models/server/requests/storeInfo';
 import axios from 'axios';
-import api from '../../api';
-import Row from '../../components/routes/business/store.storeId/row';
-import EProductOrdering from '../../models/productOrdering';
+import api from '#/api';
+import Row from '#business/store.storeId/row';
+import EProductOrdering from '#/models/productOrdering';
 
 export const Route = createFileRoute('/business/store/$storeId')({
   component: BusinessStore,

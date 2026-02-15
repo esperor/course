@@ -2,9 +2,9 @@ import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { createFileRoute, useSearch } from '@tanstack/react-router';
 import axios from 'axios';
 import { useState } from 'react';
-import api from '../../api';
-import ProductPostModel from '../../models/server/requests/productPostModel';
-import { authenticateSeller } from '../../utils/http';
+import api from '#/api';
+import ProductPostModel from '#/models/server/requests/productPostModel';
+import { authenticateSeller } from '#/utils/http';
 
 export const Route = createFileRoute('/business/product/new')({
   component: NewProduct,

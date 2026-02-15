@@ -1,13 +1,13 @@
-import OrderAdminInfo from '../../../../../models/server/requests/orderAdminInfo';
-import api from '../../../../../api';
+import OrderAdminInfo from '#/models/server/requests/orderAdminInfo';
+import api from '#/api';
 import axios from 'axios';
-import InventoryRecord from '../../../../../models/inventoryRecord';
+import InventoryRecord from '#/models/inventoryRecord';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import BookOpen from '../../../../assets/bookOpen';
-import Pencil from '../../../../assets/pencil';
-import { replaceRouteParams } from '../../../../../utils/http';
+import BookOpen from '#/components/assets/bookOpen';
+import Pencil from '#/components/assets/pencil';
+import { replaceRouteParams } from '#/utils/http';
 import { ChangeEvent, useState } from 'react';
-import EOrderStatus from '../../../../../models/orderStatus';
+import EOrderStatus from '#/models/orderStatus';
 
 export default function Row({
   order,

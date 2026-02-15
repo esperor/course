@@ -1,8 +1,8 @@
 import axios from 'axios';
-import api from '../../../../../api';
-import useInfiniteQueryReduced from '../../../../../hooks/useInfiniteQueryReduced';
-import constant from '../../../../../utils/constants';
-import Seller from '../../../../../models/server/seller';
+import api from '#/api';
+import useInfiniteQueryReduced from '#/hooks/useInfiniteQueryReduced';
+import constant from '#/utils/constants';
+import Seller from '#/models/server/seller';
 
 export default function SellersTab() {
   const { data, error, status, LoadMoreBtn } =

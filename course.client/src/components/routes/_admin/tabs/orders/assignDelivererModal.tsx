@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import Modal from '../../../../modal';
+import Modal from '#/components/modal';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import api from '../../../../../api';
-import Deliverer from '../../../../../models/server/deliverer';
-import CheckCircle from '../../../../assets/checkCircle';
-import MagnifyingGlass from '../../../../assets/magnifiyinGlass';
-import XCircle from '../../../../assets/xCircle';
-import { replaceRouteParams } from '../../../../../utils/http';
+import api from '#/api';
+import Deliverer from '#/models/server/deliverer';
+import CheckCircle from '#/components/assets/checkCircle';
+import MagnifyingGlass from '#/components/assets/magnifiyinGlass';
+import XCircle from '#/components/assets/xCircle';
+import { replaceRouteParams } from '#/utils/http';
 
 export default function AssignDelivererModal({
   orderId,

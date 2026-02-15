@@ -1,5 +1,5 @@
-import ProductRecord from '../../../../../models/productRecord';
-import randomStock from '../../../../../utils/randomStock';
+import ProductRecord from '#/models/productRecord';
+import randomStock from '#/utils/randomStock';
 
 export default function Row({
   product,

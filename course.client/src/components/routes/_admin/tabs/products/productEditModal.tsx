@@ -1,13 +1,13 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import api from '../../../../../api';
-import ProductRecord from '../../../../../models/server/productRecordServer';
+import api from '#/api';
+import ProductRecord from '#/models/server/productRecordServer';
 import { useEffect, useState } from 'react';
-import Reset from '../../../../assets/reset';
-import Store from '../../../../../models/server/store';
+import Reset from '#/components/assets/reset';
+import Store from '#/models/server/store';
 import ProductEdit from './productEdit';
-import Modal from '../../../../modal';
-import { replaceRouteParams } from '../../../../../utils/http';
+import Modal from '#/components/modal';
+import { replaceRouteParams } from '#/utils/http';
 
 export default function ProductEditModal({
   productId,

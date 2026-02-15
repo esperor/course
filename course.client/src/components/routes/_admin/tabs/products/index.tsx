@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import useProducts from '../../../../../hooks/useProducts';
-import ProductFilters from '../../../../productFilters';
+import useProducts from '#/hooks/useProducts';
+import ProductFilters from '#/components/productFilters';
 import Row from './row';
 import ProductEditModal from './productEditModal';
 import ProductCreateModal from './productCreateModal';
-import EProductOrdering from '../../../../../models/productOrdering';
+import EProductOrdering from '#/models/productOrdering';
 
 export default function ProductsTab() {
   const {

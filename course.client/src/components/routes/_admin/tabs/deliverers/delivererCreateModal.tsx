@@ -1,15 +1,15 @@
 import { useState } from 'react';
-import Modal from '../../../../modal';
+import Modal from '#/components/modal';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 import axios from 'axios';
-import api from '../../../../../api';
-import DelivererPostModel from '../../../../../models/server/requests/delivererPostModel';
-import UserAdminInfo from '../../../../../models/server/requests/userAdminModel';
-import XCircle from '../../../../assets/xCircle';
-import CheckCircle from '../../../../assets/checkCircle';
-import MagnifyingGlass from '../../../../assets/magnifiyinGlass';
-import Deliverer from '../../../../../models/server/deliverer';
-import { replaceRouteParams } from '../../../../../utils/http';
+import api from '#/api';
+import DelivererPostModel from '#/models/server/requests/delivererPostModel';
+import UserAdminInfo from '#/models/server/requests/userAdminModel';
+import XCircle from '#/components/assets/xCircle';
+import CheckCircle from '#/components/assets/checkCircle';
+import MagnifyingGlass from '#/components/assets/magnifiyinGlass';
+import Deliverer from '#/models/server/deliverer';
+import { replaceRouteParams } from '#/utils/http';
 
 export default function DelivererCreateModal({
   onClose,

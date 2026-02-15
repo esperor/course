@@ -3,7 +3,7 @@ import {
   SearchSchemaInput,
   createFileRoute,
 } from '@tanstack/react-router';
-import { authenticateAdmin } from '../../utils/http';
+import { authenticateAdmin } from '#/utils/http';
 
 export const Route = createFileRoute('/_admin')({
   component: AdminRoot,

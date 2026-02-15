@@ -1,12 +1,12 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
-import api from '../../../../../api';
-import DelivererPostModel from '../../../../../models/server/requests/delivererPostModel';
+import api from '#/api';
+import DelivererPostModel from '#/models/server/requests/delivererPostModel';
 import { useEffect, useState } from 'react';
-import Reset from '../../../../assets/reset';
+import Reset from '#/components/assets/reset';
 import DelivererEdit from './delivererEdit';
-import Modal from '../../../../modal';
-import Deliverer from '../../../../../models/server/deliverer';
+import Modal from '#/components/modal';
+import Deliverer from '#/models/server/deliverer';
 
 export default function DelivererEditModal({
   delivererId,

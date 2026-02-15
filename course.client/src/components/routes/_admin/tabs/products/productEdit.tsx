@@ -3,12 +3,12 @@ import {
   useMutation,
   useQueryClient,
 } from '@tanstack/react-query';
-import ProductRecord from '../../../../../models/server/productRecordServer';
-import randomStock from '../../../../../utils/randomStock';
-import Store from '../../../../../models/server/store';
+import ProductRecord from '#/models/server/productRecordServer';
+import randomStock from '#/utils/randomStock';
+import Store from '#/models/server/store';
 import axios from 'axios';
-import api from '../../../../../api';
-import { replaceRouteParams } from '../../../../../utils/http';
+import api from '#/api';
+import { replaceRouteParams } from '#/utils/http';
 
 interface ProductEditProps {
   product: UseQueryResult<ProductRecord>;
